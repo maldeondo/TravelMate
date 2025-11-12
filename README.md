@@ -46,12 +46,8 @@ No installation or public distribution is available or planned at this stage.
 
 ## 🧠 Authors
 
-| Name | GitHub |
-|------|---------|
-| **@maldeondo** | [github.com/maldeondo](https://github.com/maldeondo) |
-| **@mantaimpermeable** | [github.com/mantaimpermeable](https://github.com/mantaimpermeable) |
-
-- [**@maldeondo**](https://github.com/maldeondo)
+- [**@maldeondo**](https://github.com/maldeondo) (Mario)
+- [**@mantaimpermeable**](https://github.com/mantaimpermeable) (Robert)
 
 ---
 
