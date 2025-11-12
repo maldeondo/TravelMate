@@ -32,7 +32,7 @@ Although this project is currently in development, its goal is to become a robus
 
 - **Language:** Java ☕
 - **Interface:** Command-Line (CLI) 
-- **IDEs:** IntelliJ IDEA / VSCode (Codium)
+- **Development Environment:** IntelliJ IDEA / VS Code (recommended)
 
 ---
 
@@ -101,10 +101,7 @@ main
 
 *No public license — for academic use only.*
 
-This README might have been **GPT**ed...
-
 ---
 
 > _“Not all those who wander are lost.”_  
 > — *J.R.R. Tolkien*
-
