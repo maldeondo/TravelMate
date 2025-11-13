@@ -4,9 +4,9 @@
 Developed by [@maldeondo](https://github.com/maldeondo) and [@mantaimpermeable](https://github.com/mantaimpermeable).  
 <br>
 
-> A Java project developed at the **ETSISI** (UPM), **Madrid**.
+> _A Java project developed at the **ETSISI** (UPM), **Madrid**._
 
-> More info can be found inside "docs/" directory.
+> _More info can be found inside `docs/` directory._
 
 ---
 
@@ -32,11 +32,12 @@ Although this project is currently in development, its goal is to become a robus
 
 ## 🧩 Tech Stack
 
-- **Language:** Java ☕
+- **Language:** Java ♨️
+- **Dependency Management:** Maven 🪶
 - **Interface:** Command-Line (CLI) 
-- **Development Environment:** IntelliJ IDEA / VSCodium
+- **IDEs:** IntelliJ IDEA / VSCodium
 
-> _JDK still needs to be selected._
+> _Apache Maven handles dependencies, info like required JDK can be found in `pom.xml`._
 
 ---
 
@@ -61,7 +62,7 @@ This project is part of **coursework** at the
 **ETSISI** (Escuela Técnica Superior de Ingeniería de Sistemas Informáticos), 
 **UPM** (Universidad Politécnica de **Madrid**) 🇪🇸
 
-> _A GitLab repo is provided by the school as a **base** for the project, it can be found [here](https://gitlab.etsisi.upm.es/tallerdeprogramacion/2526/enunciado-ordinaria)._
+> _A GitLab repo is provided by the school as a **base** for the project, which can be found [here](https://gitlab.etsisi.upm.es/tallerdeprogramacion/2526/enunciado-ordinaria)._
 
 ---
 
@@ -93,29 +94,58 @@ main
     └── feature/...
 ```
 
-- **main** -> Stable branch, always containing the latest reviewed and approved version.
-- **develop** -> Integration branch where new features are merged and tested
-- **feature/** -> Temporary branches for new functionalities or fixes (won't be deleted after use)
+- `main` -> Stable branch, always containing the latest reviewed and approved version.
+- `develop` -> Integration branch where new features are merged and tested
+- `feature/` -> Temporary branches for new functionalities or fixes (won't be deleted after use)
+
 
 Rules:
 
-1. The _main_ branch is **only** used for production code. Devs are **NOT** intended to work on _main_ branch.
-2. Therefore _main_ branch will **only** change through merges coming from pull requests. (_main_ <- _develop_)
-3. Using --amend or chaning any existing commit is **forbidden**.
-4. No branch should even be removed, even **feature/** ones after being finished.
+1. The `main` branch is **only** used for production code. Devs are **NOT** intended to work on `main` branch.
+2. Therefore `main` branch will **only** change through merges coming from pull requests. (`main` <- `develop`)
+3. Using `--amend` or changing any existing commit is **forbidden**.
+4. No branch should ever be removed, even `feature/` ones after being finished.
+
 
 Example Workflow:
-1. Create a new branch **always** from _develop_.
+
+1. Create a new branch **always** from `develop`:
 ```text
 $ git checkout develop (changes active branch to develop)
-$ git checkout -b feature/new-functionality (creates a new branch)
+$ git checkout -b feature/[new-functionality] (creates a new branch)
 ```
 2. Implement and commit your changes until the branch has reached its goal.
-3. Open a Pull Request to merge into _develop_.
-4. Once tested and stable, merge _develop_ into _main_.
+3. Open a Pull Request to merge into `develop`.
+4. Once tested and stable, merge `develop` into `main`.
 
-> _Note: Path in origin needs to be set after creating a new branch._
+> _Note: The remote origin path needs to be set after creating a new branch._
 > _Git will ask for it when trying to push._
+
+---
+
+## 🔐 SSH Setup
+
+The preferred method to handle SSH with git is as follows:
+1. Create a new key, give it a descriptive name and a secure passphrase:
+```text
+$ ssh-keygen -t ed25519
+```
+2. Upload the public key (.pub file content) to GitHub:
+```text
+GitHub -> Settings -> SSH and GPG keys -> New SSH key
+```
+3. Use the `ssh-agent` once to clone the repo:
+```text
+$ eval "$(ssh-agent)"
+$ ssh-add ~/.ssh/[private-key-name]
+$ git clone git@github.com:[user]/TravelMate.git
+$ cd TravelMate
+```
+4. Modify local repo settings to automatically use the key in the future, in order to avoid using the `ssh-agent` anymore:
+```text
+$ git config core.sshCommand "ssh -i ~/.ssh/[private-key-name]"
+```
+> _Note: Step 4 only affects the cloned repo, it's **not** a global git config._
 
 ---
 
@@ -123,7 +153,7 @@ $ git checkout -b feature/new-functionality (creates a new branch)
 
 *No public license — for academic use only.*
 
-*The base code provided to start the project is licensed, and its license can be found in the main pdf inside docs/*.
+*The base code provided to start the project is licensed, and its license can be found in the main PDF inside the `docs/` directory.*
 
 ---
 
