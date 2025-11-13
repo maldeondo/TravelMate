@@ -61,7 +61,7 @@ This project is part of **coursework** at the
 **ETSISI** (Escuela Técnica Superior de Ingeniería de Sistemas Informáticos), 
 **UPM** (Universidad Politécnica de **Madrid**) 🇪🇸
 
-> _A GitLab repo is provided by the school as a **base** for the project, it can be found [here](https://gitlab.etsisi.upm.es/tallerdeprogramacion/2526/enunciado-ordinaria)._
+> _A GitLab repo is provided by the school as a **base** for the project, which can be found [here](https://gitlab.etsisi.upm.es/tallerdeprogramacion/2526/enunciado-ordinaria)._
 
 ---
 
@@ -101,8 +101,8 @@ Rules:
 
 1. The _main_ branch is **only** used for production code. Devs are **NOT** intended to work on _main_ branch.
 2. Therefore _main_ branch will **only** change through merges coming from pull requests. (_main_ <- _develop_)
-3. Using --amend or chaning any existing commit is **forbidden**.
-4. No branch should even be removed, even **feature/** ones after being finished.
+3. Using --amend or changing any existing commit is **forbidden**.
+4. No branch should ever be removed, even **feature/** ones after being finished.
 
 Example Workflow:
 1. Create a new branch **always** from _develop_.
@@ -123,7 +123,7 @@ $ git checkout -b feature/new-functionality (creates a new branch)
 
 *No public license — for academic use only.*
 
-*The base code provided to start the project is licensed, and its license can be found in the main pdf inside docs/*.
+*The base code provided to start the project is licensed, and its license can be found in the main PDF inside docs/*.
 
 ---
 
