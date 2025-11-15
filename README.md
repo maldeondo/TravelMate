@@ -147,6 +147,8 @@ $ git config core.sshCommand "ssh -i ~/.ssh/[private-key-name]"
 ```
 > _Note: Step 4 only affects the cloned repo, it's **not** a global git config._
 
+Using a `GPG` key to sign commits is also recommended, but not necessary.
+
 ---
 
 ## 🧾 License
