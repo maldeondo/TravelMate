@@ -1,6 +1,7 @@
 ### MARIO ->
 
 ### ROBERT ->
+.idea/
 
 ### IMPORTED FROM GITLAB REPO ->
 
@@ -11,10 +12,6 @@ target/
 .kotlin
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
 *.iws
 *.iml
 *.ipr
