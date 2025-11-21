@@ -5,16 +5,19 @@ import java.io.IOException;
 
 public class Actividad {
     // Taken from doc, the following private data is necessary
-    private final String nombre;
+    private String nombre = "";
     private String descripcion = ""; 
 
     private String[] recursos;
     private String[] comentarios;
 
-    private final int maxRecursos;
-    private final int maxComentarios;
-    private double precio;
+    private int maxRecursos = 0;
+    private int maxComentarios = 0;
+    private double precio = 0.0;
 
+    // Made by us
+    private int actRecursos = 0;
+    private int actComentarios = 0;
 
     // ---------------------------
     // Constantes de códigos de error
@@ -25,12 +28,17 @@ public class Actividad {
     public static final int ERROR_COMENTARIOS_COMPLETOS = 3;
 
     public Actividad(String nombre,int maxRecursos, int maxComentarios) {
-        this.nombre = nombre; this.maxRecursos = maxRecursos; this.maxComentarios = maxComentarios;
+        this.nombre = nombre; 
+        this.maxRecursos = maxRecursos; 
+        this.maxComentarios = maxComentarios;
+
+        recursos = new String[maxRecursos];
+        comentarios = new String[maxComentarios];
     }
 
-    // These two methods could fail handling wrong values, 
+    // These methods could fail handling wrong values, 
     // a try catch block should be implemented
-    
+
     public String getNombre() { return nombre; }
 
     public String getDescripcion() { return descripcion; }
@@ -65,9 +73,19 @@ public class Actividad {
         return 0; // @todo MODIFICAR PARA DEVOLVER EL MÁXIMO DE COMENTARIOS
     }
 
-    public int agregarRecurso(String recurso) {
-        // Agrega un recurso a la actividad si no se ha alcanzado el máximo.
-        return 0; // @todo MODIFICAR PARA DEVOLVER CÓDIGO DE EXITO/ERROR
+    public int agregarRecurso (String recurso) {
+        int result;
+        
+        // Pending to handle empty strings as well
+        if (recurso == null || recurso == "") result = ERROR_VALOR_INVALIDO;
+        else if (!recursosCompletos()) {
+            recursos[actRecursos] = recurso;
+            actRecursos++;
+
+            result = EXITO;
+        } else result = ERROR_RECURSOS_COMPLETOS;
+
+        return result;
     }
 
     public int agregarComentario(String comentario) {
@@ -76,8 +94,15 @@ public class Actividad {
     }
 
     public String[] getRecursos() {
+        String result = "[";
+        
+        for (int index = 0; index < actComentarios; index++) {
+            //result += String.format("%d, ", recursos[index]);
+        }
+        result += "]";
+
         // Devuelve el array interno de recursos (puede estar parcialmente lleno)
-        return null; // @todo MODIFICAR PARA DEVOLVER EL ARRAY DE RECURSOS
+        return recursos; // @todo MODIFICAR PARA DEVOLVER EL ARRAY DE RECURSOS
     }
 
     public String[] getComentarios() {
@@ -85,14 +110,11 @@ public class Actividad {
         return null; // @todo MODIFICAR PARA DEVOLVER EL ARRAY DE COMENTARIOS
     }
 
-    public boolean recursosCompletos() {
-        // Devuelve si se alcanzó el máximo de recursos
-        return true; // @todo MODIFICAR PARA DEVOLVER SI EL ARRAY DE RECURSOS ESTÁ LLENO
-    }
+    public boolean recursosCompletos() { return actRecursos == maxRecursos; }
 
     public boolean comentariosCompletos() {
         // Devuelve si se alcanzó el máximo de comentarios
-        return true; // @todo MODIFICAR PARA DEVOLVER SI EL ARRAY DE COMENTARIOS ESTÁ LLENO
+        return actComentarios == actRecursos; // @todo MODIFICAR PARA DEVOLVER SI EL ARRAY DE COMENTARIOS ESTÁ LLENO
     }
 
     public int getNumRecursos() {
