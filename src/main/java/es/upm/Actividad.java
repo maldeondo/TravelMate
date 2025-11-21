@@ -11,6 +11,7 @@ public class Actividad {
     private String[] recursos;
     private String[] comentarios;
 
+    private int duracionMinutos = 0;
     private int maxRecursos = 0;
     private int maxComentarios = 0;
     private double precio = 0.0;
@@ -37,33 +38,30 @@ public class Actividad {
     }
 
     // These methods could fail handling wrong values, 
-    // a try catch block should be implemented
+    // a try catch block should be implemented (probably in other class)
 
     public String getNombre() { return nombre; }
 
+
     public String getDescripcion() { return descripcion; }
 
-    public void setDescripcion(String descripcion) {
-        // Setea la descripción de la actividad
-    }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+
 
     public double getPrecio() { return precio; }
+
+    public void setPrecio(double precio) { this.precio = precio; }
+
+
+    public int getDuracionMinutos() { return duracionMinutos; }
+
+    public void setDuracionMinutos(int duracionMinutos) { this.duracionMinutos = duracionMinutos; }
+
     
-    public void setPrecio(double precio) {
-        // Setea el precio de la actividad
-    }
-
-    public int getDuracionMinutos() {
-        // Devuelve la duración de la actividad
-        return 0; // @todo MODIFICAR PARA DEVOLVER LA DURACIÓN
-    }
-    public void setDuracionMinutos(int duracionMinutos) {
-        // Setea la duración de la actividad
-    }
-
     public int getMaxRecursos() { return maxRecursos; }
 
     public int getMaxComentarios() { return maxComentarios; }
+
 
     public int agregarRecurso (String recurso) {
         int result;
@@ -105,9 +103,11 @@ public class Actividad {
 
     public String[] getComentarios() { return comentarios; }
 
+
     public boolean recursosCompletos() { return actRecursos == maxRecursos; }
 
     public boolean comentariosCompletos() { return actComentarios == actRecursos; }
+
 
     public int getNumRecursos() { return actRecursos; }
 
@@ -115,8 +115,20 @@ public class Actividad {
 
     @Override
     public String toString() {
-        // Devuelve la representación textual completa de la actividad
-        return null; // @todo MODIFICAR PARA DEVOLVER LA REPRESENTACIÓN TEXTUAL
+        StringBuilder result = new StringBuilder();
+
+        result.append(String.format("Actividad: %s\n", nombre));
+        result.append(String.format("Descripción: %s\n", descripcion));
+        result.append(String.format("Precio: %.2f €\n", precio));
+        result.append(String.format("Duración: %dh %dmin\n", (int) (duracionMinutos / 60), (int) (duracionMinutos % 60)));
+        
+        /*
+        for (int i = 0; i < actComentarios; i++) {
+            result.append(String.format(descripcion, comentarios));
+        }
+        */
+       
+        return result.toString(); // @todo MODIFICAR PARA DEVOLVER LA REPRESENTACIÓN TEXTUAL
     }
 
     public String toRawString() {
