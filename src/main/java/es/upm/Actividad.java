@@ -4,6 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class Actividad {
+    // Taken from doc, the following private data is necessary
+    private final String nombre;
+    private String descripcion; 
+
+    private String[] recursos;
+    private String[] comentarios;
+
+    private final int maxRecursos;
+    private final int maxComentarios;
+    private double precio;
+
 
     // ---------------------------
     // Constantes de códigos de error
@@ -13,15 +24,10 @@ public class Actividad {
     public static final int ERROR_RECURSOS_COMPLETOS = 2;
     public static final int ERROR_COMENTARIOS_COMPLETOS = 3;
 
-    public Actividad(String nombre,
-                     int maxRecursos,
-                     int maxComentarios) {
-        // Crea una actividad con límites máximos para recursos y comentarios
+    public Actividad(String nombre,int maxRecursos, int maxComentarios) {
+        this.nombre = nombre; this.maxRecursos = maxRecursos; this.maxComentarios = maxComentarios;
     }
-    public String getNombre() {
-        // Devuelve el nombre de la actividad
-        return null; // @todo MODIFICAR PARA DEVOLVER EL NOMBRE
-    }
+    public String getNombre() { return nombre; }
 
     public String getDescripcion() {
         // Devuelve la descripción de la actividad

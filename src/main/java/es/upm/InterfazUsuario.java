@@ -28,6 +28,7 @@ public class InterfazUsuario {
         // Busca una actividad y permite editarla
     }
 
+    
     private Actividad buscarActividadPorNombre(Scanner scanner) {
         // Busca actividades por nombre y permite seleccionar una
         return null; // @todo MODIFICAR PARA DEVOLVER LA ACTIVIDAD SELECCIONADA
