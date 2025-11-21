@@ -63,15 +63,9 @@ public class Actividad {
         // Setea la duración de la actividad
     }
 
-    public int getMaxRecursos() {
-        // Devuelve el máximo de recursos que puede usar la actividad
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL MÁXIMO DE RECURSOS
-    }
+    public int getMaxRecursos() { return maxRecursos; }
 
-    public int getMaxComentarios() {
-        // Devuelve el máximo de comentarios que puede haber en la actividad
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL MÁXIMO DE COMENTARIOS
-    }
+    public int getMaxComentarios() { return maxComentarios; }
 
     public int agregarRecurso (String recurso) {
         int result;
@@ -89,43 +83,37 @@ public class Actividad {
     }
 
     public int agregarComentario(String comentario) {
-        // Agrega un comentario a la actividad si no se ha alcanzado el máximo.
-        return 0; // @todo MODIFICAR PARA DEVOLVER CÓDIGO DE EXITO/ERROR
-    }
-
-    public String[] getRecursos() {
-        String result = "[";
+        int result;
         
-        for (int index = 0; index < actComentarios; index++) {
-            //result += String.format("%d, ", recursos[index]);
-        }
-        result += "]";
+        // Pending to handle empty strings as well
+        if (comentario == null || comentario == "") result = ERROR_VALOR_INVALIDO;
+        else if (!recursosCompletos()) {
+            comentarios[actComentarios] = comentario;
+            actComentarios++;
 
-        // Devuelve el array interno de recursos (puede estar parcialmente lleno)
-        return recursos; // @todo MODIFICAR PARA DEVOLVER EL ARRAY DE RECURSOS
+            result = EXITO;
+        } else result = ERROR_RECURSOS_COMPLETOS;
+
+        return result;
     }
 
-    public String[] getComentarios() {
-        // Devuelve el array interno de comentarios (puede estar parcialmente lleno).
-        return null; // @todo MODIFICAR PARA DEVOLVER EL ARRAY DE COMENTARIOS
+    /*
+    private static void addToArray(String[] array, String object, int ocupation) {
+        array[ocupation] = object;
     }
+    */
+
+    public String[] getRecursos() { return recursos; }
+
+    public String[] getComentarios() { return comentarios; }
 
     public boolean recursosCompletos() { return actRecursos == maxRecursos; }
 
-    public boolean comentariosCompletos() {
-        // Devuelve si se alcanzó el máximo de comentarios
-        return actComentarios == actRecursos; // @todo MODIFICAR PARA DEVOLVER SI EL ARRAY DE COMENTARIOS ESTÁ LLENO
-    }
+    public boolean comentariosCompletos() { return actComentarios == actRecursos; }
 
-    public int getNumRecursos() {
-        // Devuelve el número actual de recursos almacenados
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL NÚMERO DE RECURSOS
-    }
+    public int getNumRecursos() { return actRecursos; }
 
-    public int getNumComentarios() {
-        // Devuelve el número actual de comentarios almacenados
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL NÚMERO DE COMENTARIOS
-    }
+    public int getNumComentarios() { return actComentarios; }
 
     @Override
     public String toString() {
