@@ -47,10 +47,8 @@ public class Actividad {
         // Setea la descripción de la actividad
     }
 
-    public double getPrecio() {
-        // Devuelve el precio de la actividad
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL PRECIO
-    }
+    public double getPrecio() { return precio; }
+    
     public void setPrecio(double precio) {
         // Setea el precio de la actividad
     }
