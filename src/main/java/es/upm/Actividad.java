@@ -6,7 +6,7 @@ import java.io.IOException;
 public class Actividad {
     // Taken from doc, the following private data is necessary
     private final String nombre;
-    private String descripcion; 
+    private String descripcion = ""; 
 
     private String[] recursos;
     private String[] comentarios;
@@ -27,12 +27,14 @@ public class Actividad {
     public Actividad(String nombre,int maxRecursos, int maxComentarios) {
         this.nombre = nombre; this.maxRecursos = maxRecursos; this.maxComentarios = maxComentarios;
     }
+
+    // These two methods could fail handling wrong values, 
+    // a try catch block should be implemented
+    
     public String getNombre() { return nombre; }
 
-    public String getDescripcion() {
-        // Devuelve la descripción de la actividad
-        return null; // @todo MODIFICAR PARA DEVOLVER LA DESCRIPCIÓN
-    }
+    public String getDescripcion() { return descripcion; }
+
     public void setDescripcion(String descripcion) {
         // Setea la descripción de la actividad
     }
