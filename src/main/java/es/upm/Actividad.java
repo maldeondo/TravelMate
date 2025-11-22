@@ -4,6 +4,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class Actividad {
+    // Taken from doc, the following private data is necessary
+    private String nombre = "";
+    private String descripcion = ""; 
+
+    private String[] recursos;
+    private String[] comentarios;
+
+    private int duracionMinutos = 0;
+    private int maxRecursos = 0;
+    private int maxComentarios = 0;
+    private double precio = 0.0;
+
+    // Made by us
+    private int actRecursos = 0;
+    private int actComentarios = 0;
 
     // ---------------------------
     // Constantes de códigos de error
@@ -13,94 +28,111 @@ public class Actividad {
     public static final int ERROR_RECURSOS_COMPLETOS = 2;
     public static final int ERROR_COMENTARIOS_COMPLETOS = 3;
 
-    public Actividad(String nombre,
-                     int maxRecursos,
-                     int maxComentarios) {
-        // Crea una actividad con límites máximos para recursos y comentarios
-    }
-    public String getNombre() {
-        // Devuelve el nombre de la actividad
-        return null; // @todo MODIFICAR PARA DEVOLVER EL NOMBRE
+    public Actividad(String nombre,int maxRecursos, int maxComentarios) {
+        this.nombre = nombre; 
+        this.maxRecursos = maxRecursos; 
+        this.maxComentarios = maxComentarios;
+
+        recursos = new String[maxRecursos];
+        comentarios = new String[maxComentarios];
     }
 
-    public String getDescripcion() {
-        // Devuelve la descripción de la actividad
-        return null; // @todo MODIFICAR PARA DEVOLVER LA DESCRIPCIÓN
-    }
-    public void setDescripcion(String descripcion) {
-        // Setea la descripción de la actividad
-    }
+    // These methods could fail handling wrong values, 
+    // a try catch block should be implemented (probably in other class)
 
-    public double getPrecio() {
-        // Devuelve el precio de la actividad
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL PRECIO
-    }
-    public void setPrecio(double precio) {
-        // Setea el precio de la actividad
-    }
+    public String getNombre() { return nombre; }
 
-    public int getDuracionMinutos() {
-        // Devuelve la duración de la actividad
-        return 0; // @todo MODIFICAR PARA DEVOLVER LA DURACIÓN
-    }
-    public void setDuracionMinutos(int duracionMinutos) {
-        // Setea la duración de la actividad
-    }
 
-    public int getMaxRecursos() {
-        // Devuelve el máximo de recursos que puede usar la actividad
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL MÁXIMO DE RECURSOS
-    }
+    public String getDescripcion() { return descripcion; }
 
-    public int getMaxComentarios() {
-        // Devuelve el máximo de comentarios que puede haber en la actividad
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL MÁXIMO DE COMENTARIOS
-    }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    public int agregarRecurso(String recurso) {
-        // Agrega un recurso a la actividad si no se ha alcanzado el máximo.
-        return 0; // @todo MODIFICAR PARA DEVOLVER CÓDIGO DE EXITO/ERROR
+
+    public double getPrecio() { return precio; }
+
+    public void setPrecio(double precio) { this.precio = precio; }
+
+
+    public int getDuracionMinutos() { return duracionMinutos; }
+
+    public void setDuracionMinutos(int duracionMinutos) { this.duracionMinutos = duracionMinutos; }
+
+    
+    public int getMaxRecursos() { return maxRecursos; }
+
+    public int getMaxComentarios() { return maxComentarios; }
+
+
+    public int agregarRecurso (String recurso) {
+        int result;
+        
+        // Pending to handle empty strings as well
+        if (recurso == null || recurso == "") result = ERROR_VALOR_INVALIDO;
+        else if (!recursosCompletos()) {
+            recursos[actRecursos] = recurso;
+            actRecursos++;
+
+            result = EXITO;
+        } else result = ERROR_RECURSOS_COMPLETOS;
+
+        return result;
     }
 
     public int agregarComentario(String comentario) {
-        // Agrega un comentario a la actividad si no se ha alcanzado el máximo.
-        return 0; // @todo MODIFICAR PARA DEVOLVER CÓDIGO DE EXITO/ERROR
+        int result;
+        
+        // Pending to handle empty strings as well
+        if (comentario == null || comentario == "") result = ERROR_VALOR_INVALIDO;
+        else if (!comentariosCompletos()) {
+            comentarios[actComentarios] = comentario;
+            actComentarios++;
+
+            result = EXITO;
+        } else result = ERROR_RECURSOS_COMPLETOS;
+
+        return result;
     }
 
-    public String[] getRecursos() {
-        // Devuelve el array interno de recursos (puede estar parcialmente lleno)
-        return null; // @todo MODIFICAR PARA DEVOLVER EL ARRAY DE RECURSOS
+    /*
+    private static void addToArray(String[] array, String object, int ocupation) {
+        array[ocupation] = object;
     }
+    */
 
-    public String[] getComentarios() {
-        // Devuelve el array interno de comentarios (puede estar parcialmente lleno).
-        return null; // @todo MODIFICAR PARA DEVOLVER EL ARRAY DE COMENTARIOS
-    }
+    public String[] getRecursos() { return recursos; }
 
-    public boolean recursosCompletos() {
-        // Devuelve si se alcanzó el máximo de recursos
-        return true; // @todo MODIFICAR PARA DEVOLVER SI EL ARRAY DE RECURSOS ESTÁ LLENO
-    }
+    public String[] getComentarios() { return comentarios; }
 
-    public boolean comentariosCompletos() {
-        // Devuelve si se alcanzó el máximo de comentarios
-        return true; // @todo MODIFICAR PARA DEVOLVER SI EL ARRAY DE COMENTARIOS ESTÁ LLENO
-    }
 
-    public int getNumRecursos() {
-        // Devuelve el número actual de recursos almacenados
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL NÚMERO DE RECURSOS
-    }
+    public boolean recursosCompletos() { return actRecursos == maxRecursos; }
 
-    public int getNumComentarios() {
-        // Devuelve el número actual de comentarios almacenados
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL NÚMERO DE COMENTARIOS
-    }
+    public boolean comentariosCompletos() { return actComentarios == actRecursos; }
+
+
+    public int getNumRecursos() { return actRecursos; }
+
+    public int getNumComentarios() { return actComentarios; }
 
     @Override
     public String toString() {
-        // Devuelve la representación textual completa de la actividad
-        return null; // @todo MODIFICAR PARA DEVOLVER LA REPRESENTACIÓN TEXTUAL
+        StringBuilder result = new StringBuilder();
+
+        result.append(String.format("Actividad: %s\n", nombre));
+        result.append(String.format("Descripción: %s\n", descripcion));
+        result.append(String.format("Precio: %.2f €\n", precio));
+        result.append(String.format("Duración: %dh %dmin\n", (int) (duracionMinutos / 60), (int) (duracionMinutos % 60)));
+        
+        result.append("Recursos:\n");
+        for (int i = 0; i < actRecursos; i++) {
+            result.append(String.format("- %s\n", recursos[i]));
+        }
+        
+        result.append("Comentarios:\n");
+        for (int i = 0; i < actComentarios; i++) {
+            result.append(String.format("%d. %s\n", (i + 1), comentarios[i]));
+        }
+       
+        return result.toString();
     }
 
     public String toRawString() {
