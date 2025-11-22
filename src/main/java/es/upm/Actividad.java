@@ -83,7 +83,7 @@ public class Actividad {
         
         // Pending to handle empty strings as well
         if (comentario == null || comentario == "") result = ERROR_VALOR_INVALIDO;
-        else if (!recursosCompletos()) {
+        else if (!comentariosCompletos()) {
             comentarios[actComentarios] = comentario;
             actComentarios++;
 
@@ -122,13 +122,17 @@ public class Actividad {
         result.append(String.format("Precio: %.2f €\n", precio));
         result.append(String.format("Duración: %dh %dmin\n", (int) (duracionMinutos / 60), (int) (duracionMinutos % 60)));
         
-        /*
-        for (int i = 0; i < actComentarios; i++) {
-            result.append(String.format(descripcion, comentarios));
+        result.append("Recursos:\n");
+        for (int i = 0; i < actRecursos; i++) {
+            result.append(String.format("- %s\n", recursos[i]));
         }
-        */
+        
+        result.append("Comentarios:\n");
+        for (int i = 0; i < actComentarios; i++) {
+            result.append(String.format("%d. %s\n", (i + 1), comentarios[i]));
+        }
        
-        return result.toString(); // @todo MODIFICAR PARA DEVOLVER LA REPRESENTACIÓN TEXTUAL
+        return result.toString();
     }
 
     public String toRawString() {
