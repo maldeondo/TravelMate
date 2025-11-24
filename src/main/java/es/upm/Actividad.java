@@ -127,9 +127,9 @@ public class Actividad {
             result.append(String.format("- %s\n", recursos[i]));
         }
         
-        result.append("Comentarios:\n");
+        result.append("Comentarios:");
         for (int i = 0; i < actComentarios; i++) {
-            result.append(String.format("%d. %s\n", (i + 1), comentarios[i]));
+            result.append(String.format("\n%d. %s", (i + 1), comentarios[i]));
         }
        
         return result.toString();
