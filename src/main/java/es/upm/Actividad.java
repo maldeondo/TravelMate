@@ -29,12 +29,14 @@ public class Actividad {
     public static final int ERROR_COMENTARIOS_COMPLETOS = 3;
 
     public Actividad(String nombre,int maxRecursos, int maxComentarios) {
-        this.nombre = nombre; 
-        this.maxRecursos = maxRecursos; 
-        this.maxComentarios = maxComentarios;
+        if (maxRecursos > 0 && maxComentarios > 0) {
+            this.nombre = nombre; 
+            this.maxRecursos = maxRecursos; 
+            this.maxComentarios = maxComentarios;
 
-        recursos = new String[maxRecursos];
-        comentarios = new String[maxComentarios];
+            recursos = new String[maxRecursos];
+            comentarios = new String[maxComentarios];
+        } else System.out.println("Valores negativos.");
     }
 
     // These methods could fail handling wrong values, 
@@ -45,12 +47,16 @@ public class Actividad {
 
     public String getDescripcion() { return descripcion; }
 
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    public void setDescripcion(String descripcion) { 
+        if (!voidChars(descripcion)) this.descripcion = descripcion; 
+    }
 
 
     public double getPrecio() { return precio; }
 
-    public void setPrecio(double precio) { this.precio = precio; }
+    public void setPrecio(double precio) { 
+        if (precio >= 0) this.precio = precio; 
+    }
 
 
     public int getDuracionMinutos() { return duracionMinutos; }
@@ -66,10 +72,12 @@ public class Actividad {
     public int agregarRecurso (String recurso) {
         int result;
         
-        // Pending to handle empty strings as well
-        if (recurso == null || recurso == "") result = ERROR_VALOR_INVALIDO;
+        // The voidChars function is called to check whether "recurso"
+        // is a non-valid string
+
+        if (voidChars(recurso)) result = ERROR_VALOR_INVALIDO;
         else if (!recursosCompletos()) {
-            recursos[actRecursos] = recurso;
+            addToArray(recursos, recurso, actRecursos);
             actRecursos++;
 
             result = EXITO;
@@ -81,23 +89,42 @@ public class Actividad {
     public int agregarComentario(String comentario) {
         int result;
         
-        // Pending to handle empty strings as well
-        if (comentario == null || comentario == "") result = ERROR_VALOR_INVALIDO;
+        // The voidChars function is called to check whether "recurso"
+        // is a non-valid string
+        
+        if (voidChars(comentario)) result = ERROR_VALOR_INVALIDO;
         else if (!comentariosCompletos()) {
-            comentarios[actComentarios] = comentario;
+            addToArray(comentarios, comentario, actComentarios);
             actComentarios++;
 
             result = EXITO;
-        } else result = ERROR_RECURSOS_COMPLETOS;
+        } else result = ERROR_COMENTARIOS_COMPLETOS;
 
         return result;
     }
 
-    /*
-    private static void addToArray(String[] array, String object, int ocupation) {
-        array[ocupation] = object;
+    private static boolean voidChars(String data) {
+        boolean blank = false; char data_char;
+
+        if (data != null && data != "") {
+            blank = true;
+
+            for (int i = 0; i < data.length(); i++) {
+                data_char = data.charAt(i);
+
+                if (data_char != 9 && data_char != 10 && data_char != 32) blank = false;
+            }
+        }
+
+        // returns true if the string is either null, void, or made only by \t \n or spaces
+        return blank;
     }
-    */
+
+    // both agregar methods use this one to modify the array    
+    private void addToArray(String[] array, String object, int position) {
+        array[position] = object;
+    }
+    
 
     public String[] getRecursos() { return recursos; }
 
@@ -127,9 +154,9 @@ public class Actividad {
             result.append(String.format("- %s\n", recursos[i]));
         }
         
-        result.append("Comentarios:\n");
+        result.append("Comentarios:");
         for (int i = 0; i < actComentarios; i++) {
-            result.append(String.format("%d. %s\n", (i + 1), comentarios[i]));
+            result.append(String.format("\n%d. %s", (i + 1), comentarios[i]));
         }
        
         return result.toString();
