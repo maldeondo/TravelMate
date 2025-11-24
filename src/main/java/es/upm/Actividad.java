@@ -66,10 +66,9 @@ public class Actividad {
     public int agregarRecurso (String recurso) {
         int result;
         
-        // Pending to handle empty strings as well
-        if (recurso == null || recurso == "") result = ERROR_VALOR_INVALIDO;
+        if (!noVoidChars(recurso)) result = ERROR_VALOR_INVALIDO;
         else if (!recursosCompletos()) {
-            recursos[actRecursos] = recurso;
+            addToArray(recursos, recurso, actRecursos);
             actRecursos++;
 
             result = EXITO;
@@ -81,23 +80,35 @@ public class Actividad {
     public int agregarComentario(String comentario) {
         int result;
         
-        // Pending to handle empty strings as well
-        if (comentario == null || comentario == "") result = ERROR_VALOR_INVALIDO;
+        if (!noVoidChars(comentario)) result = ERROR_VALOR_INVALIDO;
         else if (!comentariosCompletos()) {
-            comentarios[actComentarios] = comentario;
+            addToArray(comentarios, comentario, actComentarios);
             actComentarios++;
 
             result = EXITO;
-        } else result = ERROR_RECURSOS_COMPLETOS;
+        } else result = ERROR_COMENTARIOS_COMPLETOS;
 
         return result;
     }
 
-    /*
-    private static void addToArray(String[] array, String object, int ocupation) {
-        array[ocupation] = object;
+    private static boolean noVoidChars(String data) {
+        boolean clear = false; char data_char;
+
+        if (data != null && data != "") {
+            for (int i = 0; i < data.length(); i++) {
+                data_char = data.charAt(i);
+
+                if (data_char != 9 && data_char != 10 && data_char != 32) clear = true;
+            }
+        }
+        return clear;
     }
-    */
+
+    
+    private void addToArray(String[] array, String object, int position) {
+        array[position] = object;
+    }
+    
 
     public String[] getRecursos() { return recursos; }
 
