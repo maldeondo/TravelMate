@@ -136,8 +136,19 @@ public class Actividad {
     }
 
     public String toRawString() {
-        // Devuelve la representación textual compacta para guardado/carga
-        return null; // @todo MODIFICAR PARA DEVOLVER LA REPRESENTACIÓN TEXTUAL COMPACTA
+        StringBuilder raw = new StringBuilder();
+        raw.append(String.format("%s \n",nombre));
+        raw.append(String.format("%s \n", descripcion));
+        raw.append(String.format("%.2f \n", precio));
+        raw.append(String.format("%d \n", duracionMinutos));
+        for (int i = 0; i < actRecursos; i++){
+            raw.append(String.format("%s \n", recursos[i]));
+        }
+        raw.append(String.format("COMENTARIOS \n"));
+        for (int i = 0; i < actComentarios; i++){
+            raw.append(String.format("%s \n", comentarios[i]));
+        }
+        return raw.toString();
     }
 
     public static Actividad fromBufferedReader(
