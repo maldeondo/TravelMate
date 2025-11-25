@@ -69,9 +69,12 @@ public class Utilidades {
         precioEnFormato.append(String.format("%.2f€", precio));
         return precioEnFormato.toString();
     }
-
+/* Aqui ha habido un problema con los decimales porque formatearPrecio pasa los decimales con comas y el double
+   necesita un punto para los decimales, no se si es cossa de mi Intel o si siempre hay que intercambiar comas
+   por puntos.
+ */
     public static double cadenaAPrecio(String precioStr) {
-        // Convierte una cadena con precio (ej: "12.50 €") a double
-        return 0.0; // @todo MODIFICAR PARA DEVOLVER EL PRECIO COMO DOUBLE
+        String cadena = precioStr.replace("€","").replace(",",".").trim();
+        return Double.parseDouble(cadena);
     }
 }
