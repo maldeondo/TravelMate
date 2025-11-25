@@ -2,6 +2,7 @@ package es.upm;
 
 import java.io.IO;
 import java.io.IOError;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -67,9 +68,36 @@ public class Utilidades {
     }
 
     public static String leerHora(Scanner teclado, String mensaje) {
-        // Muestra un mensaje y lee una hora en formato "HH:MM"
-        return null; // @todo MODIFICAR PARA DEVOLVER LA HORA LEÍDA
+        String output = "23:11"; boolean correct = false;
+        int h1, h2, m1, m2;
+
+        String formatmsg = "Formato incorrecto. Usa el formato HH:MM (por ejemplo, 09:30).";
+        String hourmsg = "Las horas deben estar entre 00 y 23.";
+        String minmsg = "Los minutos deben estar entre 00 y 59.";
+
+        do {
+            output = teclado.nextLine();
+
+            if ((output.length() != 5) || (output.charAt(2) != ':')) System.out.println(formatmsg);
+            else {
+                    h1 = output.charAt(0);
+                    h2 = output.charAt(1);
+                    m1 = output.charAt(3);
+                    m2 = output.charAt(4);
+
+                    if (!asciiNum(h1) || !asciiNum(h2) || !asciiNum(m1) || !asciiNum(m2)) System.out.println(formatmsg);
+                    else {
+                        if (h1 > '2' || h2 > '3') System.out.println(hourmsg);
+                        else if (m1 > '5' || m2 > '9') System.out.println(minmsg);
+                        else correct = true;
+                    }
+                }
+        } while (!correct);
+
+        return output;
     }
+
+    private static boolean asciiNum(int c) { return (c >= '0' && c <= '9') ? true : false; }
 
     // =========================================================================
     // Métodos de conversión de formatos
