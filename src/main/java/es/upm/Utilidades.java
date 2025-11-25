@@ -22,28 +22,48 @@ public class Utilidades {
 
     public static int leerNumero(Scanner teclado, String mensaje, int minimo, int maximo) {
         int output = minimo - 1; boolean correct = false;
+        
+        String numbermsg = "El número debe estar entre [%d] y [%d].";
+        String errormsg = "Por favor, introduce un número válido.";
 
         do {
             try {
                 System.out.println(mensaje);
                 output = teclado.nextInt();
             
-                if (output < minimo || output > maximo) System.out.println("Número no válido.");
+                if (output < minimo || output > maximo) System.out.println(String.format(numbermsg, minimo, maximo));
                 else correct = true; 
                 
             } catch (InputMismatchException ex) {
-                System.out.println("Entrada no válida.");
+                System.out.println(errormsg);
                 teclado.next();
             }
-            
         } while (!correct);
 
         return output;
     }
 
     public static double leerDouble(Scanner teclado, String mensaje, double minimo, double maximo) {
-        // Muestra un mensaje y lee un número decimal en el rango [minimo, maximo]
-        return 0.0; // @todo MODIFICAR PARA DEVOLVER EL NÚMERO LEÍDO
+        double output = minimo - 1; boolean correct = false;
+        
+        String numbermsg = "El número debe estar entre [%.2f] y [%.2f].";
+        String errormsg = "Por favor, introduce un número válido.";
+
+        do {
+            try {
+                System.out.println(mensaje);
+                output = teclado.nextDouble();
+            
+                if (output < minimo || output > maximo) System.out.println(String.format(numbermsg, minimo, maximo));
+                else correct = true; 
+                
+            } catch (InputMismatchException ex) {
+                System.out.println(errormsg);
+                teclado.next();
+            }
+        } while (!correct);
+
+        return output;
     }
 
     public static String leerHora(Scanner teclado, String mensaje) {
