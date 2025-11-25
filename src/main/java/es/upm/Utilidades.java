@@ -1,8 +1,5 @@
 package es.upm;
 
-import java.io.IO;
-import java.io.IOError;
-import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
