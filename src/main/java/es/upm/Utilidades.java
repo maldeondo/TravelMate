@@ -65,16 +65,18 @@ public class Utilidades {
     }
 
     public static String formatearPrecio(double precio) {
+
         StringBuilder precioEnFormato = new StringBuilder();
         precioEnFormato.append(String.format("%.2f€", precio));
-        return precioEnFormato.toString();
+        String precioFinal = precioEnFormato.toString().replace(",",".");
+        return precioFinal;
     }
-/* Aqui ha habido un problema con los decimales porque formatearPrecio pasa los decimales con comas y el double
-   necesita un punto para los decimales, no se si es cossa de mi Intel o si siempre hay que intercambiar comas
-   por puntos.
+/* Problema de coherencia: El enunciado me pide que de los valores separando los decimales con puntos
+   pero Intel solo reconoce datos de entrada como decimales si van con coma.
  */
     public static double cadenaAPrecio(String precioStr) {
-        String cadena = precioStr.replace("€","").replace(",",".").trim();
+        String cadena = precioStr.replace("€","").trim();
+        System.out.println(cadena);
         return Double.parseDouble(cadena);
     }
 }
