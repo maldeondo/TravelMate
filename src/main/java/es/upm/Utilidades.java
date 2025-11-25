@@ -48,15 +48,20 @@ public class Utilidades {
     public static String minutosAHora(int minutos) {
        int digito1 =  minutos / 60;
        int digito2 =  minutos % 60;
-        StringBuilder horaFormato = new StringBuilder();
-        horaFormato.append(String.format("%02d:%02d",digito1,digito2));
-
-        return horaFormato.toString(); // @todo MODIFICAR PARA DEVOLVER LA HORA EN FORMATO HH:MM
+        StringBuilder horaEnFormato = new StringBuilder();
+        horaEnFormato.append(String.format("%02d:%02d",digito1,digito2));
+        return horaEnFormato.toString();
     }
 
     public static String formatearDuracion(int duracionMinutos) {
-        // Formatea una duración en minutos a formato legible (ej: 90 -> "1h 30min")
-        return null; // @todo MODIFICAR PARA DEVOLVER LA DURACIÓN FORMATEADA
+        int digito1 =  duracionMinutos / 60;
+        int digito2 =  duracionMinutos % 60;
+        StringBuilder minutosEnFormato = new StringBuilder();
+        if(duracionMinutos < 60) {
+            minutosEnFormato.append(String.format("%2dmin", digito2));
+        }
+        else minutosEnFormato.append(String.format("%2dh %2dmin",digito1,digito2));
+        return minutosEnFormato.toString();
     }
 
     public static String formatearPrecio(double precio) {
