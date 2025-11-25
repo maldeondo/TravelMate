@@ -171,9 +171,9 @@ public class Actividad {
         for (int i = 0; i < actRecursos; i++){
             raw.append(String.format("%s \n", recursos[i]));
         }
-        raw.append(String.format("COMENTARIOS \n"));
+        raw.append(String.format("COMENTARIOS"));
         for (int i = 0; i < actComentarios; i++){
-            raw.append(String.format("%s \n", comentarios[i]));
+            raw.append(String.format("\n%s", comentarios[i]));
         }
         return raw.toString();
     }
