@@ -65,8 +65,9 @@ public class Utilidades {
     }
 
     public static String formatearPrecio(double precio) {
-        // Formatea un precio a formato legible (ej: 12.50 -> "12.50 €")
-        return null; // @todo MODIFICAR PARA DEVOLVER EL PRECIO FORMATEADO
+        StringBuilder precioEnFormato = new StringBuilder();
+        precioEnFormato.append(String.format("%.2f€", precio));
+        return precioEnFormato.toString();
     }
 
     public static double cadenaAPrecio(String precioStr) {
