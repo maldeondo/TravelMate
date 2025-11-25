@@ -75,8 +75,7 @@ public class Utilidades {
    pero Intel solo reconoce datos de entrada como decimales si van con coma.
  */
     public static double cadenaAPrecio(String precioStr) {
-        String cadena = precioStr.replace("€","").trim();
-        System.out.println(cadena);
+        String cadena = precioStr.replace("€","").replace(",",".").trim();
         return Double.parseDouble(cadena);
     }
 }
