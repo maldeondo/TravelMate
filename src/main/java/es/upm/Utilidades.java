@@ -35,9 +35,15 @@ public class Utilidades {
     // Métodos de conversión de formatos
     // =========================================================================
 
+    // Metodos sin manejo de excepciones porque ya son tratados anteriormente
+
     public static int horaAMinutos(String hora) {
-        // Convierte una hora en formato "HH:MM" a minutos desde medianoche
-        return 0; // @todo MODIFICAR PARA DEVOLVER LOS MINUTOS
+        String digito1 = hora.split(":")[0];
+        String digito2 = hora.split(":")[1];
+        int horas = Integer.parseInt(digito1);
+        int minutos = Integer.parseInt(digito2);
+        int minutosDesde = horas * 60 + minutos;
+        return minutosDesde;
     }
 
     public static String minutosAHora(int minutos) {
