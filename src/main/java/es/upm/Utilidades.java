@@ -45,10 +45,13 @@ public class Utilidades {
         int minutosDesde = horas * 60 + minutos;
         return minutosDesde;
     }
-
     public static String minutosAHora(int minutos) {
-        // Convierte minutos desde medianoche a formato "HH:MM"
-        return null; // @todo MODIFICAR PARA DEVOLVER LA HORA EN FORMATO HH:MM
+       int digito1 =  minutos / 60;
+       int digito2 =  minutos % 60;
+        StringBuilder horaFormato = new StringBuilder();
+        horaFormato.append(String.format("%02d:%02d",digito1,digito2));
+
+        return horaFormato.toString(); // @todo MODIFICAR PARA DEVOLVER LA HORA EN FORMATO HH:MM
     }
 
     public static String formatearDuracion(int duracionMinutos) {
