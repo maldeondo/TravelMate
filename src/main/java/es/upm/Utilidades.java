@@ -1,5 +1,8 @@
 package es.upm;
 
+import java.io.IO;
+import java.io.IOError;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -12,13 +15,30 @@ public class Utilidades {
     // =========================================================================
 
     public static String leerCadena(Scanner teclado, String s) {
-        // Muestra un mensaje por pantalla y lee una cadena de texto introducida por el usuario
-        return null; // @todo MODIFICAR PARA DEVOLVER LA CADENA LEÍDA
+        System.out.println(s);
+
+        return teclado.nextLine();
     }
 
     public static int leerNumero(Scanner teclado, String mensaje, int minimo, int maximo) {
-        // Muestra un mensaje y lee un número entero en el rango [minimo, maximo]
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL NÚMERO LEÍDO
+        int output = minimo - 1; boolean correct = false;
+
+        do {
+            try {
+                System.out.println(mensaje);
+                output = teclado.nextInt();
+            
+                if (output < minimo || output > maximo) System.out.println("Número no válido.");
+                else correct = true; 
+                
+            } catch (InputMismatchException ex) {
+                System.out.println("Entrada no válida.");
+                teclado.next();
+            }
+            
+        } while (!correct);
+
+        return output;
     }
 
     public static double leerDouble(Scanner teclado, String mensaje, double minimo, double maximo) {
