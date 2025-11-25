@@ -68,8 +68,7 @@ public class Utilidades {
 
         StringBuilder precioEnFormato = new StringBuilder();
         precioEnFormato.append(String.format("%.2f€", precio));
-        String precioFinal = precioEnFormato.toString().replace(",",".");
-        return precioFinal;
+        return precioEnFormato.toString().replace(",",".");
     }
 /* Problema de coherencia: El enunciado me pide que de los valores separando los decimales con puntos
    pero Intel solo reconoce datos de entrada como decimales si van con coma.
