@@ -104,11 +104,9 @@ public class Actividad {
     }
 
     private static boolean voidChars(String data) {
-        boolean blank = false; char data_char;
+        boolean blank = true; char data_char;
 
         if (data != null && data != "") {
-            blank = true;
-
             for (int i = 0; i < data.length(); i++) {
                 data_char = data.charAt(i);
 
