@@ -133,7 +133,7 @@ public class Actividad {
 
     public boolean recursosCompletos() { return actRecursos == maxRecursos; }
 
-    public boolean comentariosCompletos() { return actComentarios == actRecursos; }
+    public boolean comentariosCompletos() { return actComentarios == maxComentarios; }
 
 
     public int getNumRecursos() { return actRecursos; }
