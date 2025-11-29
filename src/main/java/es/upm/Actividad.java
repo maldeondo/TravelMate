@@ -162,18 +162,19 @@ public class Actividad {
 
     public String toRawString() {
         StringBuilder raw = new StringBuilder();
-        raw.append(String.format("%s \n",nombre));
-        raw.append(String.format("%s \n", descripcion));
-        raw.append(String.format("%.2f \n", precio));
-        raw.append(String.format("%d \n", duracionMinutos));
+        raw.append(String.format("%s\n",nombre));
+        raw.append(String.format("%s\n", descripcion));
+        raw.append(String.format("%.2f\n", precio));
+        raw.append(String.format("%d\n", duracionMinutos));
         for (int i = 0; i < actRecursos; i++){
-            raw.append(String.format("%s \n", recursos[i]));
+            raw.append(String.format("%s\n", recursos[i]));
         }
-        raw.append(String.format("COMENTARIOS"));
+        raw.append("COMENTARIOS");
         for (int i = 0; i < actComentarios; i++){
             raw.append(String.format("\n%s", comentarios[i]));
         }
-        return raw.toString();
+        raw.append("\n-----");
+        return raw.append("\n").toString();
     }
 
     public static Actividad fromBufferedReader(
