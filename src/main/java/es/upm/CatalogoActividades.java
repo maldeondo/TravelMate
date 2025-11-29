@@ -7,23 +7,21 @@ import java.io.FileReader;
 
 public class CatalogoActividades {
 
+    // by doc
+    private final int maxActividades;
+    private int actActividades;
+
     public static final int EXITO = 0;
     public static final int ERROR_ACTIVIDAD_NULL = 1;
     public static final int ERROR_DEMASIADOS = 2;
 
     public CatalogoActividades(int maxActividades) {
-        // Constructor del catálogo
+        this.maxActividades = maxActividades;
     }
 
-    public boolean actividadesCompletas() {
-        // Indica si el catálogo está lleno.
-        return true; // @todo MODIFICAR PARA DEVOLVER SI LAS ACTIVIDADES ESTÁN COMPLETAS
-    }
+    public boolean actividadesCompletas() { return actActividades == maxActividades; }
 
-    public int getNumActividades() {
-        // Devuelve el número actual de actividades en el catálogo
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL NÚMERO DE ACTIVIDADES
-    }
+    public int getNumActividades() { return actActividades; }
 
     public int agregarActividad(Actividad actividad) {
         // Agrega una actividad al catálogo si hay espacio disponible
