@@ -157,7 +157,7 @@ public class Actividad {
             result.append(String.format("\n%d. %s", (i + 1), comentarios[i]));
         }
        
-        return result.toString();
+        return result.append("\n").toString();
     }
 
     public String toRawString() {
