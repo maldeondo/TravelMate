@@ -70,8 +70,35 @@ public class CatalogoActividades {
     }
 
     public Actividad[] buscarActividadPorNombre(String texto) {
-        // Devuelve actividades cuyo nombre contenga el texto indicado
-        return null; // @todo MODIFICAR PARA DEVOLVER LAS ACTIVIDADES QUE COINCIDEN
+        int[] index_array = new int[maxActividades];
+        texto = texto.toLowerCase();
+        
+        int target_count = 0;
+
+        // search for targets and save its index into the temp index_array
+        for (int i = 0; i < actActividades; i++) {
+
+            // check if the LOWERCASE name contains any LOWERCASE substring
+            // that matches with the provided texto
+            if (arrayActividades[i].getNombre().toLowerCase().contains(texto)) {
+
+                // index_array[i] = i would result in an array with "jumps"
+                // here target_count is recycled to get a continious array
+                index_array[target_count] = i;
+                target_count++;
+            }
+        }
+
+        Actividad[] target_array = new Actividad[target_count];
+
+        for (int i = 0; i < target_count; i++) {
+
+            // build target_array with the main arrayActividades value ONLY using
+            // the correct indexes found previously (which are inside index_array)
+            target_array[i] = arrayActividades[index_array[i]];
+        }
+
+        return target_array;
     }
 
     public void guardarActividades(String nombreArchivo) throws IOException {
