@@ -56,19 +56,20 @@ public class Utilidades {
     public static String formatearDuracion(int duracionMinutos) {
         int digito1 =  duracionMinutos / 60;
         int digito2 =  duracionMinutos % 60;
-        StringBuilder minutosEnFormato = new StringBuilder();
-        if(duracionMinutos < 60) {
-            minutosEnFormato.append(String.format("%2dmin", digito2));
-        }
-        else minutosEnFormato.append(String.format("%2dh %2dmin",digito1,digito2));
-        return minutosEnFormato.toString();
+        String minutos;
+
+        if(duracionMinutos < 60) minutos = String.format("%2dmin", digito2);
+        else if(digito2 == 0) minutos = String.format("%dh", digito1);
+        else minutos = String.format("%dh %2dmin", digito1, digito2);
+
+        return minutos;
     }
 
     public static String formatearPrecio(double precio) {
 
-        StringBuilder precioEnFormato = new StringBuilder();
-        precioEnFormato.append(String.format("%.2f€", precio));
-        return precioEnFormato.toString().replace(",",".");
+        String precioEnFormato;
+        precioEnFormato = String.format("%.2f €", precio);
+        return precioEnFormato.replace(",",".");
     }
 /* Problema de coherencia: El enunciado me pide que de los valores separando los decimales con puntos
    pero Intel solo reconoce datos de entrada como decimales si van con coma.
