@@ -47,7 +47,26 @@ public class CatalogoActividades {
     }
 
     public boolean eliminarActividad(Actividad seleccionada) {
-        return true; // @todo MODIFICAR PARA DEVOLVER SI SE HA PODIDO ELIMINAR
+        int target_index = -1;
+        boolean target_found = false;
+
+        // find the target
+        for (int i = 0; i < actActividades; i++) {
+            if (arrayActividades[i] == seleccionada) {
+                target_index = i;
+                target_found = true;
+            }
+        }
+
+        // replace each entry after the removed target
+        if (target_found) {
+            for (int i = target_index; i < actActividades - 1; i++) {
+                arrayActividades[i] = arrayActividades[i + 1];
+            }
+            actActividades--;
+        }    
+        
+        return target_found; 
     }
 
     public Actividad[] buscarActividadPorNombre(String texto) {
