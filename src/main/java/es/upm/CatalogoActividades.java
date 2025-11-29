@@ -9,7 +9,10 @@ public class CatalogoActividades {
 
     // by doc
     private final int maxActividades;
-    private int actActividades;
+    private int actActividades = 0;
+
+    // array aproach, the data structure is not specified by doc
+    private Actividad[] arrayActividades;
 
     public static final int EXITO = 0;
     public static final int ERROR_ACTIVIDAD_NULL = 1;
@@ -17,15 +20,30 @@ public class CatalogoActividades {
 
     public CatalogoActividades(int maxActividades) {
         this.maxActividades = maxActividades;
+
+        arrayActividades = new Actividad[maxActividades];
     }
 
     public boolean actividadesCompletas() { return actActividades == maxActividades; }
 
     public int getNumActividades() { return actActividades; }
 
+
+    private static boolean validEntry(Actividad act) { return (act != null); }
+
     public int agregarActividad(Actividad actividad) {
-        // Agrega una actividad al catálogo si hay espacio disponible
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL CÓDIGO DE EXITO/ERROR
+        int exitcode;
+
+        if (!validEntry(actividad)) exitcode = ERROR_ACTIVIDAD_NULL;
+        else if (actividadesCompletas()) exitcode = ERROR_DEMASIADOS;
+        else {
+            arrayActividades[actActividades] = actividad;
+            actActividades++;
+
+            exitcode = EXITO;
+        }
+
+        return exitcode;
     }
 
     public boolean eliminarActividad(Actividad seleccionada) {
