@@ -7,31 +7,66 @@ import java.io.FileReader;
 
 public class CatalogoActividades {
 
+    // by doc
+    private final int maxActividades;
+    private int actActividades = 0;
+
+    // array aproach, the data structure is not specified by doc
+    private Actividad[] arrayActividades;
+
     public static final int EXITO = 0;
     public static final int ERROR_ACTIVIDAD_NULL = 1;
     public static final int ERROR_DEMASIADOS = 2;
 
     public CatalogoActividades(int maxActividades) {
-        // Constructor del catálogo
+        this.maxActividades = maxActividades;
+
+        arrayActividades = new Actividad[maxActividades];
     }
 
-    public boolean actividadesCompletas() {
-        // Indica si el catálogo está lleno.
-        return true; // @todo MODIFICAR PARA DEVOLVER SI LAS ACTIVIDADES ESTÁN COMPLETAS
-    }
+    public boolean actividadesCompletas() { return actActividades == maxActividades; }
 
-    public int getNumActividades() {
-        // Devuelve el número actual de actividades en el catálogo
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL NÚMERO DE ACTIVIDADES
-    }
+    public int getNumActividades() { return actActividades; }
+
+
+    private static boolean validEntry(Actividad act) { return (act != null); }
 
     public int agregarActividad(Actividad actividad) {
-        // Agrega una actividad al catálogo si hay espacio disponible
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL CÓDIGO DE EXITO/ERROR
+        int exitcode;
+
+        if (!validEntry(actividad)) exitcode = ERROR_ACTIVIDAD_NULL;
+        else if (actividadesCompletas()) exitcode = ERROR_DEMASIADOS;
+        else {
+            arrayActividades[actActividades] = actividad;
+            actActividades++;
+
+            exitcode = EXITO;
+        }
+
+        return exitcode;
     }
 
     public boolean eliminarActividad(Actividad seleccionada) {
-        return true; // @todo MODIFICAR PARA DEVOLVER SI SE HA PODIDO ELIMINAR
+        int target_index = -1;
+        boolean target_found = false;
+
+        // find the target
+        for (int i = 0; i < actActividades; i++) {
+            if (arrayActividades[i] == seleccionada) {
+                target_index = i;
+                target_found = true;
+            }
+        }
+
+        // replace each entry after the removed target
+        if (target_found) {
+            for (int i = target_index; i < actActividades - 1; i++) {
+                arrayActividades[i] = arrayActividades[i + 1];
+            }
+            actActividades--;
+        }    
+        
+        return target_found; 
     }
 
     public Actividad[] buscarActividadPorNombre(String texto) {
