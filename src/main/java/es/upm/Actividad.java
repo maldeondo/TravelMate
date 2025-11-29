@@ -145,8 +145,13 @@ public class Actividad {
         result.append(String.format("Actividad: %s\n", nombre));
         result.append(String.format("Descripción: %s\n", descripcion));
         result.append(String.format("Precio: %.2f €\n", precio));
-        result.append(String.format("Duración: %dh %dmin\n", (int) (duracionMinutos / 60), (int) (duracionMinutos % 60)));
-        
+
+        int h = (int) (duracionMinutos / 60); int m = (int) (duracionMinutos % 60);
+
+        if (h < 1) result.append(String.format("Duración: %2dmin\n", m));
+        else if (m == 0)  result.append(String.format("Duración: %dh\n", h));
+        else  result.append(String.format("Duración: %dh %dmin\n", h, m)); 
+
         result.append("Recursos:\n");
         for (int i = 0; i < actRecursos; i++) {
             result.append(String.format("- %s\n", recursos[i]));
