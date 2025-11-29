@@ -48,9 +48,9 @@ public class Utilidades {
     public static String minutosAHora(int minutos) {
        int digito1 =  minutos / 60;
        int digito2 =  minutos % 60;
-        StringBuilder horaEnFormato = new StringBuilder();
-        horaEnFormato.append(String.format("%02d:%02d",digito1,digito2));
-        return horaEnFormato.toString();
+        String horaEnFormato;
+        horaEnFormato = String.format("%02d:%02d",digito1,digito2);
+        return horaEnFormato;
     }
 
     public static String formatearDuracion(int duracionMinutos) {
