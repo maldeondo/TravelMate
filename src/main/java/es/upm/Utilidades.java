@@ -35,28 +35,47 @@ public class Utilidades {
     // Métodos de conversión de formatos
     // =========================================================================
 
-    public static int horaAMinutos(String hora) {
-        // Convierte una hora en formato "HH:MM" a minutos desde medianoche
-        return 0; // @todo MODIFICAR PARA DEVOLVER LOS MINUTOS
-    }
+    // Metodos sin manejo de excepciones porque ya son tratados anteriormente
 
+    public static int horaAMinutos(String hora) {
+        String digito1 = hora.split(":")[0];
+        String digito2 = hora.split(":")[1];
+        int horas = Integer.parseInt(digito1);
+        int minutos = Integer.parseInt(digito2);
+        int minutosDesde = horas * 60 + minutos;
+        return minutosDesde;
+    }
     public static String minutosAHora(int minutos) {
-        // Convierte minutos desde medianoche a formato "HH:MM"
-        return null; // @todo MODIFICAR PARA DEVOLVER LA HORA EN FORMATO HH:MM
+       int digito1 =  minutos / 60;
+       int digito2 =  minutos % 60;
+        String horaEnFormato;
+        horaEnFormato = String.format("%02d:%02d",digito1,digito2);
+        return horaEnFormato;
     }
 
     public static String formatearDuracion(int duracionMinutos) {
-        // Formatea una duración en minutos a formato legible (ej: 90 -> "1h 30min")
-        return null; // @todo MODIFICAR PARA DEVOLVER LA DURACIÓN FORMATEADA
+        int digito1 =  duracionMinutos / 60;
+        int digito2 =  duracionMinutos % 60;
+        String minutos;
+
+        if(duracionMinutos < 60) minutos = String.format("%2dmin", digito2);
+        else if(digito2 == 0) minutos = String.format("%dh", digito1);
+        else minutos = String.format("%dh %2dmin", digito1, digito2);
+
+        return minutos;
     }
 
     public static String formatearPrecio(double precio) {
-        // Formatea un precio a formato legible (ej: 12.50 -> "12.50 €")
-        return null; // @todo MODIFICAR PARA DEVOLVER EL PRECIO FORMATEADO
-    }
 
+        String precioEnFormato;
+        precioEnFormato = String.format("%.2f €", precio);
+        return precioEnFormato.replace(",",".");
+    }
+/* Problema de coherencia: El enunciado me pide que de los valores separando los decimales con puntos
+   pero Intel solo reconoce datos de entrada como decimales si van con coma.
+ */
     public static double cadenaAPrecio(String precioStr) {
-        // Convierte una cadena con precio (ej: "12.50 €") a double
-        return 0.0; // @todo MODIFICAR PARA DEVOLVER EL PRECIO COMO DOUBLE
+        String cadena = precioStr.replace("€","").replace(",",".").trim();
+        return Double.parseDouble(cadena);
     }
 }
