@@ -81,13 +81,50 @@ public class CatalogoActividades {
         PrintWriter actividad = new PrintWriter(archivo);
         for (int i = 0; i < actActividades; i++) {
             Actividad actividadActual = arrayActividades[i];
-            if (actividadActual != null) actividad.println(actividadActual.toRawString());
+            if (actividadActual != null) actividad.print(actividadActual.toRawString());
 
         }
+
         actividad.close();
     }
 
     public void cargarActividades(String nombreArchivo, int maxRecursos, int maxComentarios) throws IOException {
+        FileReader archivo = new FileReader(nombreArchivo);
+        BufferedReader actividad = new BufferedReader(archivo);
+        String linea;
+        int contador = 0;
+        /* Lector de actividades hasta final de linea y no mas actividades
+         que las que permite el catalogo
+        */
+        /* Es necesario guardar el .readLine() dentro de una variable
+           para poder trabajar sobre la primera linea que se lee
+        */
 
+        while ((linea = actividad.readLine()) != null && contador < maxActividades){
+
+            // Asignar a la nueva actividad su nombre, descripcion, precio y duracion.
+            String nombre = linea;
+            Actividad nuevaActividad = new Actividad(nombre,maxRecursos,maxComentarios);
+            nuevaActividad.setDescripcion(actividad.readLine());
+            nuevaActividad.setPrecio(Double.parseDouble(actividad.readLine()));
+            nuevaActividad.setDuracionMinutos(Integer.parseInt(actividad.readLine()));
+
+            //Agregar todos los recursos hasta encontrar la palabra COMENTARIOS
+            while((linea = actividad.readLine()) != null && !linea.equals("COMENTARIOS")){
+                if(nuevaActividad.getNumRecursos() < maxRecursos){
+                    nuevaActividad.agregarRecurso(linea);
+                }
+            }
+
+            //Agregar todos los comentarios hasta encontrar -----
+            while((linea = actividad.readLine()) != null && !linea.equals("-----")){
+                if(nuevaActividad.getNumComentarios() < maxComentarios){
+                    nuevaActividad.agregarComentario(linea);
+                }
+            }
+            //Agregar actividad al catalogo
+            agregarActividad(nuevaActividad);
+            contador++;
+        }
     }
 }
