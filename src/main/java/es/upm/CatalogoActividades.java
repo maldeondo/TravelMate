@@ -1,9 +1,5 @@
 package es.upm;
-import java.io.IOException;
-import java.io.BufferedWriter;
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.FileReader;
+import java.io.*;
 
 public class CatalogoActividades {
 
@@ -24,12 +20,18 @@ public class CatalogoActividades {
         arrayActividades = new Actividad[maxActividades];
     }
 
-    public boolean actividadesCompletas() { return actActividades == maxActividades; }
+    public boolean actividadesCompletas() {
+        return actActividades == maxActividades;
+    }
 
-    public int getNumActividades() { return actActividades; }
+    public int getNumActividades() {
+        return actActividades;
+    }
 
 
-    private static boolean validEntry(Actividad act) { return (act != null); }
+    private static boolean validEntry(Actividad act) {
+        return (act != null);
+    }
 
     public int agregarActividad(Actividad actividad) {
         int exitcode;
@@ -64,9 +66,9 @@ public class CatalogoActividades {
                 arrayActividades[i] = arrayActividades[i + 1];
             }
             actActividades--;
-        }    
-        
-        return target_found; 
+        }
+
+        return target_found;
     }
 
     public Actividad[] buscarActividadPorNombre(String texto) {
@@ -75,10 +77,17 @@ public class CatalogoActividades {
     }
 
     public void guardarActividades(String nombreArchivo) throws IOException {
-        // Guarda todas las actividades en un archivo de texto usando su representación compacta
+        FileWriter archivo = new FileWriter(nombreArchivo);
+        PrintWriter actividad = new PrintWriter(archivo);
+        for (int i = 0; i < actActividades; i++) {
+            Actividad actividadActual = arrayActividades[i];
+            if (actividadActual != null) actividad.println(actividadActual.toRawString());
+
+        }
+        actividad.close();
     }
 
     public void cargarActividades(String nombreArchivo, int maxRecursos, int maxComentarios) throws IOException {
-        // Carga actividades desde un archivo de texto previamente guardado
+
     }
 }
