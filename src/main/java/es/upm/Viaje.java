@@ -11,14 +11,18 @@ public class Viaje {
     public static final int ERROR_DIA_COMPLETO = 2;
     public static final int ERROR_SOLAPAMIENTO = 3;
 
+    //Atributos
+    private int numDias;
+    private int maxActividades;
+    private int actividadesTotales;
+
     public Viaje(int numDias, int maxActividades) {
-        // Crea un viaje con número de días y máximo de actividades por día
+        this.numDias = numDias;
+        this.maxActividades = maxActividades;
+        actividadesTotales = numDias * maxActividades;
     }
 
-    public int getNumDias() {
-        // Devuelve el número total de días del viaje
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL NÚMERO DE DÍAS
-    }
+    public int getNumDias() {return numDias;}
 
     public int agregarActividad(int dia, Actividad actividad, String horaInicio) {
         // Agrega una actividad a un día dado si es válido, no está completo y no hay solapamientos
