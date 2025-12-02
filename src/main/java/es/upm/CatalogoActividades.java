@@ -2,9 +2,7 @@ package es.upm;
 import java.io.*;
 
 public class CatalogoActividades {
-
-    // by doc
-    private final int maxActividades;
+    private int maxActividades; //should be final, but won't compile
     private int actActividades = 0;
 
     // array aproach, the data structure is not specified by doc
@@ -15,9 +13,12 @@ public class CatalogoActividades {
     public static final int ERROR_DEMASIADOS = 2;
 
     public CatalogoActividades(int maxActividades) {
-        this.maxActividades = maxActividades;
+        if (maxActividades > 0) {
+            this.maxActividades = maxActividades;
 
-        arrayActividades = new Actividad[maxActividades];
+            arrayActividades = new Actividad[maxActividades];
+        }
+        
     }
 
     public boolean actividadesCompletas() {
@@ -29,14 +30,12 @@ public class CatalogoActividades {
     }
 
 
-    private static boolean validEntry(Actividad act) {
-        return (act != null);
-    }
+    private static boolean notNullEntry(Actividad act) { return (act != null); }
 
     public int agregarActividad(Actividad actividad) {
         int exitcode;
 
-        if (!validEntry(actividad)) exitcode = ERROR_ACTIVIDAD_NULL;
+        if (!notNullEntry(actividad)) exitcode = ERROR_ACTIVIDAD_NULL;
         else if (actividadesCompletas()) exitcode = ERROR_DEMASIADOS;
         else {
             arrayActividades[actActividades] = actividad;
@@ -52,28 +51,64 @@ public class CatalogoActividades {
         int target_index = -1;
         boolean target_found = false;
 
-        // find the target
-        for (int i = 0; i < actActividades; i++) {
-            if (arrayActividades[i] == seleccionada) {
-                target_index = i;
-                target_found = true;
+        if (!notNullEntry(seleccionada)) System.out.println("null");
+        else {
+            // find the target
+            for (int i = 0; i < actActividades; i++) {
+                if (arrayActividades[i] == seleccionada) {
+                    target_index = i;
+                    target_found = true;
+                }
             }
-        }
 
-        // replace each entry after the removed target
-        if (target_found) {
-            for (int i = target_index; i < actActividades - 1; i++) {
-                arrayActividades[i] = arrayActividades[i + 1];
-            }
-            actActividades--;
+            // replace each entry after the removed target
+            if (target_found) {
+                for (int i = target_index; i < actActividades - 1; i++) {
+                    arrayActividades[i] = arrayActividades[i + 1];
+                }
+                actActividades--;
+            }  
         }
-
-        return target_found;
+  
+        return target_found; 
     }
 
     public Actividad[] buscarActividadPorNombre(String texto) {
-        // Devuelve actividades cuyo nombre contenga el texto indicado
-        return null; // @todo MODIFICAR PARA DEVOLVER LAS ACTIVIDADES QUE COINCIDEN
+
+        // create the void array before so to check if texto is a null pointer
+        Actividad[] target_array = {};
+
+        if (texto != null) {
+            int[] index_array = new int[maxActividades];
+            texto = texto.toLowerCase();
+            
+            int target_count = 0;
+
+            // search for targets and save its index into the temp index_array
+            for (int i = 0; i < actActividades; i++) {
+
+                // check if the LOWERCASE name contains any LOWERCASE substring
+                // that matches with the provided texto
+                if (arrayActividades[i].getNombre().toLowerCase().contains(texto)) {
+
+                    // index_array[i] = i would result in an array with "jumps"
+                    // here target_count is recycled to get a continious array
+                    index_array[target_count] = i;
+                    target_count++;
+                }
+            }
+
+            target_array = new Actividad[target_count];
+
+            for (int i = 0; i < target_count; i++) {
+
+                // build target_array with the main arrayActividades value ONLY using
+                // the correct indexes found previously (which are inside index_array)
+                target_array[i] = arrayActividades[index_array[i]];
+            }
+        }
+
+        return target_array;
     }
 
     public void guardarActividades(String nombreArchivo) throws IOException {
