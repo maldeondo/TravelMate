@@ -17,9 +17,11 @@ public class Viaje {
     private int actividadesTotales;
 
     public Viaje(int numDias, int maxActividades) {
-        this.numDias = numDias;
-        this.maxActividades = maxActividades;
-        actividadesTotales = numDias * maxActividades;
+        if (numDias > 0 && maxActividades > 0 ) {
+            this.numDias = numDias;
+            this.maxActividades = maxActividades;
+            actividadesTotales = numDias * maxActividades;
+        } else System.out.println("Estos valores no tienen sentido");
     }
 
     public int getNumDias() {return numDias;}
