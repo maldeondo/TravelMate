@@ -77,12 +77,10 @@ public class CatalogoActividades {
     }
 
     public void guardarActividades(String nombreArchivo) throws IOException {
-        FileWriter archivo = new FileWriter(nombreArchivo);
-        PrintWriter actividad = new PrintWriter(archivo);
-        for (int i = 0; i < actActividades; i++) {
-            Actividad actividadActual = arrayActividades[i];
-            if (actividadActual != null) actividad.print(actividadActual.toRawString());
+        PrintWriter actividad = new PrintWriter(nombreArchivo);
 
+        for (int i = 0; i < actActividades; i++) {
+            actividad.print(arrayActividades[i].toRawString());
         }
 
         actividad.close();
@@ -125,6 +123,8 @@ public class CatalogoActividades {
             //Agregar actividad al catalogo
             agregarActividad(nuevaActividad);
             contador++;
+
+            actividad.close();
         }
     }
 }
