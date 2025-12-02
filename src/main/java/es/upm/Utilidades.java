@@ -105,15 +105,12 @@ public class Utilidades {
         String digito2 = hora.split(":")[1];
         int horas = Integer.parseInt(digito1);
         int minutos = Integer.parseInt(digito2);
-        int minutosDesde = horas * 60 + minutos;
-        return minutosDesde;
+        return horas * 60 + minutos;
     }
     public static String minutosAHora(int minutos) {
        int digito1 =  minutos / 60;
        int digito2 =  minutos % 60;
-        String horaEnFormato;
-        horaEnFormato = String.format("%02d:%02d",digito1,digito2);
-        return horaEnFormato;
+        return String.format("%02d:%02d",digito1,digito2);
     }
 
     public static String formatearDuracion(int duracionMinutos) {
@@ -129,16 +126,12 @@ public class Utilidades {
     }
 
     public static String formatearPrecio(double precio) {
-
-        String precioEnFormato;
-        precioEnFormato = String.format("%.2f €", precio);
-        return precioEnFormato.replace(",",".");
+        return String.format("%.2f €", precio);
     }
 /* Problema de coherencia: El enunciado me pide que de los valores separando los decimales con puntos
    pero Intel solo reconoce datos de entrada como decimales si van con coma.
  */
     public static double cadenaAPrecio(String precioStr) {
-        String cadena = precioStr.replace("€","").replace(",",".").trim();
-        return Double.parseDouble(cadena);
+        return Double.parseDouble(precioStr.replace("€","").trim());
     }
 }
