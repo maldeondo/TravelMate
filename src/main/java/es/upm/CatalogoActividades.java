@@ -4,6 +4,7 @@ import java.io.*;
 public class CatalogoActividades {
     private int maxActividades; //should be final, but won't compile
     private int actActividades = 0;
+    private static final String SEPARATOR = "-----";
 
     // array aproach, the data structure is not specified by doc
     private Actividad[] arrayActividades;
@@ -122,8 +123,10 @@ public class CatalogoActividades {
     }
 
     public void cargarActividades(String nombreArchivo, int maxRecursos, int maxComentarios) throws IOException {
-
+        /*
         FileReader archivo = new FileReader(nombreArchivo);
+
+        
         BufferedReader actividad = new BufferedReader(archivo);
         String linea;
         int contador = 0;
@@ -132,7 +135,7 @@ public class CatalogoActividades {
         */
         /* Es necesario guardar el .readLine() dentro de una variable
            para poder trabajar sobre la primera linea que se lee
-        */
+        
 
         while ((linea = actividad.readLine()) != null && contador < maxActividades && !actividadesCompletas()){
 
@@ -161,5 +164,25 @@ public class CatalogoActividades {
 
         }
         actividad.close();
+        */
+        FileReader archivo = new FileReader(nombreArchivo);
+        BufferedReader block;
+        Actividad result;
+
+        String[] inputArray = archivo.toString().split("-----");
+        StringReader strReader;
+
+        for (int i = 0; (i < inputArray.length) && (i < maxActividades); i++) {
+            inputArray[i] += "\n-----\n";
+            strReader = new StringReader(inputArray[i]);
+
+            block = new BufferedReader(strReader);
+
+            result = Actividad.fromBufferedReader(block, maxRecursos, maxComentarios);
+
+            agregarActividad(result);
+        }
+
+        archivo.close();
     }
 }
