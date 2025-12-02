@@ -87,6 +87,7 @@ public class CatalogoActividades {
     }
 
     public void cargarActividades(String nombreArchivo, int maxRecursos, int maxComentarios) throws IOException {
+
         FileReader archivo = new FileReader(nombreArchivo);
         BufferedReader actividad = new BufferedReader(archivo);
         String linea;
@@ -98,11 +99,10 @@ public class CatalogoActividades {
            para poder trabajar sobre la primera linea que se lee
         */
 
-        while ((linea = actividad.readLine()) != null && contador < maxActividades){
+        while ((linea = actividad.readLine()) != null && contador < maxActividades && !actividadesCompletas()){
 
             // Asignar a la nueva actividad su nombre, descripcion, precio y duracion.
-            String nombre = linea;
-            Actividad nuevaActividad = new Actividad(nombre,maxRecursos,maxComentarios);
+            Actividad nuevaActividad = new Actividad(linea,maxRecursos,maxComentarios);
             nuevaActividad.setDescripcion(actividad.readLine());
             nuevaActividad.setPrecio(Double.parseDouble(actividad.readLine()));
             nuevaActividad.setDuracionMinutos(Integer.parseInt(actividad.readLine()));
@@ -124,7 +124,7 @@ public class CatalogoActividades {
             agregarActividad(nuevaActividad);
             contador++;
 
-            actividad.close();
         }
+        actividad.close();
     }
 }
