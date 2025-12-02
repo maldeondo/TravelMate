@@ -1,10 +1,12 @@
 package es.upm;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class CatalogoActividades {
     private int maxActividades; //should be final, but won't compile
     private int actActividades = 0;
-    private static final String SEPARATOR = "-----";
+    private static final String SEPARATOR = "\n-----\n";
 
     // array aproach, the data structure is not specified by doc
     private Actividad[] arrayActividades;
@@ -123,66 +125,21 @@ public class CatalogoActividades {
     }
 
     public void cargarActividades(String nombreArchivo, int maxRecursos, int maxComentarios) throws IOException {
-        /*
-        FileReader archivo = new FileReader(nombreArchivo);
-
-        
-        BufferedReader actividad = new BufferedReader(archivo);
-        String linea;
-        int contador = 0;
-        /* Lector de actividades hasta final de linea y no mas actividades
-         que las que permite el catalogo
-        */
-        /* Es necesario guardar el .readLine() dentro de una variable
-           para poder trabajar sobre la primera linea que se lee
-        
-
-        while ((linea = actividad.readLine()) != null && contador < maxActividades && !actividadesCompletas()){
-
-            // Asignar a la nueva actividad su nombre, descripcion, precio y duracion.
-            Actividad nuevaActividad = new Actividad(linea,maxRecursos,maxComentarios);
-            nuevaActividad.setDescripcion(actividad.readLine());
-            nuevaActividad.setPrecio(Double.parseDouble(actividad.readLine()));
-            nuevaActividad.setDuracionMinutos(Integer.parseInt(actividad.readLine()));
-
-            //Agregar todos los recursos hasta encontrar la palabra COMENTARIOS
-            while((linea = actividad.readLine()) != null && !linea.equals("COMENTARIOS")){
-                if(nuevaActividad.getNumRecursos() < maxRecursos){
-                    nuevaActividad.agregarRecurso(linea);
-                }
-            }
-
-            //Agregar todos los comentarios hasta encontrar -----
-            while((linea = actividad.readLine()) != null && !linea.equals("-----")){
-                if(nuevaActividad.getNumComentarios() < maxComentarios){
-                    nuevaActividad.agregarComentario(linea);
-                }
-            }
-            //Agregar actividad al catalogo
-            agregarActividad(nuevaActividad);
-            contador++;
-
-        }
-        actividad.close();
-        */
-        FileReader archivo = new FileReader(nombreArchivo);
+        String file = Files.readString(Path.of(nombreArchivo));
         BufferedReader block;
-        Actividad result;
 
-        String[] inputArray = archivo.toString().split("-----");
-        StringReader strReader;
+        String[] inputArray = file.split(SEPARATOR);
+        Reader strReader = null;
 
         for (int i = 0; (i < inputArray.length) && (i < maxActividades); i++) {
-            inputArray[i] += "\n-----\n";
+            inputArray[i] += SEPARATOR;
+
             strReader = new StringReader(inputArray[i]);
 
             block = new BufferedReader(strReader);
 
-            result = Actividad.fromBufferedReader(block, maxRecursos, maxComentarios);
-
-            agregarActividad(result);
+            agregarActividad(Actividad.fromBufferedReader(block, maxRecursos, maxComentarios));
         }
 
-        archivo.close();
     }
 }
