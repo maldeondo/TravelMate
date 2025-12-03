@@ -27,8 +27,8 @@ public class Viaje {
     public int getNumDias() {return numDias;}
 
     public int agregarActividad(int dia, Actividad actividad, String horaInicio) {
-        // Agrega una actividad a un día dado si es válido, no está completo y no hay solapamientos
-        return 0; // @todo MODIFICAR PARA DEVOLVER CÓDIGOS EXITO/ERROR
+
+        return 0;
     }
 
 
