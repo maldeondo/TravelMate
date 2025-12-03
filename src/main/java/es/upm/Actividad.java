@@ -20,6 +20,9 @@ public class Actividad {
     private int actRecursos = 0;
     private int actComentarios = 0;
 
+    private static final String FIRST_SEPARATOR = "COMENTARIOS";
+    private static final String SECOND_SEPARATOR = "-----";
+
     // ---------------------------
     // Constantes de códigos de error
     // ---------------------------
@@ -144,7 +147,7 @@ public class Actividad {
 
         result.append(String.format("Actividad: %s\n", nombre));
         result.append(String.format("Descripción: %s\n", descripcion));
-        result.append(String.format("Precio: %.2f €\n", precio));
+        result.append(String.format("Precio: %.2f €\n", precio).replace(',', '.'));
 
         int h = (int) (duracionMinutos / 60); int m = (int) (duracionMinutos % 60);
 
@@ -169,7 +172,7 @@ public class Actividad {
         StringBuilder raw = new StringBuilder();
         raw.append(String.format("%s\n",nombre));
         raw.append(String.format("%s\n", descripcion));
-        raw.append(String.format("%.2f\n", precio));
+        raw.append(String.format("%.2f\n", precio).replace(',', '.').replaceAll("0$", ""));
         raw.append(String.format("%d\n", duracionMinutos));
         for (int i = 0; i < actRecursos; i++){
             raw.append(String.format("%s\n", recursos[i]));
@@ -182,11 +185,30 @@ public class Actividad {
         return raw.append("\n").toString();
     }
 
-    public static Actividad fromBufferedReader(
-            BufferedReader reader,
-            int maxRecursos,
-            int maxComentarios) throws IOException {
-        // Devuelve la actividad leída de un BufferedReader
-        return null; // @todo MODIFICAR PARA DEVOLVER LA ACTIVIDAD LEÍDA
+    public static Actividad fromBufferedReader(BufferedReader reader, int maxRecursos, int maxComentarios) throws IOException {
+        String linea;
+        int count = 0;
+        Actividad result = new Actividad(reader.readLine(), maxRecursos, maxComentarios);
+    
+            result.setDescripcion(reader.readLine());
+            result.setPrecio(Double.parseDouble(reader.readLine()));
+            result.setDuracionMinutos(Integer.parseInt(reader.readLine()));
+
+            while (!((linea = reader.readLine()).equals(FIRST_SEPARATOR))) {
+                if (count < maxRecursos) {
+                    result.agregarRecurso(linea);
+                    count++;
+                }
+            }
+            count = 0;
+
+            while (!((linea = reader.readLine()).equals(SECOND_SEPARATOR))) {
+                if (count < maxComentarios) {
+                    result.agregarComentario(linea);
+                    count++;
+                }
+            }
+
+        return result;
     }
 }
