@@ -147,7 +147,7 @@ public class Actividad {
 
         result.append(String.format("Actividad: %s\n", nombre));
         result.append(String.format("Descripción: %s\n", descripcion));
-        result.append(String.format("Precio: %.2f €\n", precio).replace(',', '.'));
+        result.append(String.format("Precio: %.2f €\n", precio));
 
         int h = (int) (duracionMinutos / 60); int m = (int) (duracionMinutos % 60);
 
@@ -172,7 +172,7 @@ public class Actividad {
         StringBuilder raw = new StringBuilder();
         raw.append(String.format("%s\n",nombre));
         raw.append(String.format("%s\n", descripcion));
-        raw.append(String.format("%.2f\n", precio).replace(',', '.').replaceAll("0$", ""));
+        raw.append(String.format("%.2f\n", precio).replaceAll("0$", ""));
         raw.append(String.format("%d\n", duracionMinutos));
         for (int i = 0; i < actRecursos; i++){
             raw.append(String.format("%s\n", recursos[i]));
