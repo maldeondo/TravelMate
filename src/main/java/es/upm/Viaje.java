@@ -14,7 +14,6 @@ public class Viaje {
     //Atributos
     private int numDias; // Numero de dias que dura el viaje
     private int maxActividades; // Maximo de actividades por dia
-    private int actividadesTotales; // Actividades totales en todo el viaje
     private Actividad[][] matrizActividades; // Para ordenar las actividades de cada dia
     private String[][] horasInicio; // Array con las horas iniciales de cada actividad en un dia
 
@@ -22,7 +21,6 @@ public class Viaje {
         if (numDias > 0 && maxActividades > 0 ) {
             this.numDias = numDias;
             this.maxActividades = maxActividades;
-            actividadesTotales = numDias * maxActividades;
             matrizActividades = new Actividad[numDias][maxActividades];
             horasInicio = new String[numDias][maxActividades];
         } else System.out.println("Estos valores no tienen sentido");
@@ -153,7 +151,7 @@ public class Viaje {
 
     @Override
     public String toString() {
-        // Devuelve la representación textual del itinerario
+
         return null; // @todo MODIFICAR PARA DEVOLVER LA REPRESENTACIÓN TEXTUAL
     }
 
