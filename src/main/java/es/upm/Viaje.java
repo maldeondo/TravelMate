@@ -152,10 +152,34 @@ public class Viaje {
     @Override
     public String toString() {
         StringBuilder itinerario = new StringBuilder();
-        for(int dia = 1; dia <= numDias; dia++) {
+        int totalActividades = 0;
+        double precio = 0;
+        itinerario.append("-------------------------------------------------------------------\n");
+        //Print de los giones + el dia cada dia
+        for(int dia = 0; dia < numDias; dia++) {
+            itinerario.append(String.format("Dia %d\n",dia + 1));
+            itinerario.append("-------------------------------------------------------------------\n");
+            //Si no hay actividades en el dia = (No hay actividades)
+            if(obtenerActividadesDia(dia) == null) itinerario.append("(No hay actividades)\n");
+            // Print de las actividades por cada dia
+            else {
+                int numActividades = getNumActividadesDia(dia);
+                for (int j = 0; j < numActividades; j++) {
+                    Actividad actividad = matrizActividades[dia][j];
+                    itinerario.append(String.format("%s %s\n", horasInicio[dia][j], actividad.getNombre()));
+                    totalActividades++;
+                    precio += actividad.getPrecio();
+                }
+            }
+            //Guion final y resumen de gastos
+            itinerario.append("-------------------------------------------------------------------\n");
+            itinerario.append("Resumen:\n");
+            itinerario.append(String.format("- Dias: %d\n", numDias));
+            itinerario.append(String.format("- Actividades: %d\n", totalActividades));
+            itinerario.append(String.format("- Precio: %s\n", Utilidades.formatearPrecio(precio)));
         }
 
-        return null;
+        return itinerario.toString();
     }
 
     public void guardarItinerario(String nombreArchivo) throws IOException {
