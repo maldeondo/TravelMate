@@ -30,11 +30,34 @@ public class Viaje {
 
     public int getNumDias() {return numDias;}
 
-    public boolean diaValido(int dia){ return (dia >= 0 && dia <= numDias);}
+    public boolean diaValido(int dia){ return (dia >= 0 && dia < numDias);}
 
     public int agregarActividad(int dia, Actividad actividad, String horaInicio) {
+        // Comprobacion dia valido
+        if(!diaValido(dia)){ return ERROR_DIA_INVALIDO;}
 
-        return 0;
+        // Comprobacion dia con espacio para ctividades
+        int numActividades = getNumActividadesDia(dia);
+        if(numActividades >= maxActividades){ return ERROR_DIA_COMPLETO;}
+
+        //Commprobacion solapamiento
+        int horaActividadInicio = Utilidades.horaAMinutos(horaInicio);
+        int horaActividadFinal = horaActividadInicio + actividad.getDuracionMinutos();
+        for(int i = 0; i < numActividades; i++){
+            String horaVieja = horasInicio[dia][i];
+            Actividad actividadVieja = matrizActividades[dia][i];
+            int horaViejaInicio = Utilidades.horaAMinutos(horaVieja);
+            int horaViejaFinal = horaViejaInicio + actividadVieja.getDuracionMinutos();
+            // Si la horaInicio del existente es mayor que la final del nuevo, entonces nunca se solapan ( siempre menor )
+            // Si la hotraFinal existente es menor que la inicial del nuevo, nunca se solapan ( siempre mayor )
+            if(!(horaViejaInicio >= horaActividadFinal || horaViejaFinal <= horaActividadInicio)){return ERROR_SOLAPAMIENTO;}
+        }
+        //Añadir actividad y ordenarla
+        matrizActividades[dia][numActividades] = actividad;
+        horasInicio[dia][numActividades] = horaInicio;
+        ordenarActividadesDia(dia);
+
+        return EXITO;
     }
 
     private void ordenarActividadesDia(int dia) {
