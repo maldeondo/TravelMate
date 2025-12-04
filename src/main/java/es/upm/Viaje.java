@@ -16,7 +16,7 @@ public class Viaje {
     private int maxActividades; // Maximo de actividades por dia
     private int actividadesTotales; // Actividades totales en todo el viaje
     private Actividad[][] matrizActividades; // Para ordenar las actividades de cada dia
-    private String[] horasInicio; // Array con las horas iniciales de cada actividad en un dia
+    private String[][] horasInicio; // Array con las horas iniciales de cada actividad en un dia
 
     public Viaje(int numDias, int maxActividades) {
         if (numDias > 0 && maxActividades > 0 ) {
@@ -24,31 +24,58 @@ public class Viaje {
             this.maxActividades = maxActividades;
             actividadesTotales = numDias * maxActividades;
             matrizActividades = new Actividad[numDias][maxActividades];
-            horasInicio = new String[maxActividades];
+            horasInicio = new String[numDias][maxActividades];
         } else System.out.println("Estos valores no tienen sentido");
     }
 
     public int getNumDias() {return numDias;}
+
+    public boolean diaValido(int dia){ return (dia >= 0 && dia <= numDias);}
 
     public int agregarActividad(int dia, Actividad actividad, String horaInicio) {
 
         return 0;
     }
 
-
-    // No he visto esta funcion porque no sale en el enunciado pero su funcion
-    // se hace en obtenerActividad
     private void ordenarActividadesDia(int dia) {
-        // Ordena las actividades de un día por hora de inicio (método de burbuja)
+        if(diaValido(dia)){
+
+           int numActividades = getNumActividadesDia(dia);
+            // Si hay menos de dos actividades no hay que ordenar nada
+            if(numActividades >= 2){
+                //Metodo buble sort para asegurar que se hace el suficiente numero de ordenamientos
+                for(int i = 0; i < numActividades - 1; i++){
+                    for(int j = 0; j < numActividades - 1; j++){
+                        int hora1 = Utilidades.horaAMinutos(horasInicio[dia][j]);
+                        int hora2 = Utilidades.horaAMinutos(horasInicio[dia][j + 1]);
+                        if(hora1 > hora2){
+                            /*
+                            Guardamos la primera actividad(desordenada) en actividadPrimera, luego hacemos que la actividad
+                            en la posicion j+1 vaya a j y por ultimo que actividadPrimera vaya a la posicion j+1
+                             */
+                            Actividad actividadPrimera = matrizActividades[dia][j];
+                            matrizActividades[dia][j] = matrizActividades[dia][j + 1];
+                            matrizActividades[dia][j + 1] = actividadPrimera;
+                            // Lo mismo con las horas
+                            String horaPrimera = horasInicio[dia][j];
+                            horasInicio[dia][j] = horasInicio[dia][j + 1];
+                            horasInicio[dia][j + 1] = horaPrimera;
+                        }
+
+                    }
+                }
+
+            }
+        }
     }
 
     public boolean eliminarActividad(int dia, String horaInicio) {
         for(int i = 0; i < maxActividades; i++){
-            if(horasInicio[i] != null && horasInicio[i].equals(horaInicio)){
+            if(horasInicio[dia][i] != null && horasInicio[dia][i].equals(horaInicio)){
 
                 // Eliminar la actividad
                 matrizActividades[dia][i] = null;
-                horasInicio[i] = null;
+                horasInicio[dia][i] = null;
 
                 /*Eliminar hueco vacio, le restamos 1 a maxActividades porque como
                  estamos mirando el de la derecha y poniendolo a la izquierda si
@@ -56,14 +83,15 @@ public class Viaje {
                  */
                 for(int j = i; j < maxActividades - 1; j++){
                     matrizActividades[dia][j] = matrizActividades[dia][j+1];
-                    horasInicio[j] =  horasInicio[j+1];
+                    horasInicio[dia][j] =  horasInicio[dia][j+1];
                 }
 
                 //Limpiamos ultimo hueco vacio del array
                 matrizActividades[dia][maxActividades - 1] = null;
-                horasInicio[maxActividades - 1] = null;
+                horasInicio[dia][maxActividades - 1] = null;
+                return true;
             }
-            return true;
+
         }
         return false;
     }
@@ -71,45 +99,19 @@ public class Viaje {
     public Actividad[] obtenerActividadesDia(int dia) {
 
         //Solo dias validos
-        if (dia < 0 || dia > numDias) return new Actividad[0];
+        if (!diaValido(dia)) return new Actividad[0];
 
         // Si no hay actividades ese dia se devuelve array vacio
         int numActividades = getNumActividadesDia(dia);
         if (numActividades == 0) return new Actividad[0];
 
-        // Meter en un array las actividades de un dia
+        //Ordenamos las actividades del dia
+        ordenarActividadesDia(dia);
+
+        // Meter en un array las actividades de un dia ya ordenados
         Actividad[] actividades = new Actividad[numActividades];
-        String[] horasOrden = new String[numActividades];
-        int posicion = 0;
-        for (int i = 0; i < numActividades; i++){
-            actividades[posicion] = matrizActividades[dia][i];
-            horasOrden[posicion] = horasInicio[i];
-            posicion++;
-        }
-
-        // Intercambiar actividades que no esten en orden por tiempo
-        // Se necesitan dos for porque con uno no son suficientes comprobaciones
-        // for desde 0 porque son valores del array y -1 numActividades porque
-        // numActividades empieza desde 1
-        for(int i = 0; i < numActividades - 1; i++){
-            for(int j = 0; j < numActividades - 1; j++){
-                int hora1 = Utilidades.horaAMinutos(horasOrden[j]);
-                int hora2 = Utilidades.horaAMinutos(horasOrden[j + 1]);
-
-                if(hora1 > hora2){
-                    /* actividadPrimera apunta al primer valor del array, el primer valor
-                    apunta al segundo y por ultimo el segundo apunta al actividadPrimera
-                    apuntaba al primer array y asi se cambian los valores
-                     */
-                    Actividad actividadPrimera = actividades[j];
-                    actividades[j] = actividades[j + 1];
-                    actividades[j + 1] = actividadPrimera;
-                    // Lo mismo con las horas
-                    String horaPrimera = horasOrden[j];
-                    horasOrden[j] = horasOrden[j + 1];
-                    horasOrden[j + 1] = horaPrimera;
-                }
-            }
+        for(int i = 0; i < numActividades; i++){
+            actividades[i] = matrizActividades[dia][i];
         }
         return actividades;
     }
