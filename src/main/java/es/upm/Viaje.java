@@ -93,8 +93,10 @@ public class Viaje {
     }
 
     public boolean eliminarActividad(int dia, String horaInicio) {
-        for(int i = 0; i < maxActividades; i++){
-            if(horasInicio[dia][i] != null && horasInicio[dia][i].equals(horaInicio)){
+        if(!diaValido(dia)){return false;}
+        int numActividades = getNumActividadesDia(dia);
+        for(int i = 0; i < numActividades; i++){
+            if(horasInicio[dia][i].equals(horaInicio)){
 
                 // Eliminar la actividad
                 matrizActividades[dia][i] = null;
@@ -104,14 +106,14 @@ public class Viaje {
                  estamos mirando el de la derecha y poniendolo a la izquierda si
                  mirasemos a la derecha del limite nos daria una excepcion
                  */
-                for(int j = i; j < maxActividades - 1; j++){
+                for(int j = i; j < numActividades - 1; j++){
                     matrizActividades[dia][j] = matrizActividades[dia][j+1];
                     horasInicio[dia][j] =  horasInicio[dia][j+1];
                 }
 
                 //Limpiamos ultimo hueco vacio del array
-                matrizActividades[dia][maxActividades - 1] = null;
-                horasInicio[dia][maxActividades - 1] = null;
+                matrizActividades[dia][numActividades - 1] = null;
+                horasInicio[dia][numActividades - 1] = null;
                 return true;
             }
 
@@ -141,6 +143,7 @@ public class Viaje {
 
 // Metodo para obtener el numero de actividades de un dia contcreto
     public int getNumActividadesDia(int dia) {
+        if (!diaValido(dia)) return 0;
         int numActividades = 0;
         for(int i = 0; i < maxActividades; i++){
             if(matrizActividades[dia][i] != null) numActividades++;
