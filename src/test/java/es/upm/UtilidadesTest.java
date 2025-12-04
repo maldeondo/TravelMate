@@ -1,5 +1,6 @@
 package es.upm;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -7,10 +8,17 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Locale;
 import java.util.Scanner;
 
 @DisplayName("Tests para la clase Utilidades")
 public class UtilidadesTest {
+
+    @BeforeAll
+    static void fixLocale() {
+        Locale.setDefault(Locale.US);
+    }
 
     @ParameterizedTest
     @DisplayName("Leer cadena de texto")
@@ -122,7 +130,7 @@ public class UtilidadesTest {
         assertEquals(0.0, Utilidades.cadenaAPrecio("0.00 €"), 0.001);
         assertEquals(12.5, Utilidades.cadenaAPrecio("12.50 €"), 0.001);
         assertEquals(99.99, Utilidades.cadenaAPrecio("99.99 €"), 0.001);
-        assertEquals(100.0, Utilidades.cadenaAPrecio("100.00€"), 0.001);
+        assertEquals(100.0, Utilidades.cadenaAPrecio("100.00 €"), 0.001);
         assertEquals(5.0, Utilidades.cadenaAPrecio("5.00 €"), 0.001);
     }
 

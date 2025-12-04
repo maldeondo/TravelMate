@@ -91,12 +91,15 @@ main
     ├── feature/cli-setup
     ├── feature/trip-planner
     ├── feature/data-storage
-    └── feature/...
+    ├── feature/...
+    ├── doc/Section1
+    ├── doc/pages10-12
+    └── doc/...    
 ```
 
 - `main` -> Stable branch, always containing the latest reviewed and approved version.
 - `develop` -> Integration branch where new features are merged and tested
-- `feature/` -> Temporary branches for new functionalities or fixes (won't be deleted after use)
+- `feature/` + `doc/` -> Temporary branches for new functionalities or fixes (won't be deleted after use)
 
 
 Rules:
@@ -104,7 +107,7 @@ Rules:
 1. The `main` branch is **only** used for production code. Devs are **NOT** intended to work on `main` branch.
 2. Therefore `main` branch will **only** change through merges coming from pull requests. (`main` <- `develop`)
 3. Using `--amend` or changing any existing commit is **forbidden**.
-4. No branch should ever be removed, even `feature/` ones after being finished.
+4. No branch should ever be removed, even `feature/` + `doc/` ones after being finished.
 
 
 Example Workflow:
@@ -112,7 +115,7 @@ Example Workflow:
 1. Create a new branch **always** from `develop`:
 ```text
 $ git checkout develop (changes active branch to develop)
-$ git checkout -b feature/[new-functionality] (creates a new branch)
+$ git checkout -b [feature/doc]/[new-functionality] (creates a new branch)
 ```
 2. Implement and commit your changes until the branch has reached its goal.
 3. Open a Pull Request to merge into `develop`.

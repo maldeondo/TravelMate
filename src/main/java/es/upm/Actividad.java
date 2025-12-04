@@ -4,6 +4,24 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class Actividad {
+    // Taken from doc, the following private data is necessary
+    private String nombre = "";
+    private String descripcion = ""; 
+
+    private String[] recursos;
+    private String[] comentarios;
+
+    private int duracionMinutos = 0;
+    private int maxRecursos = 0;
+    private int maxComentarios = 0;
+    private double precio = 0.0;
+
+    // Made by us
+    private int actRecursos = 0;
+    private int actComentarios = 0;
+
+    private static final String FIRST_SEPARATOR = "COMENTARIOS";
+    private static final String SECOND_SEPARATOR = "-----";
 
     // ---------------------------
     // Constantes de códigos de error
@@ -13,106 +31,184 @@ public class Actividad {
     public static final int ERROR_RECURSOS_COMPLETOS = 2;
     public static final int ERROR_COMENTARIOS_COMPLETOS = 3;
 
-    public Actividad(String nombre,
-                     int maxRecursos,
-                     int maxComentarios) {
-        // Crea una actividad con límites máximos para recursos y comentarios
-    }
-    public String getNombre() {
-        // Devuelve el nombre de la actividad
-        return null; // @todo MODIFICAR PARA DEVOLVER EL NOMBRE
+    public Actividad(String nombre,int maxRecursos, int maxComentarios) {
+        if (maxRecursos > 0 && maxComentarios > 0) {
+            this.nombre = nombre; 
+            this.maxRecursos = maxRecursos; 
+            this.maxComentarios = maxComentarios;
+
+            recursos = new String[maxRecursos];
+            comentarios = new String[maxComentarios];
+        } else System.out.println("Valores negativos.");
     }
 
-    public String getDescripcion() {
-        // Devuelve la descripción de la actividad
-        return null; // @todo MODIFICAR PARA DEVOLVER LA DESCRIPCIÓN
-    }
-    public void setDescripcion(String descripcion) {
-        // Setea la descripción de la actividad
+    // These methods could fail handling wrong values, 
+    // a try catch block should be implemented (probably in other class)
+
+    public String getNombre() { return nombre; }
+
+
+    public String getDescripcion() { return descripcion; }
+
+    public void setDescripcion(String descripcion) { 
+        if (!voidChars(descripcion)) this.descripcion = descripcion; 
     }
 
-    public double getPrecio() {
-        // Devuelve el precio de la actividad
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL PRECIO
-    }
-    public void setPrecio(double precio) {
-        // Setea el precio de la actividad
+
+    public double getPrecio() { return precio; }
+
+    public void setPrecio(double precio) { 
+        if (precio >= 0) this.precio = precio; 
     }
 
-    public int getDuracionMinutos() {
-        // Devuelve la duración de la actividad
-        return 0; // @todo MODIFICAR PARA DEVOLVER LA DURACIÓN
-    }
-    public void setDuracionMinutos(int duracionMinutos) {
-        // Setea la duración de la actividad
-    }
 
-    public int getMaxRecursos() {
-        // Devuelve el máximo de recursos que puede usar la actividad
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL MÁXIMO DE RECURSOS
-    }
+    public int getDuracionMinutos() { return duracionMinutos; }
 
-    public int getMaxComentarios() {
-        // Devuelve el máximo de comentarios que puede haber en la actividad
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL MÁXIMO DE COMENTARIOS
-    }
+    public void setDuracionMinutos(int duracionMinutos) { this.duracionMinutos = duracionMinutos; }
 
-    public int agregarRecurso(String recurso) {
-        // Agrega un recurso a la actividad si no se ha alcanzado el máximo.
-        return 0; // @todo MODIFICAR PARA DEVOLVER CÓDIGO DE EXITO/ERROR
+    
+    public int getMaxRecursos() { return maxRecursos; }
+
+    public int getMaxComentarios() { return maxComentarios; }
+
+
+    public int agregarRecurso (String recurso) {
+        int result;
+        
+        // The voidChars function is called to check whether "recurso"
+        // is a non-valid string
+
+        if (voidChars(recurso)) result = ERROR_VALOR_INVALIDO;
+        else if (!recursosCompletos()) {
+            addToArray(recursos, recurso, actRecursos);
+            actRecursos++;
+
+            result = EXITO;
+        } else result = ERROR_RECURSOS_COMPLETOS;
+
+        return result;
     }
 
     public int agregarComentario(String comentario) {
-        // Agrega un comentario a la actividad si no se ha alcanzado el máximo.
-        return 0; // @todo MODIFICAR PARA DEVOLVER CÓDIGO DE EXITO/ERROR
+        int result;
+        
+        // The voidChars function is called to check whether "recurso"
+        // is a non-valid string
+        
+        if (voidChars(comentario)) result = ERROR_VALOR_INVALIDO;
+        else if (!comentariosCompletos()) {
+            addToArray(comentarios, comentario, actComentarios);
+            actComentarios++;
+
+            result = EXITO;
+        } else result = ERROR_COMENTARIOS_COMPLETOS;
+
+        return result;
     }
 
-    public String[] getRecursos() {
-        // Devuelve el array interno de recursos (puede estar parcialmente lleno)
-        return null; // @todo MODIFICAR PARA DEVOLVER EL ARRAY DE RECURSOS
+    private static boolean voidChars(String data) {
+        boolean blank = true; char data_char;
+
+        if (data != null && data != "") {
+            for (int i = 0; i < data.length(); i++) {
+                data_char = data.charAt(i);
+
+                if (data_char != 9 && data_char != 10 && data_char != 32) blank = false;
+            }
+        }
+
+        // returns true if the string is either null, void, or made only by \t \n or spaces
+        return blank;
     }
 
-    public String[] getComentarios() {
-        // Devuelve el array interno de comentarios (puede estar parcialmente lleno).
-        return null; // @todo MODIFICAR PARA DEVOLVER EL ARRAY DE COMENTARIOS
+    // both agregar methods use this one to modify the array    
+    private void addToArray(String[] array, String object, int position) {
+        array[position] = object;
     }
+    
 
-    public boolean recursosCompletos() {
-        // Devuelve si se alcanzó el máximo de recursos
-        return true; // @todo MODIFICAR PARA DEVOLVER SI EL ARRAY DE RECURSOS ESTÁ LLENO
-    }
+    public String[] getRecursos() { return recursos; }
 
-    public boolean comentariosCompletos() {
-        // Devuelve si se alcanzó el máximo de comentarios
-        return true; // @todo MODIFICAR PARA DEVOLVER SI EL ARRAY DE COMENTARIOS ESTÁ LLENO
-    }
+    public String[] getComentarios() { return comentarios; }
 
-    public int getNumRecursos() {
-        // Devuelve el número actual de recursos almacenados
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL NÚMERO DE RECURSOS
-    }
 
-    public int getNumComentarios() {
-        // Devuelve el número actual de comentarios almacenados
-        return 0; // @todo MODIFICAR PARA DEVOLVER EL NÚMERO DE COMENTARIOS
-    }
+    public boolean recursosCompletos() { return actRecursos == maxRecursos; }
+
+    public boolean comentariosCompletos() { return actComentarios == maxComentarios; }
+
+
+    public int getNumRecursos() { return actRecursos; }
+
+    public int getNumComentarios() { return actComentarios; }
 
     @Override
     public String toString() {
-        // Devuelve la representación textual completa de la actividad
-        return null; // @todo MODIFICAR PARA DEVOLVER LA REPRESENTACIÓN TEXTUAL
+        StringBuilder result = new StringBuilder();
+
+        result.append(String.format("Actividad: %s\n", nombre));
+        result.append(String.format("Descripción: %s\n", descripcion));
+        result.append(String.format("Precio: %.2f €\n", precio));
+
+        int h = (int) (duracionMinutos / 60); int m = (int) (duracionMinutos % 60);
+
+        if (h < 1) result.append(String.format("Duración: %2dmin\n", m));
+        else if (m == 0)  result.append(String.format("Duración: %dh\n", h));
+        else  result.append(String.format("Duración: %dh %dmin\n", h, m)); 
+
+        result.append("Recursos:\n");
+        for (int i = 0; i < actRecursos; i++) {
+            result.append(String.format("- %s\n", recursos[i]));
+        }
+        
+        result.append("Comentarios:");
+        for (int i = 0; i < actComentarios; i++) {
+            result.append(String.format("\n%d. %s", (i + 1), comentarios[i]));
+        }
+       
+        return result.append("\n").toString();
     }
 
     public String toRawString() {
-        // Devuelve la representación textual compacta para guardado/carga
-        return null; // @todo MODIFICAR PARA DEVOLVER LA REPRESENTACIÓN TEXTUAL COMPACTA
+        StringBuilder raw = new StringBuilder();
+        raw.append(String.format("%s\n",nombre));
+        raw.append(String.format("%s\n", descripcion));
+        raw.append(String.format("%.2f\n", precio).replaceAll("0$", ""));
+        raw.append(String.format("%d\n", duracionMinutos));
+        for (int i = 0; i < actRecursos; i++){
+            raw.append(String.format("%s\n", recursos[i]));
+        }
+        raw.append("COMENTARIOS");
+        for (int i = 0; i < actComentarios; i++){
+            raw.append(String.format("\n%s", comentarios[i]));
+        }
+        raw.append("\n-----");
+        return raw.append("\n").toString();
     }
 
-    public static Actividad fromBufferedReader(
-            BufferedReader reader,
-            int maxRecursos,
-            int maxComentarios) throws IOException {
-        // Devuelve la actividad leída de un BufferedReader
-        return null; // @todo MODIFICAR PARA DEVOLVER LA ACTIVIDAD LEÍDA
+    public static Actividad fromBufferedReader(BufferedReader reader, int maxRecursos, int maxComentarios) throws IOException {
+        String linea;
+        int count = 0;
+        Actividad result = new Actividad(reader.readLine(), maxRecursos, maxComentarios);
+    
+            result.setDescripcion(reader.readLine());
+            result.setPrecio(Double.parseDouble(reader.readLine()));
+            result.setDuracionMinutos(Integer.parseInt(reader.readLine()));
+
+            while (!((linea = reader.readLine()).equals(FIRST_SEPARATOR))) {
+                if (count < maxRecursos) {
+                    result.agregarRecurso(linea);
+                    count++;
+                }
+            }
+            count = 0;
+
+            while (!((linea = reader.readLine()).equals(SECOND_SEPARATOR))) {
+                if (count < maxComentarios) {
+                    result.agregarComentario(linea);
+                    count++;
+                }
+            }
+
+        return result;
     }
 }
