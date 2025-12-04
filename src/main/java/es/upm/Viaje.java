@@ -151,8 +151,11 @@ public class Viaje {
 
     @Override
     public String toString() {
+        StringBuilder itinerario = new StringBuilder();
+        for(int dia = 1; dia <= numDias; dia++) {
+        }
 
-        return null; // @todo MODIFICAR PARA DEVOLVER LA REPRESENTACIÓN TEXTUAL
+        return null;
     }
 
     public void guardarItinerario(String nombreArchivo) throws IOException {
