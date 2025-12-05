@@ -190,12 +190,14 @@ public class Viaje {
         PrintWriter itinerario = new PrintWriter(nombreArchivo);
         double precio = 0;
         int totalActividades = 0;
+        //Primer for para cada dia
         for(int dia = 0; dia < numDias; dia++){
             int numActividades = getNumActividadesDia(dia);
             itinerario.printf("Día %d:", dia + 1);
+            //Si no hay actividades se ponen tres guiones y se pasa al siguiente dia
             if(numActividades == 0)itinerario.println(" ---");
             else {
-
+                //Print de todas las actividades en la misma linea, el primero es distinto porque empieza sin ;
                 for(int j = 0; j < numActividades; j++){
                     Actividad actividad = matrizActividades[dia][j];
                     if(j == 0)itinerario.printf(" %s %s (dur %s, %s)", horasInicio[dia][j], actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
@@ -208,6 +210,7 @@ public class Viaje {
                 itinerario.println("");
             }
         }
+        // Resumen del viaje
         itinerario.printf("Resumen: Días: %d; Actividades: %d; Precio total: %s\n", numDias, totalActividades, Utilidades.formatearPrecio(precio));
         itinerario.close();
     }
