@@ -44,42 +44,58 @@ public class Viaje {
         return matrActividades[dia].getCatalogo()[index];
     }
 
-    public int agrActividad(int dia, Actividad actividad, String horaInicio) {
+    public int agregarActividad(int dia, Actividad actividad, String horaInicio) {
         Actividad target;
-        int result = -1;
-        int minFinal;
+        int exitcode = -1;
+        int minutos = Utilidades.horaAMinutos(horaInicio);
         int potential;
 
-        if (!diaValido(dia)) result = ERROR_DIA_INVALIDO;
-        else if (catalogoLleno(dia)) result = ERROR_DIA_COMPLETO;
+        int horaFinalAnterior = 0;
+        int horaInicialPosterior = 1000;
+
+        if (!diaValido(dia)) exitcode = ERROR_DIA_INVALIDO;
+        else if (catalogoLleno(dia)) exitcode = ERROR_DIA_COMPLETO;
+        else if (matrActividades[dia].getNumActividades() == 0) {
+            actividad.setHora(minutos);
+            matrActividades[dia].agregarActividad(actividad);
+
+            exitcode = EXITO;
+        }
         else {
-            actividad.setHora(Utilidades.horaAMinutos(horaInicio));
+            exitcode = EXITO;
+            
+            actividad.setHora(minutos);
 
             potential = matrActividades[dia].indexHora(actividad.getHora());
             target = getActividadfromMatrix(dia, potential);
             
-            if (potential == 0 || potential == matrActividades[dia].getNumActividades()) {
-                matrActividades[dia].agregarActividad(actividad);
-            } else {
-                int horaFinalAnterior = getActividadfromMatrix(dia, potential - 1).getHora();
-                int horaInicialPosterior = getActividadfromMatrix(dia, potential + 1).getHora();
+            if (potential == 0) {
+                horaInicialPosterior = getActividadfromMatrix(dia, potential + 1).getHora();
 
+            } 
+            else if (potential == matrActividades[dia].getNumActividades()) {
+                horaFinalAnterior = getActividadfromMatrix(dia, potential - 1).getHora();
+                horaFinalAnterior += getActividadfromMatrix(dia, potential - 1).getDuracionMinutos();
+            
+            } 
+            else {
+                horaFinalAnterior = getActividadfromMatrix(dia, potential - 1).getHora();
+                horaFinalAnterior += getActividadfromMatrix(dia, potential - 1).getDuracionMinutos();
 
-                //if ()
-                matrActividades[dia].insertarActividad(actividad, potential);
+                horaInicialPosterior = getActividadfromMatrix(dia, potential + 1).getHora();
+            }   
+
+            if (minutos < horaFinalAnterior || (minutos + actividad.getDuracionMinutos()) > horaInicialPosterior){
+                exitcode = ERROR_SOLAPAMIENTO;
             }
-
+            else {
+                matrActividades[dia].insertarActividad(actividad, potential);
+            } 
         }
-
-        return result;
+        return exitcode;
     }
 
-    private void arrayAdd() {
-
-    }
-
-
-    public int agregarActividad(int dia, Actividad actividad, String horaInicio) {
+    public int agregaActividad(int dia, Actividad actividad, String horaInicio) {
         // Comprobacion dia valido
         if(!diaValido(dia)){ return ERROR_DIA_INVALIDO;}
 
@@ -167,6 +183,26 @@ public class Viaje {
         }
         return false;
     }
+
+    public boolean elimActividad(int dia, String horaInicio) {
+        boolean exitcode = false;
+        int minutos = Utilidades.horaAMinutos(horaInicio);
+        Actividad target;
+
+        if (diaValido(dia)) {
+            for (int i = 0; i < matrActividades[dia].getNumActividades(); i++) {
+                target = getActividadfromMatrix(dia, i);
+                
+                if (minutos == target.getDuracionMinutos()) {
+                    matrActividades[dia].eliminarActividad(target);
+                    exitcode = true;
+                }
+            }
+        }
+
+        return exitcode;
+    }
+
     // Metodo para obtener actividades de un dia especifico ordenadas por hora
     public Actividad[] obtenerActividadesDia(int dia) {
 
