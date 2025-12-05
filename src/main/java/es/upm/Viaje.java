@@ -161,23 +161,27 @@ public class Viaje {
             itinerario.append(String.format("Día %d\n",dia + 1));
             itinerario.append("-------------------------------------------------------------------\n");
             //Si no hay actividades en el dia = (No hay actividades)
-            if(numActividades == 0) itinerario.append("(No hay actividades)\n");
+            if(numActividades == 0) {
+                itinerario.append("(No hay actividades)\n");
+                itinerario.append("\n-------------------------------------------------------------------\n");
+            }
             // Print de las actividades por cada dia
             else {
                 for (int j = 0; j < numActividades; j++) {
                     Actividad actividad = matrizActividades[dia][j];
                     itinerario.append(String.format("%s %s\n", horasInicio[dia][j], actividad.getNombre()));
+                    itinerario.append("\n-------------------------------------------------------------------\n");
                     totalActividades++;
                     precio += actividad.getPrecio();
                 }
             }
-            //Guion final y resumen de gastos
-            itinerario.append("-------------------------------------------------------------------\n");
-            itinerario.append("Resumen:\n");
-            itinerario.append(String.format("- Días: %d\n", numDias));
-            itinerario.append(String.format("- Actividades: %d\n", totalActividades));
-            itinerario.append(String.format("- Precio: %s\n", Utilidades.formatearPrecio(precio)));
+
         }
+        //Guion final y resumen de gastos
+        itinerario.append("Resumen:\n");
+        itinerario.append(String.format("- Días: %d\n", numDias));
+        itinerario.append(String.format("- Actividades: %d\n", totalActividades));
+        itinerario.append(String.format("- Precio: %s\n", Utilidades.formatearPrecio(precio)));
 
         return itinerario.toString();
     }
@@ -187,21 +191,24 @@ public class Viaje {
         double precio = 0;
         int totalActividades = 0;
         for(int dia = 0; dia < numDias; dia++){
-            itinerario.printf("Dia %d:", dia + 1);
-            if(obtenerActividadesDia(dia) == null)itinerario.println(" ---");
+            int numActividades = getNumActividadesDia(dia);
+            itinerario.printf("Día %d:", dia + 1);
+            if(numActividades == 0)itinerario.println(" ---");
             else {
-                int numActividades = getNumActividadesDia(dia);
+
                 for(int j = 0; j < numActividades; j++){
                     Actividad actividad = matrizActividades[dia][j];
-                    itinerario.printf(" %s %s (dur %s, %s);", horasInicio[dia][j], actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
+                    if(j == 0)itinerario.printf(" %s %s (dur %s, %s)", horasInicio[dia][j], actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
+                            Utilidades.formatearPrecio(actividad.getPrecio()));
+                    else itinerario.printf("; %s %s (dur %s, %s)", horasInicio[dia][j], actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
                             Utilidades.formatearPrecio(actividad.getPrecio()));
                     precio += actividad.getPrecio();
                     totalActividades++;
                 }
-                itinerario.println("\b");
-                itinerario.printf("Resumen:Dias: %d; Actividades: %d; Precio Total: %f", numDias, totalActividades, Utilidades.formatearPrecio(precio));
+                itinerario.println("");
             }
         }
+        itinerario.printf("Resumen: Días: %d; Actividades: %d; Precio total: %s\n", numDias, totalActividades, Utilidades.formatearPrecio(precio));
         itinerario.close();
     }
 }
