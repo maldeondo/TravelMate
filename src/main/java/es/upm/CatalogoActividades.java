@@ -32,13 +32,17 @@ public class CatalogoActividades {
         return actActividades;
     }
 
+    public Actividad[] getCatalogo() {
+        return arrayActividades;
+    }
 
-    private static boolean notNullEntry(Actividad act) { return (act != null); }
+
+    private static boolean nullEntry(Actividad act) { return (act == null); }
 
     public int agregarActividad(Actividad actividad) {
         int exitcode;
 
-        if (!notNullEntry(actividad)) exitcode = ERROR_ACTIVIDAD_NULL;
+        if (nullEntry(actividad)) exitcode = ERROR_ACTIVIDAD_NULL;
         else if (actividadesCompletas()) exitcode = ERROR_DEMASIADOS;
         else {
             arrayActividades[actActividades] = actividad;
@@ -54,7 +58,7 @@ public class CatalogoActividades {
         int target_index = -1;
         boolean target_found = false;
 
-        if (!notNullEntry(seleccionada)) System.out.println("null");
+        if (nullEntry(seleccionada)) System.out.println("null");
         else {
             // find the target
             for (int i = 0; i < actActividades; i++) {
@@ -74,6 +78,25 @@ public class CatalogoActividades {
         }
   
         return target_found; 
+    }
+
+    public int insertarActividad(Actividad actividad, int index) {
+        int exitcode;
+
+        if (nullEntry(actividad)) exitcode = ERROR_ACTIVIDAD_NULL;
+        else if (actividadesCompletas()) exitcode = ERROR_DEMASIADOS;
+        else {
+            for (int i = actActividades - 1; i > index; i--) {
+                arrayActividades[i] = arrayActividades[i - 1];
+            }
+
+            arrayActividades[index] = actividad;
+            actActividades++;
+
+            exitcode = EXITO;
+        }
+
+        return exitcode;
     }
 
     public Actividad[] buscarActividadPorNombre(String texto) {
@@ -112,6 +135,16 @@ public class CatalogoActividades {
         }
 
         return target_array;
+    }
+
+    public int indexHora(int hora) {
+        int index = 0;
+
+        for (int i = 0; i < actActividades; i++) {
+            if (hora > arrayActividades[i].getHora()) index = i + 1;
+        }
+        
+        return index;
     }
 
     public void guardarActividades(String nombreArchivo) throws IOException {

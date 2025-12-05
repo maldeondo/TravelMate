@@ -17,8 +17,16 @@ public class Viaje {
     private Actividad[][] matrizActividades; // Para ordenar las actividades de cada dia
     private String[][] horasInicio; // Array con las horas iniciales de cada actividad en un dia
 
+    //rev1
+    private CatalogoActividades[] matrActividades;
+
     public Viaje(int numDias, int maxActividades) {
         if (numDias > 0 && maxActividades > 0 ) {
+            matrActividades = new CatalogoActividades[numDias];
+            for (int i = 0; i < numDias; i++) {
+                matrActividades[i] = new CatalogoActividades(maxActividades);
+            }
+
             this.numDias = numDias;
             this.maxActividades = maxActividades;
             matrizActividades = new Actividad[numDias][maxActividades];
@@ -26,9 +34,50 @@ public class Viaje {
         } else System.out.println("Estos valores no tienen sentido");
     }
 
-    public int getNumDias() {return numDias;}
+    public int getNumDias() { return numDias; }
 
-    public boolean diaValido(int dia){ return (dia >= 0 && dia < numDias);}
+    public boolean diaValido(int dia) { return (dia >= 0 && dia < numDias); }
+
+    private boolean catalogoLleno(int index) { return matrActividades[index].actividadesCompletas(); }
+
+    private Actividad getActividadfromMatrix(int dia, int index) {
+        return matrActividades[dia].getCatalogo()[index];
+    }
+
+    public int agrActividad(int dia, Actividad actividad, String horaInicio) {
+        Actividad target;
+        int result = -1;
+        int minFinal;
+        int potential;
+
+        if (!diaValido(dia)) result = ERROR_DIA_INVALIDO;
+        else if (catalogoLleno(dia)) result = ERROR_DIA_COMPLETO;
+        else {
+            actividad.setHora(Utilidades.horaAMinutos(horaInicio));
+
+            potential = matrActividades[dia].indexHora(actividad.getHora());
+            target = getActividadfromMatrix(dia, potential);
+            
+            if (potential == 0 || potential == matrActividades[dia].getNumActividades()) {
+                matrActividades[dia].agregarActividad(actividad);
+            } else {
+                int horaFinalAnterior = getActividadfromMatrix(dia, potential - 1).getHora();
+                int horaInicialPosterior = getActividadfromMatrix(dia, potential + 1).getHora();
+
+
+                //if ()
+                matrActividades[dia].insertarActividad(actividad, potential);
+            }
+
+        }
+
+        return result;
+    }
+
+    private void arrayAdd() {
+
+    }
+
 
     public int agregarActividad(int dia, Actividad actividad, String horaInicio) {
         // Comprobacion dia valido
