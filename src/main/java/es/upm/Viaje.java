@@ -224,6 +224,10 @@ public class Viaje {
         return actividades;
     }
 
+    public Actividad[] obtActividadesDia(int dia) {
+        return matrActividades[dia].getCatalogo();
+    }
+
 // Metodo para obtener el numero de actividades de un dia contcreto
     public int getNumActividadesDia(int dia) {
         if (!diaValido(dia)) return 0;
