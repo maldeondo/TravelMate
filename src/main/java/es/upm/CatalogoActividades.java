@@ -86,8 +86,8 @@ public class CatalogoActividades {
         if (nullEntry(actividad)) exitcode = ERROR_ACTIVIDAD_NULL;
         else if (actividadesCompletas()) exitcode = ERROR_DEMASIADOS;
         else {
-            for (int i = actActividades - 1; i > index; i--) {
-                arrayActividades[i] = arrayActividades[i - 1];
+            for (int i = index; i < actActividades; i++) {
+                arrayActividades[i + 1] = arrayActividades[i];
             }
 
             arrayActividades[index] = actividad;

@@ -47,24 +47,32 @@ public class Viaje {
         int minutos = Utilidades.horaAMinutos(horaInicio);
         int potential;
 
-        int horaFinalAnterior = 0;
-        int horaInicialPosterior = 1000;
+        int horaFinalAnterior = MINUTOS_MINIMO;
+        int horaInicialPosterior = MINUTOS_MAXIMO;
 
         if (!diaValido(dia)) exitcode = ERROR_DIA_INVALIDO;
         else if (catalogoLleno(dia)) exitcode = ERROR_DIA_COMPLETO;
         else {
+            exitcode = EXITO;
+
             actividad.setHora(minutos);
             potential = matrActividades[dia].indexHora(actividad.getHora());
             
             switch (matrActividades[dia].getNumActividades()) {
                 case 0:
-                    matrActividades[dia].agregarActividad(actividad);
+                    break;
+                    
+                case 1:
+                    if (potential == 0) {
+                        horaInicialPosterior = getActividadfromMatrix(dia, potential).getHora();
+                    } else {
+                        horaFinalAnterior = getActividadfromMatrix(dia, potential - 1).getHora();
+                        horaFinalAnterior += getActividadfromMatrix(dia, potential - 1).getDuracionMinutos();
+                    }
 
-                    exitcode = EXITO;
-                    break;      
+                    break;
+
                 default:
-                    exitcode = EXITO;
-
                     try {
                         horaInicialPosterior = getActividadfromMatrix(dia, potential + 1).getHora();
                     }
@@ -85,43 +93,12 @@ public class Viaje {
                     catch (NullPointerException exception) {
                         horaFinalAnterior = MINUTOS_MINIMO;
                     }
-
-                    if (minutos >= horaFinalAnterior || (minutos + actividad.getDuracionMinutos()) <= horaInicialPosterior){
+                    
+            }
+                    if (minutos < horaFinalAnterior || (minutos + actividad.getDuracionMinutos()) > horaInicialPosterior) {
                         exitcode = ERROR_SOLAPAMIENTO;
-                    }
+                    } else matrActividades[dia].insertarActividad(actividad, potential);
 
-                    break;
-            }
-            /* 
-            exitcode = EXITO;
-            
-            actividad.setHora(minutos);
-
-            potential = matrActividades[dia].indexHora(actividad.getHora());
-            
-            if (potential == 0) {
-                horaInicialPosterior = getActividadfromMatrix(dia, potential + 1).getHora();
-
-            } 
-            else if (potential == matrActividades[dia].getNumActividades()) {
-                horaFinalAnterior = getActividadfromMatrix(dia, potential - 1).getHora();
-                horaFinalAnterior += getActividadfromMatrix(dia, potential - 1).getDuracionMinutos();
-            
-            } 
-            else {
-                horaInicialPosterior = getActividadfromMatrix(dia, potential + 1).getHora();
-                
-                horaFinalAnterior = getActividadfromMatrix(dia, potential - 1).getHora();
-                horaFinalAnterior += getActividadfromMatrix(dia, potential - 1).getDuracionMinutos();
-            }   
-
-            if (minutos < horaFinalAnterior || (minutos + actividad.getDuracionMinutos()) > horaInicialPosterior){
-                exitcode = ERROR_SOLAPAMIENTO;
-            }
-            else {
-                matrActividades[dia].insertarActividad(actividad, potential);
-            } 
-*/
 
         }
         return exitcode;
@@ -133,10 +110,10 @@ public class Viaje {
         Actividad target;
 
         if (diaValido(dia)) {
-            for (int i = 0; i < matrActividades[dia].getNumActividades(); i++) {
+            for (int i = 0; i < getNumActividadesDia(dia); i++) {
                 target = getActividadfromMatrix(dia, i);
                 
-                if (minutos == target.getDuracionMinutos()) {
+                if (minutos == target.getHora()) {
                     matrActividades[dia].eliminarActividad(target);
                     exitcode = true;
                 }
