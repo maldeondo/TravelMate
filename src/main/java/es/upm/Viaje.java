@@ -11,16 +11,19 @@ public class Viaje {
     public static final int ERROR_DIA_COMPLETO = 2;
     public static final int ERROR_SOLAPAMIENTO = 3;
 
+    // Constantes para la comprobación de solapamiento
     private static final int MINUTOS_MINIMO = 0;
     private static final int MINUTOS_MAXIMO = Utilidades.horaAMinutos("23:59");
 
     //Atributos
     private int numDias; // Numero de dias que dura el viaje
-    //rev1
-    private CatalogoActividades[] matrActividades;
+    private CatalogoActividades[] matrActividades; // Array de catalogos (Matriz de actividades)
 
     public Viaje(int numDias, int maxActividades) {
         if (numDias > 0 && maxActividades > 0 ) {
+
+            // La matriz se fija a tamaño numDias y se llena de catálogos
+            // vacíos de tamaño maxActividades
             matrActividades = new CatalogoActividades[numDias];
             for (int i = 0; i < numDias; i++) {
                 matrActividades[i] = new CatalogoActividades(maxActividades);
@@ -36,64 +39,87 @@ public class Viaje {
 
     private boolean catalogoLleno(int index) { return matrActividades[index].actividadesCompletas(); }
 
-    private Actividad getActividadfromMatrix(int dia, int index) {
-        return matrActividades[dia].getCatalogo()[index];
+    // Provee una forma más intuitiva de usar la matriz
+    private Actividad getActividadfromMatrix(int dia, int actividad) {
+        return matrActividades[dia].getCatalogo()[actividad];
     }
 
     public int agregarActividad(int dia, Actividad actividad, String horaInicio) {
         int exitcode = -1;
+
         int inicio = Utilidades.horaAMinutos(horaInicio);
         int fin = inicio + actividad.getDuracionMinutos();
-        int target;
+
+        int posicion;
 
         if (!diaValido(dia)) exitcode = ERROR_DIA_INVALIDO;
         else if (catalogoLleno(dia)) exitcode = ERROR_DIA_COMPLETO;
         else {
             exitcode = EXITO;
 
+            // Añade la hora directamente a la actividad (simplifica mucho el código)
             actividad.setHora(inicio);
-            target = matrActividades[dia].indexHora(actividad.getHora());
+
+            // Busca el índice en el que debe ir la actividad en función de la hora
+            posicion = buscarIndex(dia, inicio);
             
-            if (!(actividadesSolapan(dia, target, inicio, fin))) matrActividades[dia].insertarActividad(actividad, target);
-            else exitcode = ERROR_SOLAPAMIENTO;
+            if (actividadesSolapan(dia, posicion, inicio, fin)) exitcode = ERROR_SOLAPAMIENTO;
+            else matrActividades[dia].insertarActividad(actividad, posicion);
         }
 
         return exitcode;
     }
 
-    private boolean actividadesSolapan(int dia, int index, int inicio, int fin) {
+    // Esta es la forma elegida de ordenar las actividades en un día, simplemente
+    // comprueba en qué orden según hora de inicio debería "caer" la nueva actividad
+
+    // El problema con usar un algoritmo como Bubble Sort es que hace una enorme 
+    // cantidad de operaciones innecesarias, pues el problema no es de ORDENACIÓN
+    // sino de INSERCIÓN/BÚSQUEDA
+
+    // Se podría hacer binsearch, pero con el tamaño que manejan los catálogos no merece la pena
+    public int buscarIndex(int dia, int hora) {
+        int index = 0;
+
+        for (int i = 0; i < getNumActividadesDia(dia); i++) {
+            if (hora > getActividadfromMatrix(dia, i).getInicio()) index = i + 1;
+        }
+        
+        return index;
+    }
+
+    private boolean actividadesSolapan(int dia, int posicion, int inicio, int fin) {
             int horaInicialPosterior = MINUTOS_MAXIMO, horaFinalAnterior = MINUTOS_MINIMO;
 
-            switch (matrActividades[dia].getNumActividades()) {
+            switch (getNumActividadesDia(dia)) {
                 case 0:
+                    // Se añade la actividad directamente
                     break;
                     
                 case 1:
-                    if (index == 0) {
-                        horaInicialPosterior = getActividadfromMatrix(dia, index).getHora();
-                    } else {
-                        horaFinalAnterior = getActividadfromMatrix(dia, index - 1).getHora();
-                        horaFinalAnterior += getActividadfromMatrix(dia, index - 1).getDuracionMinutos();
-                    }
+                    // Cuando solo hay una actividad hay que ajustar los índices para el array
 
+                    if (posicion == 0) {
+                        horaInicialPosterior = getActividadfromMatrix(dia, posicion).getInicio();
+                    } else {
+                        horaFinalAnterior = getActividadfromMatrix(dia, posicion - 1).getInicio();
+                        horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
+                    }
                     break;
 
                 default:
                     try {
-                        horaInicialPosterior = getActividadfromMatrix(dia, index + 1).getHora();
-                    }
-                    catch (Exception exception) {}
+                        horaInicialPosterior = getActividadfromMatrix(dia, posicion + 1).getInicio();
 
-                    try {
-                        horaFinalAnterior = getActividadfromMatrix(dia, index - 1).getHora();
-                        horaFinalAnterior += getActividadfromMatrix(dia, index - 1).getDuracionMinutos();
-                    }
-                    catch (Exception exception) {}
+                        horaFinalAnterior = getActividadfromMatrix(dia, posicion - 1).getInicio();
+                        horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
                     
+                    } catch (Exception exception) {} // Los valores de hora se quedan por defecto en MIN y MAX
             }
         
         return (inicio < horaFinalAnterior || fin > horaInicialPosterior);
     }
+    
 
     public boolean eliminarActividad(int dia, String horaInicio) {
         boolean exitcode = false;
@@ -104,7 +130,7 @@ public class Viaje {
             for (int i = 0; i < getNumActividadesDia(dia); i++) {
                 target = getActividadfromMatrix(dia, i);
                 
-                if (minutos == target.getHora()) {
+                if (minutos == target.getInicio()) {
                     matrActividades[dia].eliminarActividad(target);
                     exitcode = true;
                 }
@@ -125,6 +151,8 @@ public class Viaje {
     @Override
     public String toString() {
         StringBuilder itinerario = new StringBuilder();
+        Actividad actividad;
+        int numActividades;
 
         int totalActividades = 0;
         double precio = 0;
@@ -132,7 +160,7 @@ public class Viaje {
         
         //Print de los giones + el dia cada dia
         for(int dia = 0; dia < numDias; dia++) {
-            int numActividades = matrActividades[dia].getNumActividades();
+            numActividades = getNumActividadesDia(dia);
             itinerario.append(String.format("Día %d\n",dia + 1));
             itinerario.append("-------------------------------------------------------------------\n");
             //Si no hay actividades en el dia = (No hay actividades)
@@ -143,8 +171,8 @@ public class Viaje {
             // Print de las actividades por cada dia
             else {
                 for (int j = 0; j < numActividades; j++) {
-                    Actividad actividad = getActividadfromMatrix(dia, j);
-                    itinerario.append(String.format("%s %s\n", actividad.getHora(), actividad.getNombre()));
+                    actividad = getActividadfromMatrix(dia, j);
+                    itinerario.append(String.format("%s %s\n", actividad.getInicio(), actividad.getNombre()));
                     itinerario.append("\n-------------------------------------------------------------------\n");
                     totalActividades++;
                     precio += actividad.getPrecio();

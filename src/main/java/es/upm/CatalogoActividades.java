@@ -137,16 +137,6 @@ public class CatalogoActividades {
         return target_array;
     }
 
-    public int indexHora(int hora) {
-        int index = 0;
-
-        for (int i = 0; i < actActividades; i++) {
-            if (hora > arrayActividades[i].getHora()) index = i + 1;
-        }
-        
-        return index;
-    }
-
     public void guardarActividades(String nombreArchivo) throws IOException {
         PrintWriter actividad = new PrintWriter(nombreArchivo);
 

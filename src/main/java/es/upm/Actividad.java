@@ -19,7 +19,7 @@ public class Actividad {
     // Made by us
     private int actRecursos = 0;
     private int actComentarios = 0;
-    private int horaInicio = 0;
+    private int minutosInicio = 0;
 
     private static final String FIRST_SEPARATOR = "COMENTARIOS";
     private static final String SECOND_SEPARATOR = "-----";
@@ -64,9 +64,9 @@ public class Actividad {
 
     public void setDuracionMinutos(int duracionMinutos) { this.duracionMinutos = duracionMinutos; }
 
-    public int getHora() { return horaInicio; }
+    public int getInicio() { return minutosInicio; }
 
-    public void setHora(int hora) { this.horaInicio = hora; }
+    public void setHora(int hora) { this.minutosInicio = hora; }
 
     public int getMaxRecursos() { return maxRecursos; }
 
