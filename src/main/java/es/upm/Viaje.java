@@ -16,7 +16,6 @@ public class Viaje {
 
     //Atributos
     private int numDias; // Numero de dias que dura el viaje
-    private int maxActividades; // Maximo de actividades por dia
     //rev1
     private CatalogoActividades[] matrActividades;
 
@@ -28,7 +27,6 @@ public class Viaje {
             }
 
             this.numDias = numDias;
-            this.maxActividades = maxActividades;
         } else System.out.println("Estos valores no tienen sentido");
     }
 
@@ -44,64 +42,57 @@ public class Viaje {
 
     public int agregarActividad(int dia, Actividad actividad, String horaInicio) {
         int exitcode = -1;
-        int minutos = Utilidades.horaAMinutos(horaInicio);
-        int potential;
-
-        int horaFinalAnterior = MINUTOS_MINIMO;
-        int horaInicialPosterior = MINUTOS_MAXIMO;
+        int inicio = Utilidades.horaAMinutos(horaInicio);
+        int fin = inicio + actividad.getDuracionMinutos();
+        int target;
 
         if (!diaValido(dia)) exitcode = ERROR_DIA_INVALIDO;
         else if (catalogoLleno(dia)) exitcode = ERROR_DIA_COMPLETO;
         else {
             exitcode = EXITO;
 
-            actividad.setHora(minutos);
-            potential = matrActividades[dia].indexHora(actividad.getHora());
+            actividad.setHora(inicio);
+            target = matrActividades[dia].indexHora(actividad.getHora());
             
+            if (!(actividadesSolapan(dia, target, inicio, fin))) matrActividades[dia].insertarActividad(actividad, target);
+            else exitcode = ERROR_SOLAPAMIENTO;
+        }
+
+        return exitcode;
+    }
+
+    private boolean actividadesSolapan(int dia, int index, int inicio, int fin) {
+            int horaInicialPosterior = MINUTOS_MAXIMO, horaFinalAnterior = MINUTOS_MINIMO;
+
             switch (matrActividades[dia].getNumActividades()) {
                 case 0:
                     break;
                     
                 case 1:
-                    if (potential == 0) {
-                        horaInicialPosterior = getActividadfromMatrix(dia, potential).getHora();
+                    if (index == 0) {
+                        horaInicialPosterior = getActividadfromMatrix(dia, index).getHora();
                     } else {
-                        horaFinalAnterior = getActividadfromMatrix(dia, potential - 1).getHora();
-                        horaFinalAnterior += getActividadfromMatrix(dia, potential - 1).getDuracionMinutos();
+                        horaFinalAnterior = getActividadfromMatrix(dia, index - 1).getHora();
+                        horaFinalAnterior += getActividadfromMatrix(dia, index - 1).getDuracionMinutos();
                     }
 
                     break;
 
                 default:
                     try {
-                        horaInicialPosterior = getActividadfromMatrix(dia, potential + 1).getHora();
+                        horaInicialPosterior = getActividadfromMatrix(dia, index + 1).getHora();
                     }
-                    catch (IndexOutOfBoundsException exception) {
-                        horaInicialPosterior = MINUTOS_MAXIMO;
-                    }
-                    catch (NullPointerException exception) {
-                        horaInicialPosterior = MINUTOS_MAXIMO;
-                    }
+                    catch (Exception exception) {}
 
                     try {
-                        horaFinalAnterior = getActividadfromMatrix(dia, potential - 1).getHora();
-                        horaFinalAnterior += getActividadfromMatrix(dia, potential - 1).getDuracionMinutos();
+                        horaFinalAnterior = getActividadfromMatrix(dia, index - 1).getHora();
+                        horaFinalAnterior += getActividadfromMatrix(dia, index - 1).getDuracionMinutos();
                     }
-                    catch (IndexOutOfBoundsException exception) {
-                        horaFinalAnterior = MINUTOS_MINIMO;
-                    }
-                    catch (NullPointerException exception) {
-                        horaFinalAnterior = MINUTOS_MINIMO;
-                    }
+                    catch (Exception exception) {}
                     
             }
-                    if (minutos < horaFinalAnterior || (minutos + actividad.getDuracionMinutos()) > horaInicialPosterior) {
-                        exitcode = ERROR_SOLAPAMIENTO;
-                    } else matrActividades[dia].insertarActividad(actividad, potential);
-
-
-        }
-        return exitcode;
+        
+        return (inicio < horaFinalAnterior || fin > horaInicialPosterior);
     }
 
     public boolean eliminarActividad(int dia, String horaInicio) {
