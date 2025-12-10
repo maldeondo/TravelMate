@@ -66,7 +66,7 @@ public class Actividad {
 
     public int getInicio() { return minutosInicio; }
 
-    public void setHora(int hora) { this.minutosInicio = hora; }
+    public void setInicio(int hora) { this.minutosInicio = hora; }
 
     public int getMaxRecursos() { return maxRecursos; }
 

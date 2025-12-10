@@ -58,7 +58,7 @@ public class Viaje {
             exitcode = EXITO;
 
             // Añade la hora directamente a la actividad (simplifica mucho el código)
-            actividad.setHora(inicio);
+            actividad.setInicio(inicio);
 
             // Busca el índice en el que debe ir la actividad en función de la hora
             posicion = buscarIndex(dia, inicio);
@@ -109,7 +109,7 @@ public class Viaje {
 
                 default:
                     try {
-                        horaInicialPosterior = getActividadfromMatrix(dia, posicion + 1).getInicio();
+                        horaInicialPosterior = getActividadfromMatrix(dia, posicion).getInicio();
 
                         horaFinalAnterior = getActividadfromMatrix(dia, posicion - 1).getInicio();
                         horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
