@@ -152,13 +152,66 @@ public class Viaje {
     @Override
     public String toString() {
         StringBuilder itinerario = new StringBuilder();
-        for(int dia = 1; dia <= numDias; dia++) {
-        }
+        int totalActividades = 0;
+        double precio = 0;
+        itinerario.append("-------------------------------------------------------------------\n");
+        //Print de los giones + el dia cada dia
+        for(int dia = 0; dia < numDias; dia++) {
+            int numActividades = getNumActividadesDia(dia);
+            itinerario.append(String.format("Día %d\n",dia + 1));
+            itinerario.append("-------------------------------------------------------------------\n");
+            //Si no hay actividades en el dia = (No hay actividades)
+            if(numActividades == 0) {
+                itinerario.append("(No hay actividades)\n");
+                itinerario.append("\n-------------------------------------------------------------------\n");
+            }
+            // Print de las actividades por cada dia
+            else {
+                for (int j = 0; j < numActividades; j++) {
+                    Actividad actividad = matrizActividades[dia][j];
+                    itinerario.append(String.format("%s %s\n", horasInicio[dia][j], actividad.getNombre()));
+                    itinerario.append("\n-------------------------------------------------------------------\n");
+                    totalActividades++;
+                    precio += actividad.getPrecio();
+                }
+            }
 
-        return null;
+        }
+        //Guion final y resumen de gastos
+        itinerario.append("Resumen:\n");
+        itinerario.append(String.format("- Días: %d\n", numDias));
+        itinerario.append(String.format("- Actividades: %d\n", totalActividades));
+        itinerario.append(String.format("- Precio: %s\n", Utilidades.formatearPrecio(precio)));
+
+        return itinerario.toString();
     }
 
     public void guardarItinerario(String nombreArchivo) throws IOException {
-        // Guarda el itinerario en un archivo de texto (formato compacto)
+        PrintWriter itinerario = new PrintWriter(nombreArchivo);
+        double precio = 0;
+        int totalActividades = 0;
+        //Primer for para cada dia
+        for(int dia = 0; dia < numDias; dia++){
+            int numActividades = getNumActividadesDia(dia);
+            itinerario.printf("Día %d:", dia + 1);
+            //Si no hay actividades se ponen tres guiones y se pasa al siguiente dia
+            if(numActividades == 0)itinerario.println(" ---");
+            else {
+                //Print de todas las actividades en la misma linea, el primero es distinto porque empieza sin ;
+                for(int j = 0; j < numActividades; j++){
+                    Actividad actividad = matrizActividades[dia][j];
+                    if(j == 0)itinerario.printf(" %s %s (dur %s, %s)", horasInicio[dia][j], actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
+                            Utilidades.formatearPrecio(actividad.getPrecio()));
+                    else itinerario.printf("; %s %s (dur %s, %s)", horasInicio[dia][j], actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
+                            Utilidades.formatearPrecio(actividad.getPrecio()));
+                    precio += actividad.getPrecio();
+                    totalActividades++;
+                }
+                itinerario.println("");
+            }
+        }
+        // Resumen del viaje
+        itinerario.printf("Resumen: Días: %d; Actividades: %d; Precio total: %s\n", numDias, totalActividades, Utilidades.formatearPrecio(precio));
+        itinerario.close();
     }
 }
