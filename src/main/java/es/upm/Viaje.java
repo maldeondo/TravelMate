@@ -44,11 +44,15 @@ public class Viaje {
 
     public boolean diaValido(int dia) { return (dia >= 0 && dia < numDias); }
 
-    private boolean catalogoLleno(int index) { return matrActividades[index].actividadesCompletas(); }
+    private boolean catalogoLleno(int dia) { return matriz[dia].getCatalogo().actividadesCompletas(); }
 
     // Provee una forma más intuitiva de usar la matriz
     private Actividad getActividadfromMatrix(int dia, int actividad) {
         return matriz[dia].getCatalogo().getArray()[actividad];
+    }
+
+    private int getIniciofromMatrix(int dia, int actividad) {
+        return matriz[dia].getInicio(actividad);
     }
 
     public int agregarActividad(int dia, Actividad actividad, String horaInicio) {
@@ -64,14 +68,11 @@ public class Viaje {
         else {
             exitcode = EXITO;
 
-            // Añade la hora directamente a la actividad (simplifica mucho el código)
-            matriz[dia].setInicio(dia, inicio);
-
             // Busca el índice en el que debe ir la actividad en función de la hora
             posicion = buscarIndex(dia, inicio);
             
             if (actividadesSolapan(dia, posicion, inicio, fin)) exitcode = ERROR_SOLAPAMIENTO;
-            else matrActividades[dia].insertarActividad(actividad, posicion);
+            else matriz[dia].insertarActividadMatrix(actividad, posicion, inicio);
         }
 
         return exitcode;
@@ -89,7 +90,7 @@ public class Viaje {
         int index = 0;
 
         for (int i = 0; i < getNumActividadesDia(dia); i++) {
-            if (hora > getActividadfromMatrix(dia, i).getInicio()) index = i + 1;
+            if (hora > getIniciofromMatrix(dia, i)) index = i + 1;
         }
         
         return index;
@@ -107,18 +108,18 @@ public class Viaje {
                     // Cuando solo hay una actividad hay que ajustar los índices para el array
 
                     if (posicion == 0) {
-                        horaInicialPosterior = getActividadfromMatrix(dia, posicion).getInicio();
+                        horaInicialPosterior = getIniciofromMatrix(dia, posicion);
                     } else {
-                        horaFinalAnterior = getActividadfromMatrix(dia, posicion - 1).getInicio();
+                        horaFinalAnterior = getIniciofromMatrix(dia, posicion - 1);
                         horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
                     }
                     break;
 
                 default:
                     try {
-                        horaInicialPosterior = getActividadfromMatrix(dia, posicion).getInicio();
+                        horaInicialPosterior = getIniciofromMatrix(dia, posicion);
 
-                        horaFinalAnterior = getActividadfromMatrix(dia, posicion - 1).getInicio();
+                        horaFinalAnterior = getIniciofromMatrix(dia, posicion - 1);
                         horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
                     
                     } catch (Exception exception) {} // Los valores de hora se quedan por defecto en MIN y MAX
@@ -137,8 +138,8 @@ public class Viaje {
             for (int i = 0; i < getNumActividadesDia(dia); i++) {
                 target = getActividadfromMatrix(dia, i);
                 
-                if (minutos == target.getInicio()) {
-                    matrActividades[dia].eliminarActividad(target);
+                if (minutos == getIniciofromMatrix(dia, i)) {
+                    matriz[dia].eliminarActividadMatrix(target, i);
                     exitcode = true;
                 }
             }
@@ -179,7 +180,7 @@ public class Viaje {
             else {
                 for (int j = 0; j < numActividades; j++) {
                     actividad = getActividadfromMatrix(dia, j);
-                    itinerario.append(String.format("%s %s\n", Utilidades.minutosAHora(actividad.getInicio()), actividad.getNombre()));
+                    itinerario.append(String.format("%s %s\n", Utilidades.minutosAHora(getIniciofromMatrix(dia, j)), actividad.getNombre()));
                     itinerario.append("\n-------------------------------------------------------------------\n");
                     totalActividades++;
                     precio += actividad.getPrecio();
