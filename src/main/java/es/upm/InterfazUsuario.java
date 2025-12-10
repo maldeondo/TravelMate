@@ -9,7 +9,7 @@ public class InterfazUsuario {
     }
 
     public void iniciar(Scanner scanner) {
-        // Inicia el bucle del menú principal
+        while(!(scanner.hasNext("7"))) mostrarMenu();
     }
 
     private void menuPrincipal(Scanner scanner) {
@@ -17,11 +17,21 @@ public class InterfazUsuario {
     }
 
     private void mostrarMenu() {
-        // Muestra las opciones del menú principal
+        StringBuilder menu = new StringBuilder();
+        menu.append("--- Menú Principal ___");
+        menu.append("1. Agregar Actividad");
+        menu.append("2. Consultar/Editar Actividad");
+        menu.append("3. Guardar Actividades");
+        menu.append("4. Cargar Actividades");
+        menu.append("5. Planificar Viaje");
+        menu.append("6. Guardar Itinerario");
+        menu.append("7. Salir");
+        menu.append("Elige una opción:");
+        System.out.println(menu.toString());
     }
 
     private void agregarActividad(Scanner scanner) {
-        // Lee los datos de una nueva actividad y la agrega al catálogo
+
     }
 
     private void consultarActividad(Scanner scanner) {
