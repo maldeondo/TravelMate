@@ -98,33 +98,24 @@ public class Viaje {
 
     private boolean actividadesSolapan(int dia, int posicion, int inicio, int fin) {
             int horaInicialPosterior = MINUTOS_MAXIMO, horaFinalAnterior = MINUTOS_MINIMO;
+            int numActividades = getNumActividadesDia(dia);
 
-            switch (getNumActividadesDia(dia)) {
-                case 0:
-                    // Se añade la actividad directamente
-                    break;
+            if (numActividades > 0) {
+                if (posicion == 0) {
+                    horaInicialPosterior = getIniciofromMatrix(dia, posicion);
+                }
+                else if (posicion == numActividades) {
+                    horaFinalAnterior = getIniciofromMatrix(dia, posicion - 1);
+                    horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
+                } else {
+                    horaInicialPosterior = getIniciofromMatrix(dia, posicion);
+
+                    horaFinalAnterior = getIniciofromMatrix(dia, posicion - 1);
+                    horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
                     
-                case 1:
-                    // Cuando solo hay una actividad hay que ajustar los índices para el array
-
-                    if (posicion == 0) {
-                        horaInicialPosterior = getIniciofromMatrix(dia, posicion);
-                    } else {
-                        horaFinalAnterior = getIniciofromMatrix(dia, posicion - 1);
-                        horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
-                    }
-                    break;
-
-                default:
-                    try {
-                        horaInicialPosterior = getIniciofromMatrix(dia, posicion);
-
-                        horaFinalAnterior = getIniciofromMatrix(dia, posicion - 1);
-                        horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
-                    
-                    } catch (Exception exception) {} // Los valores de hora se quedan por defecto en MIN y MAX
+                }
             }
-        
+
         return (inicio < horaFinalAnterior || fin > horaInicialPosterior);
     }
     
@@ -207,14 +198,14 @@ public class Viaje {
             int numActividades = getNumActividadesDia(dia);
             itinerario.printf("Día %d:", dia + 1);
             //Si no hay actividades se ponen tres guiones y se pasa al siguiente dia
-            if(numActividades == 0)itinerario.println(" ---");
+            if(numActividades == 0) itinerario.println(" ---");
             else {
                 //Print de todas las actividades en la misma linea, el primero es distinto porque empieza sin ;
                 for(int j = 0; j < numActividades; j++){
                     actividad = getActividadfromMatrix(dia, j);
-                    if(j == 0) itinerario.printf(" %s %s (dur %s, %s)", Utilidades.minutosAHora(actividad.getInicio()), actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
+                    if(j == 0) itinerario.printf(" %s %s (dur %s, %s)", Utilidades.minutosAHora(getIniciofromMatrix(dia, j)), actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
                             Utilidades.formatearPrecio(actividad.getPrecio()));
-                    else itinerario.printf("; %s %s (dur %s, %s)", Utilidades.minutosAHora(actividad.getInicio()), actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
+                    else itinerario.printf("; %s %s (dur %s, %s)", Utilidades.minutosAHora(getIniciofromMatrix(dia, j)), actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
                             Utilidades.formatearPrecio(actividad.getPrecio()));
                     precio += actividad.getPrecio();
                     totalActividades++;

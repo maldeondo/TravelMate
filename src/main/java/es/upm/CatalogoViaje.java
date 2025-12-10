@@ -29,15 +29,15 @@ public class CatalogoViaje {
 
 
     private void insertarInicio(int indiceActividad, int minutos) {
-        for (int i = catalogo.getNumActividades() - 1; i > indiceActividad; i--) {
-            minutosInicio[i] = minutosInicio[i - 1];
+        for (int i = catalogo.getNumActividades() - 2; i >= indiceActividad; i--) {
+            minutosInicio[i + 1] = minutosInicio[i];
         }
 
         minutosInicio[indiceActividad] = minutos;
     }
 
     private void eliminarInicio(int indiceActividad) {
-        for (int i = indiceActividad; i < catalogo.getNumActividades() - 1; i++) {
+        for (int i = indiceActividad; i < catalogo.getNumActividades() - 2; i++) {
             minutosInicio[i] = minutosInicio[i + 1];
         }
     }
