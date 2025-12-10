@@ -191,6 +191,7 @@ public class Viaje {
 
     public void guardarItinerario(String nombreArchivo) throws IOException {
         PrintWriter itinerario = new PrintWriter(nombreArchivo);
+        Actividad actividad;
         double precio = 0;
         int totalActividades = 0;
         //Primer for para cada dia
@@ -202,10 +203,10 @@ public class Viaje {
             else {
                 //Print de todas las actividades en la misma linea, el primero es distinto porque empieza sin ;
                 for(int j = 0; j < numActividades; j++){
-                    Actividad actividad = matrizActividades[dia][j];
-                    if(j == 0)itinerario.printf(" %s %s (dur %s, %s)", horasInicio[dia][j], actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
+                    actividad = getActividadfromMatrix(dia, j);
+                    if(j == 0)itinerario.printf(" %s %s (dur %s, %s)", actividad.getInicio(), actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
                             Utilidades.formatearPrecio(actividad.getPrecio()));
-                    else itinerario.printf("; %s %s (dur %s, %s)", horasInicio[dia][j], actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
+                    else itinerario.printf("; %s %s (dur %s, %s)", actividad.getInicio(), actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
                             Utilidades.formatearPrecio(actividad.getPrecio()));
                     precio += actividad.getPrecio();
                     totalActividades++;
