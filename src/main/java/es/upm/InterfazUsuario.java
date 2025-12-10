@@ -4,8 +4,16 @@ import java.util.Scanner;
 
 public class InterfazUsuario {
 
+    private CatalogoActividades catalogo;
+    private Viaje viaje;
+    private int maxRecursos = 0;
+    private int maxComentarios = 0;
+
     public InterfazUsuario(CatalogoActividades catalogo, Viaje viaje, int maxRecursos, int maxComentarios) {
-        // Crea la interfaz de usuario con el catálogo y viaje proporcionados
+       this.catalogo = catalogo;
+       this.viaje = viaje;
+       this.maxRecursos = maxRecursos;
+       this.maxComentarios = maxComentarios;
     }
 
     public void iniciar(Scanner scanner) {
@@ -31,6 +39,56 @@ public class InterfazUsuario {
     }
 
     private void agregarActividad(Scanner scanner) {
+       int recursosMax = 0;
+       int comentariosMax = 0;
+        System.out.print("Nombre de la actividad: ");
+        String nombre = scanner.nextLine();
+        System.out.print("Descripción: ");
+        String descripcion = scanner.nextLine();
+        System.out.print("Precio (€): ");
+        double precio = scanner.nextDouble();
+        System.out.print("Duración (minutos): ");
+        int duracion = scanner.nextInt();
+        scanner.nextLine();
+        Actividad actividad = new Actividad(nombre, maxRecursos, maxComentarios);
+        actividad.setDescripcion(descripcion);
+        actividad.setPrecio(precio);
+        actividad.setDuracionMinutos(duracion);
+        System.out.println("Introduce los recursos (una linea por recurso, escribe 'fin' para terminar): ");
+        boolean check = true;
+        while (check){
+            String recurso = scanner.nextLine();
+            if(recurso.equals("fin")) break;
+            int error = actividad.agregarRecurso(recurso);
+            switch(error){
+                case 1:
+                    System.out.println("Valor Invalido");
+                    break;
+                case 2:
+                    System.out.println("No se pueden añadir más recursos.");
+                    check = false;
+                    break;
+            }
+        }
+        System.out.println("Introduce los comentarios (una linea por comentario, escribe 'fin' para terminar):");
+        boolean check1 = true;
+        while (check1){
+            String comentario = scanner.nextLine();
+            if(comentario.equals("fin")) break;
+            int error = actividad.agregarComentario(comentario);
+            switch(error){
+                case 1:
+                    System.out.println("Valor Invalido");
+                    break;
+                    case 3:
+                        System.out.println("No se pueden añadir más comentarios.");
+                        check1 = false;
+                        break;
+            }
+        }
+        int agregar = catalogo.agregarActividad(actividad);
+                if(agregar == 0 ) System.out.println("¡Actividad agregada exitosamente!");
+                else System.out.println("No se pueden añadir más actividades.");
 
     }
 
