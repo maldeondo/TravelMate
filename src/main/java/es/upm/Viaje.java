@@ -172,7 +172,7 @@ public class Viaje {
             else {
                 for (int j = 0; j < numActividades; j++) {
                     actividad = getActividadfromMatrix(dia, j);
-                    itinerario.append(String.format("%s %s\n", actividad.getInicio(), actividad.getNombre()));
+                    itinerario.append(String.format("%s %s\n", Utilidades.minutosAHora(actividad.getInicio()), actividad.getNombre()));
                     itinerario.append("\n-------------------------------------------------------------------\n");
                     totalActividades++;
                     precio += actividad.getPrecio();
@@ -204,9 +204,9 @@ public class Viaje {
                 //Print de todas las actividades en la misma linea, el primero es distinto porque empieza sin ;
                 for(int j = 0; j < numActividades; j++){
                     actividad = getActividadfromMatrix(dia, j);
-                    if(j == 0)itinerario.printf(" %s %s (dur %s, %s)", actividad.getInicio(), actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
+                    if(j == 0) itinerario.printf(" %s %s (dur %s, %s)", Utilidades.minutosAHora(actividad.getInicio()), actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
                             Utilidades.formatearPrecio(actividad.getPrecio()));
-                    else itinerario.printf("; %s %s (dur %s, %s)", actividad.getInicio(), actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
+                    else itinerario.printf("; %s %s (dur %s, %s)", Utilidades.minutosAHora(actividad.getInicio()), actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
                             Utilidades.formatearPrecio(actividad.getPrecio()));
                     precio += actividad.getPrecio();
                     totalActividades++;
