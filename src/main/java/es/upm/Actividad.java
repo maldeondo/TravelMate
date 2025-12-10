@@ -19,6 +19,7 @@ public class Actividad {
     // Made by us
     private int actRecursos = 0;
     private int actComentarios = 0;
+    private int minutosInicio = 0;
 
     private static final String FIRST_SEPARATOR = "COMENTARIOS";
     private static final String SECOND_SEPARATOR = "-----";
@@ -47,13 +48,11 @@ public class Actividad {
 
     public String getNombre() { return nombre; }
 
-
     public String getDescripcion() { return descripcion; }
 
     public void setDescripcion(String descripcion) { 
         if (!voidChars(descripcion)) this.descripcion = descripcion; 
     }
-
 
     public double getPrecio() { return precio; }
 
@@ -61,12 +60,14 @@ public class Actividad {
         if (precio >= 0) this.precio = precio; 
     }
 
-
     public int getDuracionMinutos() { return duracionMinutos; }
 
     public void setDuracionMinutos(int duracionMinutos) { this.duracionMinutos = duracionMinutos; }
 
-    
+    public int getInicio() { return minutosInicio; }
+
+    public void setInicio(int hora) { this.minutosInicio = hora; }
+
     public int getMaxRecursos() { return maxRecursos; }
 
     public int getMaxComentarios() { return maxComentarios; }

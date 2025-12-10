@@ -11,153 +11,156 @@ public class Viaje {
     public static final int ERROR_DIA_COMPLETO = 2;
     public static final int ERROR_SOLAPAMIENTO = 3;
 
+    // Constantes para la comprobación de solapamiento
+    private static final int MINUTOS_MINIMO = 0;
+    private static final int MINUTOS_MAXIMO = Utilidades.horaAMinutos("23:59");
+
     //Atributos
     private int numDias; // Numero de dias que dura el viaje
-    private int maxActividades; // Maximo de actividades por dia
-    private Actividad[][] matrizActividades; // Para ordenar las actividades de cada dia
-    private String[][] horasInicio; // Array con las horas iniciales de cada actividad en un dia
+    private CatalogoActividades[] matrActividades; // Array de catalogos (Matriz de actividades)
 
     public Viaje(int numDias, int maxActividades) {
         if (numDias > 0 && maxActividades > 0 ) {
+
+            // La matriz se fija a tamaño numDias y se llena de catálogos
+            // vacíos de tamaño maxActividades
+            matrActividades = new CatalogoActividades[numDias];
+            for (int i = 0; i < numDias; i++) {
+                matrActividades[i] = new CatalogoActividades(maxActividades);
+            }
+
             this.numDias = numDias;
-            this.maxActividades = maxActividades;
-            matrizActividades = new Actividad[numDias][maxActividades];
-            horasInicio = new String[numDias][maxActividades];
         } else System.out.println("Estos valores no tienen sentido");
     }
 
-    public int getNumDias() {return numDias;}
+    public int getNumDias() { return numDias; }
 
-    public boolean diaValido(int dia){ return (dia >= 0 && dia < numDias);}
+    public boolean diaValido(int dia) { return (dia >= 0 && dia < numDias); }
+
+    private boolean catalogoLleno(int index) { return matrActividades[index].actividadesCompletas(); }
+
+    // Provee una forma más intuitiva de usar la matriz
+    private Actividad getActividadfromMatrix(int dia, int actividad) {
+        return matrActividades[dia].getCatalogo()[actividad];
+    }
 
     public int agregarActividad(int dia, Actividad actividad, String horaInicio) {
-        // Comprobacion dia valido
-        if(!diaValido(dia)){ return ERROR_DIA_INVALIDO;}
+        int exitcode = -1;
 
-        // Comprobacion dia con espacio para ctividades
-        int numActividades = getNumActividadesDia(dia);
-        if(numActividades >= maxActividades){ return ERROR_DIA_COMPLETO;}
+        int inicio = Utilidades.horaAMinutos(horaInicio);
+        int fin = inicio + actividad.getDuracionMinutos();
 
-        //Commprobacion solapamiento
-        int horaActividadInicio = Utilidades.horaAMinutos(horaInicio);
-        int horaActividadFinal = horaActividadInicio + actividad.getDuracionMinutos();
-        for(int i = 0; i < numActividades; i++){
-            String horaVieja = horasInicio[dia][i];
-            Actividad actividadVieja = matrizActividades[dia][i];
-            int horaViejaInicio = Utilidades.horaAMinutos(horaVieja);
-            int horaViejaFinal = horaViejaInicio + actividadVieja.getDuracionMinutos();
-            // Si la horaInicio del existente es mayor que la final del nuevo, entonces nunca se solapan ( siempre menor )
-            // Si la hotraFinal existente es menor que la inicial del nuevo, nunca se solapan ( siempre mayor )
-            if(!(horaViejaInicio >= horaActividadFinal || horaViejaFinal <= horaActividadInicio)){return ERROR_SOLAPAMIENTO;}
+        int posicion;
+
+        if (!diaValido(dia)) exitcode = ERROR_DIA_INVALIDO;
+        else if (catalogoLleno(dia)) exitcode = ERROR_DIA_COMPLETO;
+        else {
+            exitcode = EXITO;
+
+            // Añade la hora directamente a la actividad (simplifica mucho el código)
+            actividad.setInicio(inicio);
+
+            // Busca el índice en el que debe ir la actividad en función de la hora
+            posicion = buscarIndex(dia, inicio);
+            
+            if (actividadesSolapan(dia, posicion, inicio, fin)) exitcode = ERROR_SOLAPAMIENTO;
+            else matrActividades[dia].insertarActividad(actividad, posicion);
         }
-        //Añadir actividad y ordenarla
-        matrizActividades[dia][numActividades] = actividad;
-        horasInicio[dia][numActividades] = horaInicio;
-        ordenarActividadesDia(dia);
 
-        return EXITO;
+        return exitcode;
     }
 
-    private void ordenarActividadesDia(int dia) {
-        if(diaValido(dia)){
+    // Esta es la forma elegida de ordenar las actividades en un día, simplemente
+    // comprueba en qué orden según hora de inicio debería "caer" la nueva actividad
 
-           int numActividades = getNumActividadesDia(dia);
-            // Si hay menos de dos actividades no hay que ordenar nada
-            if(numActividades >= 2){
-                //Metodo buble sort para asegurar que se hace el suficiente numero de ordenamientos
-                for(int i = 0; i < numActividades - 1; i++){
-                    for(int j = 0; j < numActividades - 1; j++){
-                        int hora1 = Utilidades.horaAMinutos(horasInicio[dia][j]);
-                        int hora2 = Utilidades.horaAMinutos(horasInicio[dia][j + 1]);
-                        if(hora1 > hora2){
-                            /*
-                            Guardamos la primera actividad(desordenada) en actividadPrimera, luego hacemos que la actividad
-                            en la posicion j+1 vaya a j y por ultimo que actividadPrimera vaya a la posicion j+1
-                             */
-                            Actividad actividadPrimera = matrizActividades[dia][j];
-                            matrizActividades[dia][j] = matrizActividades[dia][j + 1];
-                            matrizActividades[dia][j + 1] = actividadPrimera;
-                            // Lo mismo con las horas
-                            String horaPrimera = horasInicio[dia][j];
-                            horasInicio[dia][j] = horasInicio[dia][j + 1];
-                            horasInicio[dia][j + 1] = horaPrimera;
-                        }
+    // El problema con usar un algoritmo como Bubble Sort es que hace una enorme 
+    // cantidad de operaciones innecesarias, pues el problema no es de ORDENACIÓN
+    // sino de INSERCIÓN/BÚSQUEDA
 
+    // Se podría hacer binsearch, pero con el tamaño que manejan los catálogos no merece la pena
+    public int buscarIndex(int dia, int hora) {
+        int index = 0;
+
+        for (int i = 0; i < getNumActividadesDia(dia); i++) {
+            if (hora > getActividadfromMatrix(dia, i).getInicio()) index = i + 1;
+        }
+        
+        return index;
+    }
+
+    private boolean actividadesSolapan(int dia, int posicion, int inicio, int fin) {
+            int horaInicialPosterior = MINUTOS_MAXIMO, horaFinalAnterior = MINUTOS_MINIMO;
+
+            switch (getNumActividadesDia(dia)) {
+                case 0:
+                    // Se añade la actividad directamente
+                    break;
+                    
+                case 1:
+                    // Cuando solo hay una actividad hay que ajustar los índices para el array
+
+                    if (posicion == 0) {
+                        horaInicialPosterior = getActividadfromMatrix(dia, posicion).getInicio();
+                    } else {
+                        horaFinalAnterior = getActividadfromMatrix(dia, posicion - 1).getInicio();
+                        horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
                     }
-                }
+                    break;
 
+                default:
+                    try {
+                        horaInicialPosterior = getActividadfromMatrix(dia, posicion).getInicio();
+
+                        horaFinalAnterior = getActividadfromMatrix(dia, posicion - 1).getInicio();
+                        horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
+                    
+                    } catch (Exception exception) {} // Los valores de hora se quedan por defecto en MIN y MAX
             }
-        }
+        
+        return (inicio < horaFinalAnterior || fin > horaInicialPosterior);
     }
+    
 
     public boolean eliminarActividad(int dia, String horaInicio) {
-        if(!diaValido(dia)){return false;}
-        int numActividades = getNumActividadesDia(dia);
-        for(int i = 0; i < numActividades; i++){
-            if(horasInicio[dia][i].equals(horaInicio)){
+        boolean exitcode = false;
+        int minutos = Utilidades.horaAMinutos(horaInicio);
+        Actividad target;
 
-                // Eliminar la actividad
-                matrizActividades[dia][i] = null;
-                horasInicio[dia][i] = null;
-
-                /*Eliminar hueco vacio, le restamos 1 a maxActividades porque como
-                 estamos mirando el de la derecha y poniendolo a la izquierda si
-                 mirasemos a la derecha del limite nos daria una excepcion
-                 */
-                for(int j = i; j < numActividades - 1; j++){
-                    matrizActividades[dia][j] = matrizActividades[dia][j+1];
-                    horasInicio[dia][j] =  horasInicio[dia][j+1];
+        if (diaValido(dia)) {
+            for (int i = 0; i < getNumActividadesDia(dia); i++) {
+                target = getActividadfromMatrix(dia, i);
+                
+                if (minutos == target.getInicio()) {
+                    matrActividades[dia].eliminarActividad(target);
+                    exitcode = true;
                 }
-
-                //Limpiamos ultimo hueco vacio del array
-                matrizActividades[dia][numActividades - 1] = null;
-                horasInicio[dia][numActividades - 1] = null;
-                return true;
             }
-
         }
-        return false;
-    }
-    // Metodo para obtener actividades de un dia especifico ordenadas por hora
-    public Actividad[] obtenerActividadesDia(int dia) {
 
-        //Solo dias validos
-        if (!diaValido(dia)) return new Actividad[0];
-
-        // Si no hay actividades ese dia se devuelve array vacio
-        int numActividades = getNumActividadesDia(dia);
-        if (numActividades == 0) return new Actividad[0];
-
-        //Ordenamos las actividades del dia
-        ordenarActividadesDia(dia);
-
-        // Meter en un array las actividades de un dia ya ordenados
-        Actividad[] actividades = new Actividad[numActividades];
-        for(int i = 0; i < numActividades; i++){
-            actividades[i] = matrizActividades[dia][i];
-        }
-        return actividades;
+        return exitcode;
     }
 
-// Metodo para obtener el numero de actividades de un dia contcreto
     public int getNumActividadesDia(int dia) {
-        if (!diaValido(dia)) return 0;
-        int numActividades = 0;
-        for(int i = 0; i < maxActividades; i++){
-            if(matrizActividades[dia][i] != null) numActividades++;
-        }
-        return numActividades;
+        return matrActividades[dia].getNumActividades();
+    }
+
+    public Actividad[] obtenerActividadesDia(int dia) {
+        return matrActividades[dia].getCatalogo();
     }
 
     @Override
     public String toString() {
         StringBuilder itinerario = new StringBuilder();
+        Actividad actividad;
+        int numActividades;
+
         int totalActividades = 0;
         double precio = 0;
         itinerario.append("-------------------------------------------------------------------\n");
+        
         //Print de los giones + el dia cada dia
         for(int dia = 0; dia < numDias; dia++) {
-            int numActividades = getNumActividadesDia(dia);
+            numActividades = getNumActividadesDia(dia);
             itinerario.append(String.format("Día %d\n",dia + 1));
             itinerario.append("-------------------------------------------------------------------\n");
             //Si no hay actividades en el dia = (No hay actividades)
@@ -168,8 +171,8 @@ public class Viaje {
             // Print de las actividades por cada dia
             else {
                 for (int j = 0; j < numActividades; j++) {
-                    Actividad actividad = matrizActividades[dia][j];
-                    itinerario.append(String.format("%s %s\n", horasInicio[dia][j], actividad.getNombre()));
+                    actividad = getActividadfromMatrix(dia, j);
+                    itinerario.append(String.format("%s %s\n", actividad.getInicio(), actividad.getNombre()));
                     itinerario.append("\n-------------------------------------------------------------------\n");
                     totalActividades++;
                     precio += actividad.getPrecio();
