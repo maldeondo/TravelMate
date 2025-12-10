@@ -18,6 +18,7 @@ public class Viaje {
     //Atributos
     private int numDias; // Numero de dias que dura el viaje
     private CatalogoActividades[] matrActividades; // Array de catalogos (Matriz de actividades)
+    private CatalogoViaje[] matriz;
 
     public Viaje(int numDias, int maxActividades) {
         if (numDias > 0 && maxActividades > 0 ) {
@@ -27,6 +28,12 @@ public class Viaje {
             matrActividades = new CatalogoActividades[numDias];
             for (int i = 0; i < numDias; i++) {
                 matrActividades[i] = new CatalogoActividades(maxActividades);
+            }
+
+            matriz = new CatalogoViaje[numDias];
+
+            for (int i = 0; i < numDias; i++) {
+                matriz[i] = new CatalogoViaje(maxActividades);
             }
 
             this.numDias = numDias;
@@ -41,7 +48,7 @@ public class Viaje {
 
     // Provee una forma más intuitiva de usar la matriz
     private Actividad getActividadfromMatrix(int dia, int actividad) {
-        return matrActividades[dia].getCatalogo()[actividad];
+        return matriz[dia].getCatalogo().getArray()[actividad];
     }
 
     public int agregarActividad(int dia, Actividad actividad, String horaInicio) {
@@ -58,7 +65,7 @@ public class Viaje {
             exitcode = EXITO;
 
             // Añade la hora directamente a la actividad (simplifica mucho el código)
-            actividad.setInicio(inicio);
+            matriz[dia].setInicio(dia, inicio);
 
             // Busca el índice en el que debe ir la actividad en función de la hora
             posicion = buscarIndex(dia, inicio);
@@ -141,11 +148,11 @@ public class Viaje {
     }
 
     public int getNumActividadesDia(int dia) {
-        return matrActividades[dia].getNumActividades();
+        return matriz[dia].getCatalogo().getNumActividades();
     }
 
     public Actividad[] obtenerActividadesDia(int dia) {
-        return matrActividades[dia].getCatalogo();
+        return matriz[dia].getCatalogo().getArray();
     }
 
     @Override
