@@ -202,6 +202,8 @@ public class Viaje {
                 itinerario.printf(" %s %s (dur %s, %s)", Utilidades.minutosAHora(getIniciofromMatrix(dia, 0)), actividad.getNombre(), 
                     Utilidades.formatearDuracion(actividad.getDuracionMinutos()), Utilidades.formatearPrecio(actividad.getPrecio()));
 
+                precio += actividad.getPrecio();
+
                 //Print de todas las actividades en la misma linea, el primero es distinto porque empieza sin ;
                 for(int j = 1; j < numActividades; j++){
                     actividad = getActividadfromMatrix(dia, j);
