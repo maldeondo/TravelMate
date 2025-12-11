@@ -32,7 +32,7 @@ public class CatalogoActividades {
         return actActividades;
     }
 
-    public Actividad[] getCatalogo() {
+    public Actividad[] getArray() {
         return arrayActividades;
     }
 
