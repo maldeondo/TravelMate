@@ -17,7 +17,6 @@ public class Viaje {
 
     //Atributos
     private int numDias; // Numero de dias que dura el viaje
-    private CatalogoActividades[] matrActividades; // Array de catalogos (Matriz de actividades)
     private CatalogoViaje[] matriz;
 
     public Viaje(int numDias, int maxActividades) {
@@ -25,11 +24,6 @@ public class Viaje {
 
             // La matriz se fija a tamaño numDias y se llena de catálogos
             // vacíos de tamaño maxActividades
-            matrActividades = new CatalogoActividades[numDias];
-            for (int i = 0; i < numDias; i++) {
-                matrActividades[i] = new CatalogoActividades(maxActividades);
-            }
-
             matriz = new CatalogoViaje[numDias];
 
             for (int i = 0; i < numDias; i++) {
@@ -193,24 +187,30 @@ public class Viaje {
         Actividad actividad;
         double precio = 0;
         int totalActividades = 0;
+        int numActividades;
+
         //Primer for para cada dia
         for(int dia = 0; dia < numDias; dia++){
-            int numActividades = getNumActividadesDia(dia);
+            numActividades = getNumActividadesDia(dia);
+            totalActividades += numActividades;
+
             itinerario.printf("Día %d:", dia + 1);
             //Si no hay actividades se ponen tres guiones y se pasa al siguiente dia
-            if(numActividades == 0) itinerario.println(" ---");
+            if (numActividades == 0) itinerario.println(" ---");
             else {
+                actividad = getActividadfromMatrix(dia, 0);
+                itinerario.printf(" %s %s (dur %s, %s)", Utilidades.minutosAHora(getIniciofromMatrix(dia, 0)), actividad.getNombre(), 
+                    Utilidades.formatearDuracion(actividad.getDuracionMinutos()), Utilidades.formatearPrecio(actividad.getPrecio()));
+
                 //Print de todas las actividades en la misma linea, el primero es distinto porque empieza sin ;
-                for(int j = 0; j < numActividades; j++){
+                for(int j = 1; j < numActividades; j++){
                     actividad = getActividadfromMatrix(dia, j);
-                    if(j == 0) itinerario.printf(" %s %s (dur %s, %s)", Utilidades.minutosAHora(getIniciofromMatrix(dia, j)), actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
-                            Utilidades.formatearPrecio(actividad.getPrecio()));
-                    else itinerario.printf("; %s %s (dur %s, %s)", Utilidades.minutosAHora(getIniciofromMatrix(dia, j)), actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
-                            Utilidades.formatearPrecio(actividad.getPrecio()));
+                    itinerario.printf("; %s %s (dur %s, %s)", Utilidades.minutosAHora(getIniciofromMatrix(dia, j)), actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
+                        Utilidades.formatearPrecio(actividad.getPrecio()));
+                        
                     precio += actividad.getPrecio();
-                    totalActividades++;
                 }
-                itinerario.println("");
+                itinerario.println();
             }
         }
         // Resumen del viaje
