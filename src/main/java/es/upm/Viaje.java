@@ -17,17 +17,17 @@ public class Viaje {
 
     //Atributos
     private int numDias; // Numero de dias que dura el viaje
-    private CatalogoViaje[] matriz;
+    private MatrizViaje[] matriz;
 
     public Viaje(int numDias, int maxActividades) {
         if (numDias > 0 && maxActividades > 0 ) {
 
             // La matriz se fija a tamaño numDias y se llena de catálogos
             // vacíos de tamaño maxActividades
-            matriz = new CatalogoViaje[numDias];
+            matriz = new MatrizViaje[numDias];
 
             for (int i = 0; i < numDias; i++) {
-                matriz[i] = new CatalogoViaje(maxActividades);
+                matriz[i] = new MatrizViaje(maxActividades);
             }
 
             this.numDias = numDias;

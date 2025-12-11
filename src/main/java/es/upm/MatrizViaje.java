@@ -1,10 +1,10 @@
 package es.upm;
 
-public class CatalogoViaje {
+public class MatrizViaje {
     private CatalogoActividades catalogo;
     private int[] minutosInicio;
 
-    public CatalogoViaje(int maxActividades) {
+    public MatrizViaje(int maxActividades) {
         catalogo = new CatalogoActividades(maxActividades);
 
         minutosInicio = new int[maxActividades];
