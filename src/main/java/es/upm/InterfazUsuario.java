@@ -41,25 +41,20 @@ public class InterfazUsuario {
     private void agregarActividad(Scanner scanner) {
        int recursosMax = 0;
        int comentariosMax = 0;
-        System.out.print("Nombre de la actividad: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Descripción: ");
-        String descripcion = scanner.nextLine();
-        System.out.print("Precio (€): ");
-        double precio = scanner.nextDouble();
-        System.out.print("Duración (minutos): ");
-        int duracion = scanner.nextInt();
-        scanner.nextLine();
+
+        String nombre = Utilidades.leerCadena(scanner,"Nombre de la actividad: ");
+        String descripcion = Utilidades.leerCadena(scanner,"Descripción: ");
+        double precio = Utilidades.leerDouble(scanner, "Precio (€): ", 0, 1000);
+        int duracion = Utilidades.leerNumero(scanner,"Duración (minutos): ", 0, 1440);
         Actividad actividad = new Actividad(nombre, maxRecursos, maxComentarios);
         actividad.setDescripcion(descripcion);
         actividad.setPrecio(precio);
         actividad.setDuracionMinutos(duracion);
-        System.out.println("Introduce los recursos (una linea por recurso, escribe 'fin' para terminar): ");
+        String comentario = Utilidades.leerCadena(scanner,"Introduce los recursos (una linea por recurso, escribe 'fin' para terminar): ");
         boolean check = true;
         while (check){
-            String recurso = scanner.nextLine();
-            if(recurso.equals("fin")) break;
-            int error = actividad.agregarRecurso(recurso);
+            if(comentario.equals("fin")) break;
+            int error = actividad.agregarRecurso(comentario);
             switch(error){
                 case 1:
                     System.out.println("Valor Invalido");
