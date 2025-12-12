@@ -121,7 +121,30 @@ public class InterfazUsuario {
     }
 
     private void planificarViaje(Scanner scanner) {
-        // Muestra el itinerario actual y permite agregar actividades a días específicos
+
+        System.out.println("Planificación del viaje:");
+        //En el ejemplo el formato que pone es sin el resumen de toString() pero entonces
+        //hay que hacer un copia y pega de la mitad del codigo de toString()
+        System.out.println(viaje.toString());
+        int dia = Utilidades.leerNumero(scanner,"Introduce el dia del viaje (1-"+viaje.getNumDias()+"): ",1,viaje.getNumDias() );
+        String hora = Utilidades.leerHora(scanner,"Introduce la hora de inicio (HH:MM): ");
+        //Mensaje final que depende de si la actividad se ha agregado o no
+        int error = viaje.agregarActividad(dia,buscarActividadPorNombre(scanner),hora);
+        switch(error){
+            case 0:
+                System.out.printf("Actividad planificada para el dia %d a las %s\n", dia, hora);
+                break;
+            case 1:
+                System.out.println("Día inválido");
+                break;
+            case 2:
+                System.out.println("No se pueden agregar más actividades a este día.");
+                break;
+            case 3:
+                System.out.println("La actividad se solapa con otra actividad ya planificada.");
+                break;
+        }
+
     }
 
     private void guardarItinerario(Scanner scanner) {
