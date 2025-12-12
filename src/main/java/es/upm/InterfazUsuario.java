@@ -148,6 +148,12 @@ public class InterfazUsuario {
     }
 
     private void guardarItinerario(Scanner scanner) {
-        // Lee el nombre del archivo y guarda el itinerario del viaje
+        String archivo = Utilidades.leerCadena(scanner, "Archivo donde guardar el itinerario: ");
+        try{
+            viaje.guardarItinerario(archivo);
+            System.out.printf("Itinerario guardado en %s\n", archivo);
+        }catch(Exception e){
+            System.out.println("Error al guardar el archivo.");
+        }
     }
 }
