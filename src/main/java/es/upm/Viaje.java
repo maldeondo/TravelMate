@@ -80,7 +80,7 @@ public class Viaje {
     // sino de INSERCIÓN/BÚSQUEDA
 
     // Se podría hacer binsearch, pero con el tamaño que manejan los catálogos no merece la pena
-    public int buscarIndex(int dia, int hora) {
+    private int buscarIndex(int dia, int hora) {
         int index = 0;
 
         for (int i = 0; i < getNumActividadesDia(dia); i++) {
