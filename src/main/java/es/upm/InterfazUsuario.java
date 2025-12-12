@@ -46,10 +46,12 @@ public class InterfazUsuario {
         String descripcion = Utilidades.leerCadena(scanner,"Descripción: ");
         double precio = Utilidades.leerDouble(scanner, "Precio (€): ", 0, 1000);
         int duracion = Utilidades.leerNumero(scanner,"Duración (minutos): ", 0, 1440);
+
         Actividad actividad = new Actividad(nombre, maxRecursos, maxComentarios);
         actividad.setDescripcion(descripcion);
         actividad.setPrecio(precio);
         actividad.setDuracionMinutos(duracion);
+
         String comentario = Utilidades.leerCadena(scanner,"Introduce los recursos (una linea por recurso, escribe 'fin' para terminar): ");
         boolean check = true;
         while (check){
@@ -68,7 +70,7 @@ public class InterfazUsuario {
         System.out.println("Introduce los comentarios (una linea por comentario, escribe 'fin' para terminar):");
         boolean check1 = true;
         while (check1){
-            String comentario = scanner.nextLine();
+            comentario = scanner.nextLine();
             if(comentario.equals("fin")) break;
             int error = actividad.agregarComentario(comentario);
             switch(error){
