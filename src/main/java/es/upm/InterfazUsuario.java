@@ -4,6 +4,9 @@ import java.util.Scanner;
 
 public class InterfazUsuario {
 
+    public static final String intr1msg = "Introduce los recursos (una linea por recurso, escribe 'fin' para terminar): ";
+    public static final String intr2msg = "Introduce los comentarios (una linea por comentario, escribe 'fin' para terminar):";
+
     private CatalogoActividades catalogo;
     private Viaje viaje;
     private int maxRecursos = 0;
@@ -17,11 +20,47 @@ public class InterfazUsuario {
     }
 
     public void iniciar(Scanner scanner) {
-        while(!(scanner.hasNextInt(7))) mostrarMenu();
+        while(!(scanner.hasNextInt(7))) menuPrincipal(scanner);
     }
 
     private void menuPrincipal(Scanner scanner) {
-        // Ejecuta el bucle del menú principal hasta que el usuario decida salir
+        int respuesta;
+        
+        do {
+            mostrarMenu();
+
+            respuesta = Utilidades.leerNumero(scanner, "", 1, 7);
+
+            switch (respuesta) {
+                case 1:
+                    agregarActividad(scanner);
+                    break;
+            
+                case 2:
+                    consultarActividad(scanner);
+                    break;
+                
+                case 3:
+                    guardarActividades(scanner);
+                    break;
+
+                case 4:
+                    cargarActividades(scanner);
+                    break;
+
+                case 5:
+                    planificarViaje(scanner);
+                    break;
+
+                case 6:
+                    guardarItinerario(scanner);
+                    break;
+
+                default:
+                    break;
+            }
+
+        } while (respuesta != 7);
     }
 
     private void mostrarMenu() {
@@ -39,9 +78,6 @@ public class InterfazUsuario {
     }
 
     private void agregarActividad(Scanner scanner) {
-       int recursosMax = 0;
-       int comentariosMax = 0;
-
         String nombre = Utilidades.leerCadena(scanner,"Nombre de la actividad: ");
         String descripcion = Utilidades.leerCadena(scanner,"Descripción: ");
         double precio = Utilidades.leerDouble(scanner, "Precio (€): ", 0, 1000);
@@ -52,41 +88,51 @@ public class InterfazUsuario {
         actividad.setPrecio(precio);
         actividad.setDuracionMinutos(duracion);
 
-        String comentario = Utilidades.leerCadena(scanner,"Introduce los recursos (una linea por recurso, escribe 'fin' para terminar): ");
-        boolean check = true;
-        while (check){
-            if(comentario.equals("fin")) break;
-            int error = actividad.agregarRecurso(comentario);
-            switch(error){
+        String input;
+        boolean full = false;
+
+        System.out.println(intr1msg);
+        while (!((input = Utilidades.leerCadena(scanner, "")).equals("fin")) && !full) {
+            switch (actividad.agregarRecurso(input)) {
                 case 1:
-                    System.out.println("Valor Invalido");
+                    System.out.println("Valor inválido.");
                     break;
                 case 2:
-                    System.out.println("No se pueden añadir más recursos.");
-                    check = false;
+                    System.out.println("Recursos completos.");
+                    full = true;
                     break;
+                default:
+                    System.out.println("Éxito.");
             }
         }
-        System.out.println("Introduce los comentarios (una linea por comentario, escribe 'fin' para terminar):");
-        boolean check1 = true;
-        while (check1){
-            comentario = scanner.nextLine();
-            if(comentario.equals("fin")) break;
-            int error = actividad.agregarComentario(comentario);
-            switch(error){
-                case 1:
-                    System.out.println("Valor Invalido");
-                    break;
-                    case 3:
-                        System.out.println("No se pueden añadir más comentarios.");
-                        check1 = false;
-                        break;
-            }
-        }
-        int agregar = catalogo.agregarActividad(actividad);
-                if(agregar == 0 ) System.out.println("¡Actividad agregada exitosamente!");
-                else System.out.println("No se pueden añadir más actividades.");
 
+        full = false;
+
+        System.out.println(intr2msg);
+        while (!((input = Utilidades.leerCadena(scanner, "")).equals("fin")) && !full) {
+            switch (actividad.agregarRecurso(input)) {
+                case 1:
+                    System.out.println("Valor inválido.");
+                    break;
+                case 3:
+                    System.out.println("Comentarios completos.");
+                    full = true;
+                    break;
+                default:
+                    System.out.println("Éxito.");
+            }
+        }
+
+        switch (catalogo.agregarActividad(actividad)) {
+            case 2:
+                System.out.println("No se pueden añadir más actividades.");
+                break;
+            case 1:
+                System.out.println("Actividad nula.");
+                break;
+            default:
+                System.out.println("¡Actividad agregada exitosamente!");
+        }
     }
 
     private void consultarActividad(Scanner scanner) {
