@@ -145,7 +145,7 @@ public class InterfazUsuario {
 
     
     private Actividad buscarActividadPorNombre(Scanner scanner) {
-        Actividad[] entrada = catalogo.buscarActividadPorNombre(Utilidades.leerCadena(scanner, "Actividad: "));
+        Actividad[] entrada = catalogo.buscarActividadPorNombre(Utilidades.leerCadena(scanner, PEDIR_TXT));
 
         return seleccionarActividad(scanner, entrada);
     }
@@ -154,10 +154,10 @@ public class InterfazUsuario {
         System.out.println("Actividades encontradas:");
 
         for (int i = 0; i < actividades.length; i++) {
-            System.out.printf("%d. %s\n", i, actividades[i].getNombre());
+            System.out.printf("%d. %s\n", i + 1, actividades[i].getNombre());
         }
 
-        int repuesta = Utilidades.leerNumero(scanner, PEDIR_TXT, 1, actividades.length + 1);
+        int repuesta = Utilidades.leerNumero(scanner, "Elige una actividad: ", 1, actividades.length + 1);
 
         return actividades[repuesta - 1];
     }
