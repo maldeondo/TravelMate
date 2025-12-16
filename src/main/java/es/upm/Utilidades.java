@@ -53,7 +53,7 @@ public class Utilidades {
                 System.out.println(mensaje);
                 output = teclado.nextDouble();
             
-                if (output < minimo || output > maximo) System.out.println(String.format(NUMBER_MSG, minimo, maximo));
+                if (output < minimo || output > maximo) System.out.println(String.format(DOUBLE_MSG, minimo, maximo));
                 else correct = true; 
                 
             } catch (InputMismatchException ex) {
