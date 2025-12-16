@@ -136,22 +136,71 @@ public class InterfazUsuario {
     }
 
     private void consultarActividad(Scanner scanner) {
-        // Busca una actividad y permite editarla
+        Actividad seleccionada = buscarActividadPorNombre(scanner);
+
+        editarActividad(scanner, seleccionada);
+        
     }
 
     
     private Actividad buscarActividadPorNombre(Scanner scanner) {
-        // Busca actividades por nombre y permite seleccionar una
-        return null; // @todo MODIFICAR PARA DEVOLVER LA ACTIVIDAD SELECCIONADA
+        Actividad[] entrada = catalogo.buscarActividadPorNombre(Utilidades.leerCadena(scanner, "Actividad: "));
+
+        return seleccionarActividad(scanner, entrada);
     }
 
     private Actividad seleccionarActividad(Scanner scanner, Actividad[] actividades) {
-        // Muestra un listado numerado de actividades y permite elegir una
-        return null; // @todo MODIFICAR PARA DEVOLVER LA ACTIVIDAD SELECCIONADA
+        System.out.println("Actividades encontradas:");
+
+        for (int i = 0; i < actividades.length; i++) {
+            System.out.printf("%d %s", i, actividades[i].getNombre());
+        }
+
+        int repuesta = Utilidades.leerNumero(scanner, "Elige una actividad: ", 1, actividades.length + 1);
+
+        return actividades[repuesta];
     }
 
     private void editarActividad(Scanner scanner, Actividad seleccionada) {
-        // Muestra la actividad y permite añadir recursos, comentarios o eliminarla
+        int errorcode = Actividad.EXITO;
+        System.out.println(seleccionada);
+
+        System.out.println("1. Añadir recurso\n2. Añadir comentario\n3. Eliminar actividad\n4. Volver");
+
+        switch (Utilidades.leerNumero(scanner, "Elige una opción: ", 0, 4)) {
+            case 1: // Agregar recurso
+                errorcode = seleccionada.agregarRecurso(Utilidades.leerCadena(scanner, "null"));
+                break;
+        
+            case 2: // Agregar comentario
+                errorcode = seleccionada.agregarComentario(Utilidades.leerCadena(scanner, "null"));
+                break;
+            
+            case 3: // Eliminar actividad
+                catalogo.eliminarActividad(seleccionada);
+                System.out.println("Actividad eliminada.");
+                break;
+            
+            default: // Volver
+                break;
+        }
+
+        switch (errorcode) {
+            case Actividad.ERROR_RECURSOS_COMPLETOS:
+                System.out.println("Recursos llenos, no se pueden añadir.");
+                break;
+        
+            case Actividad.ERROR_COMENTARIOS_COMPLETOS:
+                System.out.println("Comentarios llenos, no se puede añadir.");
+                break;
+
+            case Actividad.ERROR_VALOR_INVALIDO:
+                System.out.println("Valor inválido.");
+                break;
+
+            default: // Actividad.EXITO
+                break;
+        }
     }
 
     private void guardarActividades(Scanner scanner) {
