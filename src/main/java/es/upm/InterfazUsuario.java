@@ -98,9 +98,9 @@ public class InterfazUsuario {
 
     
     private Actividad buscarActividadPorNombre(Scanner scanner) {
-        String entrada = Utilidades.leerCadena(scanner, "Actividad: ");
-        
-        return seleccionarActividad(scanner, catalogo.buscarActividadPorNombre(entrada));
+        Actividad[] entrada = catalogo.buscarActividadPorNombre(Utilidades.leerCadena(scanner, "Actividad: "));
+
+        return seleccionarActividad(scanner, entrada);
     }
 
     private Actividad seleccionarActividad(Scanner scanner, Actividad[] actividades) {
@@ -116,24 +116,43 @@ public class InterfazUsuario {
     }
 
     private void editarActividad(Scanner scanner, Actividad seleccionada) {
+        int errorcode = Actividad.EXITO;
         System.out.println(seleccionada);
 
         System.out.println("1. Añadir recurso\n2. Añadir comentario\n3. Eliminar actividad\n4. Volver");
 
         switch (Utilidades.leerNumero(scanner, "Elige una opción: ", 0, 4)) {
             case 1: // Agregar recurso
-                seleccionada.agregarRecurso(Utilidades.leerCadena(scanner, "null"));
+                errorcode = seleccionada.agregarRecurso(Utilidades.leerCadena(scanner, "null"));
                 break;
         
             case 2: // Agregar comentario
-                seleccionada.agregarComentario(Utilidades.leerCadena(scanner, "null"));
+                errorcode = seleccionada.agregarComentario(Utilidades.leerCadena(scanner, "null"));
                 break;
             
             case 3: // Eliminar actividad
                 catalogo.eliminarActividad(seleccionada);
+                System.out.println("Actividad eliminada.");
                 break;
             
             default: // Volver
+                break;
+        }
+
+        switch (errorcode) {
+            case Actividad.ERROR_RECURSOS_COMPLETOS:
+                System.out.println("Recursos llenos, no se pueden añadir.");
+                break;
+        
+            case Actividad.ERROR_COMENTARIOS_COMPLETOS:
+                System.out.println("Comentarios llenos, no se puede añadir.");
+                break;
+
+            case Actividad.ERROR_VALOR_INVALIDO:
+                System.out.println("Valor inválido.");
+                break;
+
+            default: // Actividad.EXITO
                 break;
         }
     }
