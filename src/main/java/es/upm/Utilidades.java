@@ -7,6 +7,13 @@ import java.util.Scanner;
  * Clase con métodos de utilidad para la entrada de datos por teclado y conversión de formatos.
  */
 public class Utilidades {
+    private static final String NUMBER_MSG = "El número debe estar entre [%d] y [%d].";
+    private static final String DOUBLE_MSG = "El número debe estar entre [%.2f] y [%.2f].";
+    private static final String ERROR_MSG = "Por favor, introduce un número válido.";
+
+    private static final String FORMAT_MSG = "Formato incorrecto. Usa el formato HH:MM (por ejemplo, 09:30).";
+    private static final String HOUR_MSG = "Las horas deben estar entre 00 y 23.";
+    private static final String MIN_MSG = "Los minutos deben estar entre 00 y 59.";
 
     // =========================================================================
     // Métodos de entrada por teclado
@@ -21,19 +28,16 @@ public class Utilidades {
     public static int leerNumero(Scanner teclado, String mensaje, int minimo, int maximo) {
         int output = minimo - 1; boolean correct = false;
         
-        String numbermsg = "El número debe estar entre [%d] y [%d].";
-        String errormsg = "Por favor, introduce un número válido.";
-
         do {
             try {
                 System.out.println(mensaje);
                 output = teclado.nextInt();
             
-                if (output < minimo || output > maximo) System.out.println(String.format(numbermsg, minimo, maximo));
+                if (output < minimo || output > maximo) System.out.println(String.format(NUMBER_MSG, minimo, maximo));
                 else correct = true; 
                 
             } catch (InputMismatchException ex) {
-                System.out.println(errormsg);
+                System.out.println(ERROR_MSG);
                 teclado.next();
             }
         } while (!correct);
@@ -44,19 +48,16 @@ public class Utilidades {
     public static double leerDouble(Scanner teclado, String mensaje, double minimo, double maximo) {
         double output = minimo - 1; boolean correct = false;
         
-        String numbermsg = "El número debe estar entre [%.2f] y [%.2f].";
-        String errormsg = "Por favor, introduce un número válido.";
-
         do {
             try {
                 System.out.println(mensaje);
                 output = teclado.nextDouble();
             
-                if (output < minimo || output > maximo) System.out.println(String.format(numbermsg, minimo, maximo));
+                if (output < minimo || output > maximo) System.out.println(String.format(NUMBER_MSG, minimo, maximo));
                 else correct = true; 
                 
             } catch (InputMismatchException ex) {
-                System.out.println(errormsg);
+                System.out.println(ERROR_MSG);
                 teclado.next();
             }
         } while (!correct);
@@ -68,25 +69,21 @@ public class Utilidades {
         String output = "23:11"; boolean correct = false;
         int h = 0, m = 0;
 
-        String formatmsg = "Formato incorrecto. Usa el formato HH:MM (por ejemplo, 09:30).";
-        String hourmsg = "Las horas deben estar entre 00 y 23.";
-        String minmsg = "Los minutos deben estar entre 00 y 59.";
-
         do {
             output = teclado.nextLine();
 
-            if ((output.length() != 5) || (output.charAt(2) != ':')) System.out.println(formatmsg);
+            if ((output.length() != 5) || (output.charAt(2) != ':')) System.out.println(FORMAT_MSG);
             else {
                 try {
                     h = Integer.parseInt(output.substring(0, 2));
                     m = Integer.parseInt(output.substring(3, 5));
 
-                    if (h > 23) System.out.println(hourmsg);
-                    else if (m > 59) System.out.println(minmsg);
+                    if (h > 23) System.out.println(HOUR_MSG);
+                    else if (m > 59) System.out.println(MIN_MSG);
                     else correct = true;
 
                 } catch (NumberFormatException ex) {
-                    System.out.println(formatmsg);
+                    System.out.println(FORMAT_MSG);
                 }
             }
         } while (!correct);
