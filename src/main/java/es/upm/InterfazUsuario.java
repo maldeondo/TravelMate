@@ -90,22 +90,52 @@ public class InterfazUsuario {
     }
 
     private void consultarActividad(Scanner scanner) {
-        // Busca una actividad y permite editarla
+        Actividad seleccionada = buscarActividadPorNombre(scanner);
+
+        editarActividad(scanner, seleccionada);
+        
     }
 
     
     private Actividad buscarActividadPorNombre(Scanner scanner) {
-        // Busca actividades por nombre y permite seleccionar una
-        return null; // @todo MODIFICAR PARA DEVOLVER LA ACTIVIDAD SELECCIONADA
+        String entrada = Utilidades.leerCadena(scanner, "Actividad: ");
+        
+        return seleccionarActividad(scanner, catalogo.buscarActividadPorNombre(entrada));
     }
 
     private Actividad seleccionarActividad(Scanner scanner, Actividad[] actividades) {
-        // Muestra un listado numerado de actividades y permite elegir una
-        return null; // @todo MODIFICAR PARA DEVOLVER LA ACTIVIDAD SELECCIONADA
+        System.out.println("Actividades encontradas:");
+
+        for (int i = 0; i < actividades.length; i++) {
+            System.out.printf("%d %s", i, actividades[i].getNombre());
+        }
+
+        int repuesta = Utilidades.leerNumero(scanner, "Elige una actividad: ", 1, actividades.length + 1);
+
+        return actividades[repuesta];
     }
 
     private void editarActividad(Scanner scanner, Actividad seleccionada) {
-        // Muestra la actividad y permite añadir recursos, comentarios o eliminarla
+        System.out.println(seleccionada);
+
+        System.out.println("1. Añadir recurso\n2. Añadir comentario\n3. Eliminar actividad\n4. Volver");
+
+        switch (Utilidades.leerNumero(scanner, "Elige una opción: ", 0, 4)) {
+            case 1: // Agregar recurso
+                seleccionada.agregarRecurso(Utilidades.leerCadena(scanner, "null"));
+                break;
+        
+            case 2: // Agregar comentario
+                seleccionada.agregarComentario(Utilidades.leerCadena(scanner, "null"));
+                break;
+            
+            case 3: // Eliminar actividad
+                catalogo.eliminarActividad(seleccionada);
+                break;
+            
+            default: // Volver
+                break;
+        }
     }
 
     private void guardarActividades(Scanner scanner) {
