@@ -4,8 +4,9 @@ import java.util.Scanner;
 
 public class InterfazUsuario {
 
-    public static final String intr1msg = "Introduce los recursos (una linea por recurso, escribe 'fin' para terminar): ";
-    public static final String intr2msg = "Introduce los comentarios (una linea por comentario, escribe 'fin' para terminar):";
+    public static final String PEDIR_REC = "Introduce los recursos (una línea por recurso, escribe 'fin' para terminar): ";
+    public static final String PEDIR_COM = "Introduce los comentarios (una línea por comentario, escribe 'fin' para terminar):";
+    public static final String PEDIR_TXT = "Introduce el texto de la actividad a buscar (-FIN- para volver): ";
 
     private CatalogoActividades catalogo;
     private Viaje viaje;
@@ -91,7 +92,7 @@ public class InterfazUsuario {
         String input;
         boolean full = false;
 
-        System.out.println(intr1msg);
+        System.out.println(PEDIR_REC);
         while (!((input = Utilidades.leerCadena(scanner, "")).equals("fin")) && !full) {
             switch (actividad.agregarRecurso(input)) {
                 case 1:
@@ -108,9 +109,9 @@ public class InterfazUsuario {
 
         full = false;
 
-        System.out.println(intr2msg);
+        System.out.println(PEDIR_COM);
         while (!((input = Utilidades.leerCadena(scanner, "")).equals("fin")) && !full) {
-            switch (actividad.agregarRecurso(input)) {
+            switch (actividad.agregarComentario(input)) {
                 case 1:
                     System.out.println("Valor inválido.");
                     break;
@@ -153,12 +154,12 @@ public class InterfazUsuario {
         System.out.println("Actividades encontradas:");
 
         for (int i = 0; i < actividades.length; i++) {
-            System.out.printf("%d %s", i, actividades[i].getNombre());
+            System.out.printf("%d. %s\n", i, actividades[i].getNombre());
         }
 
-        int repuesta = Utilidades.leerNumero(scanner, "Elige una actividad: ", 1, actividades.length + 1);
+        int repuesta = Utilidades.leerNumero(scanner, PEDIR_TXT, 1, actividades.length + 1);
 
-        return actividades[repuesta];
+        return actividades[repuesta - 1];
     }
 
     private void editarActividad(Scanner scanner, Actividad seleccionada) {
