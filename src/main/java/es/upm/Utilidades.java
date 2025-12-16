@@ -19,8 +19,8 @@ public class Utilidades {
     // Métodos de entrada por teclado
     // =========================================================================
 
-    public static String leerCadena(Scanner teclado, String s) {
-        System.out.println(s);
+    public static String leerCadena(Scanner teclado, String mensaje) {
+        System.out.println(mensaje);
 
         return teclado.nextLine();
     }
@@ -30,7 +30,7 @@ public class Utilidades {
         
         do {
             try {
-                System.out.println(mensaje);
+                System.out.print(mensaje);
                 output = teclado.nextInt();
             
                 if (output < minimo || output > maximo) System.out.println(String.format(NUMBER_MSG, minimo, maximo));
@@ -50,7 +50,7 @@ public class Utilidades {
         
         do {
             try {
-                System.out.println(mensaje);
+                System.out.print(mensaje);
                 output = teclado.nextDouble();
             
                 if (output < minimo || output > maximo) System.out.println(String.format(DOUBLE_MSG, minimo, maximo));
@@ -66,10 +66,11 @@ public class Utilidades {
     }
 
     public static String leerHora(Scanner teclado, String mensaje) {
-        String output = "23:11"; boolean correct = false;
+        String output; boolean correct = false;
         int h = 0, m = 0;
 
         do {
+            System.out.print(mensaje);
             output = teclado.nextLine();
 
             if ((output.length() != 5) || (output.charAt(2) != ':')) System.out.println(FORMAT_MSG);
@@ -100,14 +101,15 @@ public class Utilidades {
     public static int horaAMinutos(String hora) {
         String digito1 = hora.split(":")[0];
         String digito2 = hora.split(":")[1];
-        int horas = Integer.parseInt(digito1);
-        int minutos = Integer.parseInt(digito2);
-        return horas * 60 + minutos;
+
+        return (Integer.parseInt(digito1) * 60) + Integer.parseInt(digito2);
     }
+    
     public static String minutosAHora(int minutos) {
        int digito1 =  minutos / 60;
        int digito2 =  minutos % 60;
-        return String.format("%02d:%02d",digito1,digito2);
+    
+       return String.format("%02d:%02d", digito1, digito2);
     }
 
     public static String formatearDuracion(int duracionMinutos) {
@@ -125,9 +127,7 @@ public class Utilidades {
     public static String formatearPrecio(double precio) {
         return String.format("%.2f €", precio);
     }
-/* Problema de coherencia: El enunciado me pide que de los valores separando los decimales con puntos
-   pero Intel solo reconoce datos de entrada como decimales si van con coma.
- */
+
     public static double cadenaAPrecio(String precioStr) {
         return Double.parseDouble(precioStr.replace("€","").trim());
     }
