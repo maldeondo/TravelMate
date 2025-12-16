@@ -20,7 +20,7 @@ public class InterfazUsuario {
     }
 
     public void iniciar(Scanner scanner) {
-        while(!(scanner.hasNextInt(7))) menuPrincipal(scanner);
+        menuPrincipal(scanner);
     }
 
     private void menuPrincipal(Scanner scanner) {
@@ -65,14 +65,14 @@ public class InterfazUsuario {
 
     private void mostrarMenu() {
         StringBuilder menu = new StringBuilder();
-        menu.append("--- Menú Principal ___");
-        menu.append("1. Agregar Actividad");
-        menu.append("2. Consultar/Editar Actividad");
-        menu.append("3. Guardar Actividades");
-        menu.append("4. Cargar Actividades");
-        menu.append("5. Planificar Viaje");
-        menu.append("6. Guardar Itinerario");
-        menu.append("7. Salir");
+        menu.append("--- Menú Principal ___\n");
+        menu.append("1. Agregar Actividad\n");
+        menu.append("2. Consultar/Editar Actividad\n");
+        menu.append("3. Guardar Actividades\n");
+        menu.append("4. Cargar Actividades\n");
+        menu.append("5. Planificar Viaje\n");
+        menu.append("6. Guardar Itinerario\n");
+        menu.append("7. Salir\n");
         menu.append("Elige una opción:");
         System.out.println(menu.toString());
     }
