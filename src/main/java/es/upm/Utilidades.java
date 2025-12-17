@@ -32,13 +32,14 @@ public class Utilidades {
             try {
                 System.out.print(mensaje);
                 output = teclado.nextInt();
+                teclado.nextLine();
             
                 if (output < minimo || output > maximo) System.out.println(String.format(NUMBER_MSG, minimo, maximo));
                 else correct = true; 
                 
             } catch (InputMismatchException ex) {
                 System.out.println(ERROR_MSG);
-                teclado.next();
+                teclado.nextLine();
             }
         } while (!correct);
 
@@ -52,13 +53,14 @@ public class Utilidades {
             try {
                 System.out.print(mensaje);
                 output = teclado.nextDouble();
-            
+                teclado.nextLine();
+
                 if (output < minimo || output > maximo) System.out.println(String.format(DOUBLE_MSG, minimo, maximo));
                 else correct = true; 
                 
             } catch (InputMismatchException ex) {
                 System.out.println(ERROR_MSG);
-                teclado.next();
+                teclado.nextLine();
             }
         } while (!correct);
 
@@ -85,6 +87,7 @@ public class Utilidades {
 
                 } catch (NumberFormatException ex) {
                     System.out.println(FORMAT_MSG);
+                    teclado.nextLine();
                 }
             }
         } while (!correct);

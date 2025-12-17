@@ -4,9 +4,12 @@ import java.util.Scanner;
 
 public class InterfazUsuario {
 
-    public static final String PEDIR_REC = "Introduce los recursos (una línea por recurso, escribe 'fin' para terminar): ";
-    public static final String PEDIR_COM = "Introduce los comentarios (una línea por comentario, escribe 'fin' para terminar):";
-    public static final String PEDIR_TXT = "Introduce el texto de la actividad a buscar (-FIN- para volver): ";
+    private static final String PEDIR_REC = "Introduce los recursos (una línea por recurso, escribe 'fin' para terminar): ";
+    private static final String PEDIR_COM = "Introduce los comentarios (una línea por comentario, escribe 'fin' para terminar):";
+    private static final String PEDIR_TXT = "Introduce el texto de la actividad a buscar (-FIN- para volver): ";
+
+    private static final String PEDIR_MOD_REC = "Introduce el recurso a añadir: ";
+    private static final String PEDIR_MOD_COM = "Introduce el comentario a añadir: ";
 
     private CatalogoActividades catalogo;
     private Viaje viaje;
@@ -163,18 +166,20 @@ public class InterfazUsuario {
     }
 
     private void editarActividad(Scanner scanner, Actividad seleccionada) {
+        int exitcode;
         int errorcode = Actividad.EXITO;
         System.out.println(seleccionada);
 
         System.out.println("1. Añadir recurso\n2. Añadir comentario\n3. Eliminar actividad\n4. Volver");
 
-        switch (Utilidades.leerNumero(scanner, "Elige una opción: ", 0, 4)) {
+        exitcode = Utilidades.leerNumero(scanner, "Elige una opción: ", 0, 4);
+        switch (exitcode) {
             case 1: // Agregar recurso
-                errorcode = seleccionada.agregarRecurso(Utilidades.leerCadena(scanner, "null"));
+                errorcode = seleccionada.agregarRecurso(Utilidades.leerCadena(scanner, PEDIR_MOD_REC));
                 break;
         
             case 2: // Agregar comentario
-                errorcode = seleccionada.agregarComentario(Utilidades.leerCadena(scanner, "null"));
+                errorcode = seleccionada.agregarComentario(Utilidades.leerCadena(scanner, PEDIR_MOD_COM));
                 break;
             
             case 3: // Eliminar actividad
@@ -200,6 +205,9 @@ public class InterfazUsuario {
                 break;
 
             default: // Actividad.EXITO
+                if (exitcode == 1) System.out.println("Recurso añadido exitosamente.");
+                else System.out.println("Comentario añadido correctamente.");
+
                 break;
         }
     }
