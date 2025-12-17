@@ -235,27 +235,30 @@ public class InterfazUsuario {
     }
 
     private void planificarViaje(Scanner scanner) {
+        String hora;
+        int dia;
 
         System.out.println("Planificación del viaje:");
+        
         //En el ejemplo el formato que pone es sin el resumen de toString() pero entonces
         //hay que hacer un copia y pega de la mitad del codigo de toString()
-        System.out.println(viaje.toString());
-        int dia = Utilidades.leerNumero(scanner,"Introduce el día del viaje (1-"+viaje.getNumDias()+"): ",1,viaje.getNumDias() );
-        String hora = Utilidades.leerHora(scanner,"Introduce la hora de inicio (HH:MM): ");
+        System.out.println(viaje);
+        dia = Utilidades.leerNumero(scanner,"Introduce el día del viaje (1-"+viaje.getNumDias()+"): ",1,viaje.getNumDias() );
+        hora = Utilidades.leerHora(scanner,"Introduce la hora de inicio (HH:MM): ");
+        
         //Mensaje final que depende de si la actividad se ha agregado o no
-        int error = viaje.agregarActividad(dia,buscarActividadPorNombre(scanner),hora);
-        switch(error){
-            case 0:
-                System.out.printf("Actividad planificada para el día %d a las %s\n", dia, hora);
-                break;
-            case 1:
+        switch(viaje.agregarActividad(dia, buscarActividadPorNombre(scanner), hora)){
+            case Viaje.ERROR_DIA_INVALIDO:
                 System.out.println("Día inválido");
                 break;
-            case 2:
+            case Viaje.ERROR_DIA_COMPLETO:
                 System.out.println("No se pueden agregar más actividades a este día.");
                 break;
-            case 3:
+            case Viaje.ERROR_SOLAPAMIENTO:
                 System.out.println("La actividad se solapa con otra actividad ya planificada.");
+                break;
+            default: // Viaje.EXITO
+                System.out.printf("Actividad planificada para el día %d a las %s\n", dia, hora);
                 break;
         }
 
