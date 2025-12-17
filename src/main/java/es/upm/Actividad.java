@@ -79,9 +79,21 @@ public class Actividad {
 
     // Constantes de códigos de error
 
+    /**
+     * Constante con el valor una operacion exitosa
+     */
     public static final int EXITO = 0;
+    /**
+     * Constante con el valor de una operacion fallida por ser un valor invlaido
+     */
     public static final int ERROR_VALOR_INVALIDO = 1;
+    /**
+     * Constante con el valor de una operacion fallida por no caber mas recursos
+     */
     public static final int ERROR_RECURSOS_COMPLETOS = 2;
+    /**
+     * Constante con el valor de una operacion fallida por no caber mas comentarios
+     */
     public static final int ERROR_COMENTARIOS_COMPLETOS = 3;
 
     /**
@@ -109,12 +121,16 @@ public class Actividad {
 
 
     /**
-     * @return Nombre de la actividad
+     * Metodo que devuelve el nombre de la actividad
+     *
+     * @return String con el nombre de la actividad
      */
     public String getNombre() { return nombre; }
 
     /**
-     * @return Descripcion de la actividad
+     * Devuelve la descripcion de la actividad
+     *
+     * @return String con la descripcion de la actividad
      */
     public String getDescripcion() { return descripcion; }
 
@@ -128,7 +144,9 @@ public class Actividad {
     }
 
     /**
-     * @return Precio de la actividad
+     * Devuelve el precio de la actividad
+     *
+     * @return Double del precio de la actividad
      */
     public double getPrecio() { return precio; }
 
@@ -142,7 +160,9 @@ public class Actividad {
     }
 
     /**
-     * @return La duracion de la actividad en minutos
+     * Devuelve la duracion de la actividad en minutos
+     *
+     * @return Numero que expresa la duracion en minutos
      */
     public int getDuracionMinutos() { return duracionMinutos; }
 
@@ -154,6 +174,8 @@ public class Actividad {
     public void setDuracionMinutos(int duracionMinutos) { this.duracionMinutos = duracionMinutos; }
 
     /**
+     *Devuelve la hora de inicio expresada en minutos desde el comienzo del dia ( 00:00 )
+     *
      * @return La hora en minutos a la que empieza la actividad
      */
     public int getInicio() { return minutosInicio; }
@@ -264,12 +286,16 @@ public class Actividad {
 
 
     /**
-     * @return Recursos de la actividad
+     * Devuelve un array de strings con todos los recursos de la actividad
+     *
+     * @return Array de recursos
      */
     public String[] getRecursos() { return recursos; }
 
     /**
-     * @return Comentarios de la actividad
+     * Devuelve un array de Strings con todos los comentarios de la actividad
+     *
+     * @return Array de comentarios
      */
     public String[] getComentarios() { return comentarios; }
 
@@ -290,11 +316,15 @@ public class Actividad {
 
 
     /**
+     * Devuelve el numero de recursos que tiene la actividad
+     *
      * @return Numero de recursos actuales
      */
     public int getNumRecursos() { return actRecursos; }
 
     /**
+     * Devuelve numero de comentarios que tiene la actividad
+     *
      * @return Numero de comentarios actuales
      */
     public int getNumComentarios() { return actComentarios; }
@@ -357,7 +387,7 @@ public class Actividad {
 
     /**
      * Metodo que se utiliza para leer un archivo en el que hay una actividad,
-     * extraer la informacion de esa actividad y crear una nueva con esos elementos
+     * extraer la informacion de esa actividad y crear una nueva con esos elementos.
      *
      * @param reader Objeto de la clase BufferedReader para leer de un archivo
      * @param maxRecursos Numero maximo de recursos que se tiene que leer

@@ -17,7 +17,7 @@ public class InterfazUsuario {
     }
 
     public void iniciar(Scanner scanner) {
-        while(!(scanner.hasNextInt(7))) mostrarMenu();
+        mostrarMenu();
     }
 
     private void menuPrincipal(Scanner scanner) {
