@@ -110,7 +110,6 @@ public class InterfazUsuario {
                 default: // Actividad.EXITO
                     System.out.println("Éxito.");
             }
-            recursos = scanner.nextLine();
         }
 
         full = false;
@@ -128,7 +127,6 @@ public class InterfazUsuario {
                 default: // Actividad.EXITO
                     System.out.println("Éxito.");
             }
-            comentarios = scanner.nextLine();
         }
 
         switch (catalogo.agregarActividad(actividad)) {

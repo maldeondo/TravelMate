@@ -166,7 +166,7 @@ public class Viaje {
             else {
                 for (int j = 0; j < numActividades; j++) {
                     actividad = getActividadfromMatrix(dia, j);
-                    itinerario.append(String.format("%s %s\n", Utilidades.minutosAHora(actividad.getInicio()), actividad.getNombre()));
+                    itinerario.append(String.format("%s %s\n", Utilidades.minutosAHora(getIniciofromMatrix(dia, j)), actividad.getNombre()));
                     totalActividades++;
                     precio += actividad.getPrecio();
                 }
