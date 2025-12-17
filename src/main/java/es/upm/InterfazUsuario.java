@@ -225,7 +225,7 @@ public class InterfazUsuario {
     }
 
     private void cargarActividades(Scanner scanner) {
-        String archivo = Utilidades.leerCadena(scanner,"Archivo de donde cargar las actividades");
+        String archivo = Utilidades.leerCadena(scanner,"Archivo de donde cargar las actividades: ");
         try{
             catalogo.cargarActividades(archivo,maxRecursos,maxComentarios);
             System.out.printf("Actividades cargadas desde %s",archivo);
@@ -240,13 +240,13 @@ public class InterfazUsuario {
         //En el ejemplo el formato que pone es sin el resumen de toString() pero entonces
         //hay que hacer un copia y pega de la mitad del codigo de toString()
         System.out.println(viaje.toString());
-        int dia = Utilidades.leerNumero(scanner,"Introduce el dia del viaje (1-"+viaje.getNumDias()+"): ",1,viaje.getNumDias() );
+        int dia = Utilidades.leerNumero(scanner,"Introduce el día del viaje (1-"+viaje.getNumDias()+"): ",1,viaje.getNumDias() );
         String hora = Utilidades.leerHora(scanner,"Introduce la hora de inicio (HH:MM): ");
         //Mensaje final que depende de si la actividad se ha agregado o no
         int error = viaje.agregarActividad(dia,buscarActividadPorNombre(scanner),hora);
         switch(error){
             case 0:
-                System.out.printf("Actividad planificada para el dia %d a las %s\n", dia, hora);
+                System.out.printf("Actividad planificada para el día %d a las %s\n", dia, hora);
                 break;
             case 1:
                 System.out.println("Día inválido");
