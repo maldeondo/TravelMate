@@ -46,6 +46,7 @@ public class InterfazUsuario {
         String descripcion = Utilidades.leerCadena(scanner,"Descripción: ");
         double precio = Utilidades.leerDouble(scanner, "Precio (€): ", 0, 1000);
         int duracion = Utilidades.leerNumero(scanner,"Duración (minutos): ", 0, 1440);
+
         Actividad actividad = new Actividad(nombre, maxRecursos, maxComentarios);
         actividad.setDescripcion(descripcion);
         actividad.setPrecio(precio);
