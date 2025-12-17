@@ -69,6 +69,7 @@ public class InterfazUsuario {
 
     private void mostrarMenu() {
         StringBuilder menu = new StringBuilder();
+
         menu.append("--- Menú Principal ___\n");
         menu.append("1. Agregar Actividad\n");
         menu.append("2. Consultar/Editar Actividad\n");
@@ -78,6 +79,7 @@ public class InterfazUsuario {
         menu.append("6. Guardar Itinerario\n");
         menu.append("7. Salir\n");
         menu.append("Elige una opción:");
+
         System.out.println(menu.toString());
     }
 
@@ -98,14 +100,14 @@ public class InterfazUsuario {
         System.out.println(PEDIR_REC);
         while (!((input = Utilidades.leerCadena(scanner, "")).equals("fin")) && !full) {
             switch (actividad.agregarRecurso(input)) {
-                case 1:
+                case Actividad.ERROR_VALOR_INVALIDO:
                     System.out.println("Valor inválido.");
                     break;
-                case 2:
+                case Actividad.ERROR_RECURSOS_COMPLETOS:
                     System.out.println("Recursos completos.");
                     full = true;
                     break;
-                default:
+                default: // Actividad.EXITO
                     System.out.println("Éxito.");
             }
         }
@@ -115,26 +117,26 @@ public class InterfazUsuario {
         System.out.println(PEDIR_COM);
         while (!((input = Utilidades.leerCadena(scanner, "")).equals("fin")) && !full) {
             switch (actividad.agregarComentario(input)) {
-                case 1:
+                case Actividad.ERROR_VALOR_INVALIDO:
                     System.out.println("Valor inválido.");
                     break;
-                case 3:
+                case Actividad.ERROR_COMENTARIOS_COMPLETOS:
                     System.out.println("Comentarios completos.");
                     full = true;
                     break;
-                default:
+                default: // Actividad.EXITO
                     System.out.println("Éxito.");
             }
         }
 
         switch (catalogo.agregarActividad(actividad)) {
-            case 2:
+            case CatalogoActividades.ERROR_DEMASIADOS:
                 System.out.println("No se pueden añadir más actividades.");
                 break;
-            case 1:
+            case CatalogoActividades.ERROR_ACTIVIDAD_NULL:
                 System.out.println("Actividad nula.");
                 break;
-            default:
+            default: // CatalogoActividades.EXITO
                 System.out.println("¡Actividad agregada exitosamente!");
         }
     }
