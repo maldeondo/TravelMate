@@ -1,5 +1,6 @@
 package es.upm;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class InterfazUsuario {
@@ -219,17 +220,17 @@ public class InterfazUsuario {
         try{
             catalogo.guardarActividades(archivo);
             System.out.printf("Actividades guardadas en %s",archivo);
-        }catch(Exception e){
+        } catch(Exception e) {
             System.out.println("Error al guardar el archivo.");
         }
     }
 
     private void cargarActividades(Scanner scanner) {
-        String archivo = Utilidades.leerCadena(scanner,"Archivo de donde cargar las actividades: ");
+        String archivo = Utilidades.leerCadena(scanner, "Archivo de donde cargar las actividades: ");
         try{
-            catalogo.cargarActividades(archivo,maxRecursos,maxComentarios);
-            System.out.printf("Actividades cargadas desde %s",archivo);
-        }catch(Exception e){
+            catalogo.cargarActividades(archivo, maxRecursos, maxComentarios);
+            System.out.printf("Actividades cargadas desde %s", archivo);
+        } catch(IOException e) {
             System.out.println("Error al cargar el archivo");
         }
     }
@@ -243,8 +244,8 @@ public class InterfazUsuario {
         //En el ejemplo el formato que pone es sin el resumen de toString() pero entonces
         //hay que hacer un copia y pega de la mitad del codigo de toString()
         System.out.println(viaje);
-        dia = Utilidades.leerNumero(scanner,"Introduce el día del viaje (1-"+viaje.getNumDias()+"): ",1,viaje.getNumDias() );
-        hora = Utilidades.leerHora(scanner,"Introduce la hora de inicio (HH:MM): ");
+        dia = Utilidades.leerNumero(scanner, "Introduce el día del viaje (1-"+viaje.getNumDias()+"): ", 1, viaje.getNumDias());
+        hora = Utilidades.leerHora(scanner, "Introduce la hora de inicio (HH:MM): ");
         
         //Mensaje final que depende de si la actividad se ha agregado o no
         switch(viaje.agregarActividad(dia, buscarActividadPorNombre(scanner), hora)){
@@ -269,7 +270,7 @@ public class InterfazUsuario {
         try{
             viaje.guardarItinerario(archivo);
             System.out.printf("Itinerario guardado en %s\n", archivo);
-        }catch(Exception e){
+        } catch(IOException e) {
             System.out.println("Error al guardar el archivo.");
         }
     }
