@@ -67,6 +67,7 @@ public class Utilidades {
     public static String leerHora(Scanner teclado, String mensaje) {
         String output = "23:11"; boolean correct = false;
         int h = 0, m = 0;
+        System.out.println(mensaje);
 
         String formatmsg = "Formato incorrecto. Usa el formato HH:MM (por ejemplo, 09:30).";
         String hourmsg = "Las horas deben estar entre 00 y 23.";

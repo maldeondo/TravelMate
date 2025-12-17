@@ -41,7 +41,7 @@ public class InterfazUsuario {
     private void agregarActividad(Scanner scanner) {
        int recursosMax = 0;
        int comentariosMax = 0;
-
+       // Datos de la actividad
         String nombre = Utilidades.leerCadena(scanner,"Nombre de la actividad: ");
         String descripcion = Utilidades.leerCadena(scanner,"Descripción: ");
         double precio = Utilidades.leerDouble(scanner, "Precio (€): ", 0, 1000);
@@ -52,11 +52,12 @@ public class InterfazUsuario {
         actividad.setPrecio(precio);
         actividad.setDuracionMinutos(duracion);
 
-        String comentario = Utilidades.leerCadena(scanner,"Introduce los recursos (una linea por recurso, escribe 'fin' para terminar): ");
+        //Preguntar por recursos y añadirlos por lineas
+        String recursos = Utilidades.leerCadena(scanner,"Introduce los recursos (una linea por recurso, escribe 'fin' para terminar): ");
         boolean check = true;
         while (check){
-            if(comentario.equals("fin")) break;
-            int error = actividad.agregarRecurso(comentario);
+            if(recursos.equals("fin")) break;
+            int error = actividad.agregarRecurso(recursos);
             switch(error){
                 case 1:
                     System.out.println("Valor Invalido");
@@ -66,13 +67,15 @@ public class InterfazUsuario {
                     check = false;
                     break;
             }
+            recursos = scanner.nextLine();
         }
-        System.out.println("Introduce los comentarios (una linea por comentario, escribe 'fin' para terminar):");
+
+        //Preguntar por comentarios y añadirlos por lineas
+        String comentarios = Utilidades.leerCadena(scanner, "Introduce los comentarios (una linea por comentario, escribe 'fin' para terminar):");
         boolean check1 = true;
         while (check1){
-            comentario = scanner.nextLine();
-            if(comentario.equals("fin")) break;
-            int error = actividad.agregarComentario(comentario);
+            if(comentarios.equals("fin")) break;
+            int error = actividad.agregarComentario(comentarios);
             switch(error){
                 case 1:
                     System.out.println("Valor Invalido");
@@ -82,7 +85,9 @@ public class InterfazUsuario {
                         check1 = false;
                         break;
             }
+            comentarios = scanner.nextLine();
         }
+
         int agregar = catalogo.agregarActividad(actividad);
                 if(agregar == 0 ) System.out.println("¡Actividad agregada exitosamente!");
                 else System.out.println("No se pueden añadir más actividades.");
@@ -109,18 +114,59 @@ public class InterfazUsuario {
     }
 
     private void guardarActividades(Scanner scanner) {
-        // Lee el nombre del archivo y guarda las actividades del catálogo
+        String archivo = Utilidades.leerCadena(scanner,"Archivo donde guardar las actividades: ");
+        try{
+            catalogo.guardarActividades(archivo);
+            System.out.printf("Actividades guardadas en %s",archivo);
+        }catch(Exception e){
+            System.out.println("Error al guardar el archivo.");
+        }
     }
 
     private void cargarActividades(Scanner scanner) {
-        // Lee el nombre del archivo y carga actividades al catálogo
+        String archivo = Utilidades.leerCadena(scanner,"Archivo de donde cargar las actividades");
+        try{
+            catalogo.cargarActividades(archivo,maxRecursos,maxComentarios);
+            System.out.printf("Actividades cargadas desde %s",archivo);
+        }catch(Exception e){
+            System.out.println("Error al cargar el archivo");
+        }
     }
 
     private void planificarViaje(Scanner scanner) {
-        // Muestra el itinerario actual y permite agregar actividades a días específicos
+
+        System.out.println("Planificación del viaje:");
+        //En el ejemplo el formato que pone es sin el resumen de toString() pero entonces
+        //hay que hacer un copia y pega de la mitad del codigo de toString()
+        System.out.println(viaje.toString());
+        int dia = Utilidades.leerNumero(scanner,"Introduce el dia del viaje (1-"+viaje.getNumDias()+"): ",1,viaje.getNumDias() );
+        String hora = Utilidades.leerHora(scanner,"Introduce la hora de inicio (HH:MM): ");
+        //Mensaje final que depende de si la actividad se ha agregado o no
+        int error = viaje.agregarActividad(dia,buscarActividadPorNombre(scanner),hora);
+        switch(error){
+            case 0:
+                System.out.printf("Actividad planificada para el dia %d a las %s\n", dia, hora);
+                break;
+            case 1:
+                System.out.println("Día inválido");
+                break;
+            case 2:
+                System.out.println("No se pueden agregar más actividades a este día.");
+                break;
+            case 3:
+                System.out.println("La actividad se solapa con otra actividad ya planificada.");
+                break;
+        }
+
     }
 
     private void guardarItinerario(Scanner scanner) {
-        // Lee el nombre del archivo y guarda el itinerario del viaje
+        String archivo = Utilidades.leerCadena(scanner, "Archivo donde guardar el itinerario: ");
+        try{
+            viaje.guardarItinerario(archivo);
+            System.out.printf("Itinerario guardado en %s\n", archivo);
+        }catch(Exception e){
+            System.out.println("Error al guardar el archivo.");
+        }
     }
 }
