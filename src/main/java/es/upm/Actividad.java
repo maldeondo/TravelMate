@@ -13,6 +13,7 @@ import java.io.IOException;
  *
  * @author Mario Aldeondo
  * @author Robert Voong
+ * @version 1.0
  */
 public class Actividad {
 

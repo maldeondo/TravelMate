@@ -8,6 +8,7 @@ import java.util.Scanner;
  *
  * @author Mario Aldeondo
  * @author Robert Voong
+ * @version 1.0
  */
 public class Utilidades {
 

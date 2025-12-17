@@ -10,17 +10,29 @@ import java.nio.file.Path;
  *
  * @Mario Aldeondo
  * @Robert Voong
+ * @version 1.0
  */
 public class CatalogoActividades {
     private int maxActividades; //should be final, but won't compile
     private int actActividades = 0;
     private static final String SEPARATOR = "\n-----\n";
 
-    // array aproach, the data structure is not specified by doc
+    /**
+     * Array de actividades que se usa  como contenedor de actividades del catalogo
+     */
     private Actividad[] arrayActividades;
 
+    /**
+     * Constante con el valor de una operacion exitosa
+     */
     public static final int EXITO = 0;
+    /**
+     * Constante con el valor de una operacion fallida por una actividad vacia
+     */
     public static final int ERROR_ACTIVIDAD_NULL = 1;
+    /**
+     * Constante con el valor de una operacion fallida porque hay demasiadas actividades
+     */
     public static final int ERROR_DEMASIADOS = 2;
 
     /**
