@@ -1,9 +1,12 @@
 package es.upm;
 
+import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
-        Viaje viaje;
-        CatalogoActividades catalogo;
+        Viaje viaje = null;
+        CatalogoActividades catalogo = null;
+        InterfazUsuario interfaz = null;
+        Scanner sc = null;
 
         int maxRecursosPorActividad;
         int maxComentariosPorActividad;
@@ -19,7 +22,16 @@ public class Main {
             maxActividadesPorDia = Integer.parseInt(args[4]);
 
             // FIXME MANAGE ALL EXCEPTIONS IN A NESTED TRY-CATCH BLOCK
-            viaje = builder_Viaje(numDiasViaje, maxActividadesPorDia);
+            
+            try {
+                catalogo = builder_Catalogo(maxActividadesEnCatalogo);
+                viaje = builder_Viaje(numDiasViaje, maxActividadesPorDia);
+                interfaz = builder_Interfaz(catalogo, viaje, maxRecursosPorActividad, maxComentariosPorActividad);
+
+                launcher(interfaz, sc);
+
+            } catch (Error ex) { throw new NumberFormatException(); }
+            
 
         } catch (NumberFormatException ex) {
             System.out.println("Argumentos inválidos.");
@@ -29,11 +41,21 @@ public class Main {
         }
     }
 
-    private static Viaje builder_Viaje(int numDias, int maxActividades) {
+    private static CatalogoActividades builder_Catalogo(int maxActividadesEnCatalogo) throws Error {
+        return new CatalogoActividades(maxActividadesEnCatalogo);
+    }
+
+    private static Viaje builder_Viaje(int numDias, int maxActividades) throws Error {
         return new Viaje(numDias, maxActividades);
     }
 
-    private static void launcher() {
+    private static InterfazUsuario builder_Interfaz(CatalogoActividades catalogo, Viaje viaje, int maxRecursos, int maxComentarios) {
+        return new InterfazUsuario(catalogo, viaje, maxRecursos, maxComentarios);
+    }
 
+    private static void launcher(InterfazUsuario interfaz, Scanner sc) {
+        sc = new Scanner(System.in);
+        
+        interfaz.iniciar(sc);
     }
 }

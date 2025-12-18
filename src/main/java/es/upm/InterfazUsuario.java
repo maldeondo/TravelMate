@@ -18,10 +18,13 @@ public class InterfazUsuario {
     private int maxComentarios = 0;
 
     public InterfazUsuario(CatalogoActividades catalogo, Viaje viaje, int maxRecursos, int maxComentarios) {
-       this.catalogo = catalogo;
-       this.viaje = viaje;
-       this.maxRecursos = maxRecursos;
-       this.maxComentarios = maxComentarios;
+        this.catalogo = catalogo;
+        this.viaje = viaje;
+
+        if (maxRecursos > 0 && maxComentarios > 0) {
+            this.maxRecursos = maxRecursos;
+            this.maxComentarios = maxComentarios;
+        } else throw new Error();
     }
 
     public void iniciar(Scanner scanner) {
