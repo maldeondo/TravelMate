@@ -34,7 +34,7 @@ public class InterfazUsuario {
         do {
             mostrarMenu();
 
-            respuesta = Utilidades.leerNumero(scanner, "", 1, 7);
+            respuesta = Utilidades.leerNumero(scanner, "Elige una opción: ", 1, 7);
 
             switch (respuesta) {
                 case 1:
@@ -79,9 +79,8 @@ public class InterfazUsuario {
         menu.append("5. Planificar Viaje\n");
         menu.append("6. Guardar Itinerario\n");
         menu.append("7. Salir\n");
-        menu.append("Elige una opción:");
 
-        System.out.println(menu.toString());
+        System.out.print(menu.toString());
     }
 
     private void agregarActividad(Scanner scanner) {
