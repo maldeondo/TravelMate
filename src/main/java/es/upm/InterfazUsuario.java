@@ -147,6 +147,7 @@ public class InterfazUsuario {
     private void consultarActividad(Scanner scanner) {
         Actividad seleccionada = buscarActividadPorNombre(scanner);
 
+        // BUG Wrong exception if entrada array is void
         editarActividad(scanner, seleccionada);
         
     }
