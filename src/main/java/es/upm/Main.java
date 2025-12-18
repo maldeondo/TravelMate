@@ -1,11 +1,31 @@
 package es.upm;
 
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        int maxRecursosPorActividad;
+        int maxComentariosPorActividad;
+        int maxActividadesEnCatalogo;
+        int numDiasViaje;
+        int maxActividadesPorDia;
 
-        System.out.println(sc.nextLine());
+        try {
+            maxRecursosPorActividad = Integer.parseInt(args[0]);
+            maxComentariosPorActividad = Integer.parseInt(args[1]);
+            maxActividadesEnCatalogo = Integer.parseInt(args[2]);
+            numDiasViaje = Integer.parseInt(args[3]);
+            maxActividadesPorDia = Integer.parseInt(args[4]);
+
+
+
+        } catch (NumberFormatException ex) {
+            System.out.println("Argumentos inválidos.");
+
+        } catch (IndexOutOfBoundsException ex) {
+            System.out.println("Faltan argumentos.");
+        }
+    }
+
+    private static void launch() {
+        
     }
 }
