@@ -216,20 +216,20 @@ public class InterfazUsuario {
 
     private void guardarActividades(Scanner scanner) {
         String archivo = Utilidades.leerCadena(scanner,"Archivo donde guardar las actividades: ");
-        try{
+        try {
             catalogo.guardarActividades(archivo);
             System.out.printf("Actividades guardadas en %s",archivo);
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Error al guardar el archivo.");
         }
     }
 
     private void cargarActividades(Scanner scanner) {
         String archivo = Utilidades.leerCadena(scanner, "Archivo de donde cargar las actividades: ");
-        try{
+        try {
             catalogo.cargarActividades(archivo, maxRecursos, maxComentarios);
             System.out.printf("Actividades cargadas desde %s", archivo);
-        } catch(IOException e) {
+        } catch (IOException e) {
             System.out.println("Error al cargar el archivo");
         }
     }
