@@ -1,5 +1,6 @@
 ### MARIO ->
 src/custom/
+*.txt
 
 ### ROBERT ->
 .idea/

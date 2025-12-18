@@ -69,12 +69,7 @@ public class CatalogoActividades {
         return actActividades;
     }
 
-    /**
-     * Metodo que devuelve un array de actividades con las actividades dentro del catalogo
-     *
-     * @return Array de actividades
-     */
-    public Actividad[] getCatalogo() {
+    public Actividad[] getArray() {
         return arrayActividades;
     }
 

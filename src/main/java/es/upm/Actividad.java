@@ -61,11 +61,6 @@ public class Actividad {
      * Numero de comentarios agregados hasta el momento
      */
     private int actComentarios = 0;
-    /**
-     * Hora en minutos en la que inicia la actividad, tiene muchos usos
-     * en otras clases
-     */
-    private int minutosInicio = 0;
 
     /**
      * Cadena a partir de la cual estan separados los recursos y comentarios se
@@ -174,25 +169,6 @@ public class Actividad {
      */
     public void setDuracionMinutos(int duracionMinutos) { this.duracionMinutos = duracionMinutos; }
 
-    /**
-     *Devuelve la hora de inicio expresada en minutos desde el comienzo del dia ( 00:00 )
-     *
-     * @return La hora en minutos a la que empieza la actividad
-     */
-    public int getInicio() { return minutosInicio; }
-
-    /**
-     * Metodo para establecer la hora en minutos a la que empieza la actividad
-     *
-     * @param hora Hora en minutos a la que empieza la actividad
-     */
-    public void setInicio(int hora) { this.minutosInicio = hora; }
-
-    /**
-     * Metodo para obtener el numero maximo de recursos de una actividad
-     *
-     * @return Numero maximo de recursos
-     */
     public int getMaxRecursos() { return maxRecursos; }
 
     /**
