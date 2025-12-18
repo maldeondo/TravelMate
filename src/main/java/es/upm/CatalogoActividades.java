@@ -8,8 +8,8 @@ import java.nio.file.Path;
  * asignadas a un mismo dia, la clase cuenta con una serie de metodos con la
  * funcionalidad de agregar, eliminar, buscar, cargar y guardar actividades.
  *
- * @Mario Aldeondo
- * @Robert Voong
+ * @author Mario Aldeondo
+ * @author Robert Voong
  * @version 1.0
  */
 public class CatalogoActividades {
@@ -69,10 +69,15 @@ public class CatalogoActividades {
         return actActividades;
     }
 
+    /**
+     * Metodo que te devuelve todas las actividades del catalogo en
+     * forma de array de actividades
+     *
+     * @return Array de actividades
+     */
     public Actividad[] getArray() {
         return arrayActividades;
     }
-
 
     /**
      * Metodo que devuelve un boolean que depende de si un objeto de la

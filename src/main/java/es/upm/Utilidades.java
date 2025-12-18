@@ -11,12 +11,36 @@ import java.util.Scanner;
  * @version 1.0
  */
 public class Utilidades {
+    /**
+     * Constante que contiene un string con el mensaje que indica entre que valores tiene que
+     * estar comprendido el numero
+     */
     private static final String NUMBER_MSG = "El número debe estar entre [%d] y [%d].";
+    /**
+     * Constante que contiene un string con el mensaje que indica entre que valores tiene que
+     * estar comprendido el numero con decimales
+     */
     private static final String DOUBLE_MSG = "El número debe estar entre [%.2f] y [%.2f].";
+    /**
+     * Constante que contiene un string con un mensaje que indica que el numero no es
+     * valido y pide uno que si lo sea
+     */
     private static final String ERROR_MSG = "Por favor, introduce un número válido.";
 
+    /**
+     * Constante que contiene un string con un mensaje que indica que el formato es incorrecto
+     * y muestra cual es el adecuado.
+     */
     private static final String FORMAT_MSG = "Formato incorrecto. Usa el formato HH:MM (por ejemplo, 09:30).";
+    /**
+     * Constante que contiene un string con un mensaje que indica los valores entre los que
+     * tienen que estar las horas.
+     */
     private static final String HOUR_MSG = "Las horas deben estar entre 00 y 23.";
+    /**
+     * Constante que contiene un string con un mensaje que indica los valores entre los que
+     * tiene que estar los minutos.
+     */
     private static final String MIN_MSG = "Los minutos deben estar entre 00 y 59.";
 
 

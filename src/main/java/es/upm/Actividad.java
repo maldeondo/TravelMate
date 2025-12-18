@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
- * Actividad es una clase que se comporta como una actividad dentro de un dia,
+ * Actividad es una clase que tiene el  comportamiento de una actividad dentro de un dia,
  * la clase encapsula metodos para añadir elementos propios de un actividad como el nombre,
  * la descripcion, el precio, la duracion, los recursos y los comentarios; asi como metodos
  * para mostrar estos elementos. Tambien contiene metodos toString y toRawString para mostrar
@@ -169,6 +169,11 @@ public class Actividad {
      */
     public void setDuracionMinutos(int duracionMinutos) { this.duracionMinutos = duracionMinutos; }
 
+    /**
+     * Metodo para obtener el numero máximo de recursos de una actividad
+     *
+     * @return Numero maximo de recursos
+     */
     public int getMaxRecursos() { return maxRecursos; }
 
     /**

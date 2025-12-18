@@ -3,20 +3,65 @@ package es.upm;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * InterfazUsuario es una clase que encapsula toda la interaccion con el usuario y muestra un menu
+ * para elegir entre las diferentes opciones que ofrece el programa. La clase se apoya en todas las demas
+ * clases para ejecutar la accion pedida por el usuario.
+ *
+ * @author Mario Aldeondo
+ * @author Robert Voong
+ * @version 1.0
+ */
 public class InterfazUsuario {
 
+    /**
+     * Constante que contiene un string con el mensaje para pedirle los recursos al usuario
+     */
     private static final String PEDIR_REC = "Introduce los recursos (una línea por recurso, escribe 'fin' para terminar): ";
+    /**
+     * Constante que contiene un string con el mensaje para pedirle los comentarios al usuario
+     */
     private static final String PEDIR_COM = "Introduce los comentarios (una línea por comentario, escribe 'fin' para terminar):";
+    /**
+     * Constante que contiene un string con el mensaje para pedir el nombre de una actividad
+     */
     private static final String PEDIR_TXT = "Introduce el texto de la actividad a buscar (-FIN- para volver): ";
 
+    /**
+     * Constante que contiene un string con el mensaje para indicar que se añadan recursos a la actividad
+     */
     private static final String PEDIR_MOD_REC = "Introduce el recurso a añadir: ";
+    /**
+     * Constante que contiene un string con el mensaje para indicar que se añadan comentarios a la actividad
+     */
     private static final String PEDIR_MOD_COM = "Introduce el comentario a añadir: ";
 
+    /**
+     * Objeto de la clase CatalogoActividades
+     */
     private CatalogoActividades catalogo;
+    /**
+     * Objeto de la clase Viaje
+     */
     private Viaje viaje;
+    /**
+     * Numero maximo de recursos de una actividad
+     */
     private int maxRecursos = 0;
+    /**
+     * Numero maximo de comentarios de una actividad
+     */
     private int maxComentarios = 0;
 
+    /**
+     * Constructor de la clase InterfazUsuario para que siempre se inicialice con un objeto de la clase
+     * CatalogoActividades y un objeto de la clase Viaje asi como un numero maximo de recursos y comentarios
+     *
+     * @param catalogo Objeto de la clase CatalogoActividades
+     * @param viaje Objeto de la clase Viaje
+     * @param maxRecursos Numero maximo de recursos
+     * @param maxComentarios Numero maxio de comentarios
+     */
     public InterfazUsuario(CatalogoActividades catalogo, Viaje viaje, int maxRecursos, int maxComentarios) {
        this.catalogo = catalogo;
        this.viaje = viaje;
@@ -24,10 +69,22 @@ public class InterfazUsuario {
        this.maxComentarios = maxComentarios;
     }
 
+    /**
+     * Metodo que es llamado desde el main para iniciar el menu principal,
+     * contiene un objeto de la clase Scanner para leer la opcion del usuario
+     *
+     * @param scanner Objeto de la clase Scanner
+     */
     public void iniciar(Scanner scanner) {
         menuPrincipal(scanner);
     }
 
+    /**
+     * Metodo que muestra el menu y en base a la opcion leida de teclado por el objeto
+     * de la clase Scanner efectua la accion correspondiente
+     *
+     * @param scanner Objeto de la clase Scanner
+     */
     private void menuPrincipal(Scanner scanner) {
         int respuesta;
         

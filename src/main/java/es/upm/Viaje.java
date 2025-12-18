@@ -1,15 +1,38 @@
 package es.upm;
 import java.io.*;
 
+/**
+ *Viaje es una clase con la funcion de manejar las actividades que constituyen todo el viaje,
+ * contiene metodos para agregar, buscar y eliminar actividades del viaje asi como metodos
+ * para mostrar el itinerario del viaje al completo y guardarlo en el archivo que se desee.
+ * Esta clase se apoya en Actividad y CatalogoActividades para la manipulacion de las actividades.
+ *
+ * @author Mario Aldeondo
+ * @auhtor Robert Voong
+ * @version 1.0
+ */
 public class Viaje {
 
-    // ---------------------------
-    // Constantes de códigos de error
-    // ---------------------------
+    /**
+     * Constante que contiene el valor de que se devuelve tras una operacion exitosa
+     */
     public static final int EXITO = 0;
+    /**
+     * Constante que contiene el valor que se devuelve tras una operacion fallida
+     * por motivo de que el dia no es valido
+     */
     public static final int ERROR_DIA_INVALIDO = 1;
+    /**
+     * Constante que contiene el valor que se devuelve tras una operacion fallida
+     * por motivo de  que no se admiten mas dias
+     */
     public static final int ERROR_DIA_COMPLETO = 2;
+    /**
+     * Constante que contiene el valor que se devuelve tras una operacion fallida
+     * por motivo de solapamiento entre las horas de una actividad
+     */
     public static final int ERROR_SOLAPAMIENTO = 3;
+
 
     // Constantes para la comprobación de solapamiento
     private static final int MINUTOS_MINIMO = 0;
