@@ -12,8 +12,8 @@ public class Viaje {
     public static final int ERROR_SOLAPAMIENTO = 3;
 
     // Constantes para la comprobación de solapamiento
-    private static final int MINUTOS_MINIMO = 0;
-    private static final int MINUTOS_MAXIMO = Utilidades.horaAMinutos("23:59");
+    public static final int MINUTOS_MINIMO = -1;
+    public static final int MINUTOS_MAXIMO = Utilidades.horaAMinutos("23:59");
 
     //Atributos
     private int numDias; // Numero de dias que dura el viaje
@@ -91,7 +91,7 @@ public class Viaje {
     }
 
     private boolean actividadesSolapan(int dia, int posicion, int inicio, int fin) {
-            int horaInicialPosterior = MINUTOS_MAXIMO, horaFinalAnterior = MINUTOS_MINIMO;
+            int horaFinalAnterior = MINUTOS_MINIMO, horaInicialPosterior = MINUTOS_MAXIMO;
             int numActividades = getNumActividadesDia(dia);
 
             if (numActividades > 0) {
