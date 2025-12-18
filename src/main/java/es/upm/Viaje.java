@@ -154,31 +154,35 @@ public class Viaje {
         //Print de los giones + el dia cada dia
         for(int dia = 0; dia < numDias; dia++) {
             numActividades = getNumActividadesDia(dia);
-            if(dia == 0 )itinerario.append("-------------------------------------------------------------------\n");
-            else itinerario.append("\n-------------------------------------------------------------------\n");
-            itinerario.append(String.format("Día %d\n",dia + 1));
+            
+            if (dia != 0) itinerario.append("\n");
             itinerario.append("-------------------------------------------------------------------\n");
+            
+            itinerario.append(String.format("Día %d\n", dia + 1));
+            itinerario.append("-------------------------------------------------------------------\n");
+            
             //Si no hay actividades en el dia = (No hay actividades)
-            if(numActividades == 0) {
-                itinerario.append("(No hay actividades)\n");
-            }
+            if (numActividades == 0) itinerario.append("(No hay actividades)\n");
+            
             // Print de las actividades por cada dia
             else {
                 for (int j = 0; j < numActividades; j++) {
                     actividad = getActividadfromMatrix(dia, j);
                     itinerario.append(String.format("%s %s\n", Utilidades.minutosAHora(getIniciofromMatrix(dia, j)), actividad.getNombre()));
+                    
                     totalActividades++;
                     precio += actividad.getPrecio();
                 }
             }
 
         }
+
         //Guion final y resumen de gastos hay alguna actividad
-            itinerario.append("\n-------------------------------------------------------------------\n");
-            itinerario.append("Resumen:\n");
-            itinerario.append(String.format("- Días: %d\n", numDias));
-            itinerario.append(String.format("- Actividades: %d\n", totalActividades));
-            itinerario.append(String.format("- Precio: %s\n", Utilidades.formatearPrecio(precio)));
+        itinerario.append("\n-------------------------------------------------------------------\n");
+        itinerario.append("Resumen:\n");
+        itinerario.append(String.format("- Días: %d\n", numDias));
+        itinerario.append(String.format("- Actividades: %d\n", totalActividades));
+        itinerario.append(String.format("- Precio: %s\n", Utilidades.formatearPrecio(precio)));
 
         return itinerario.toString();
     }
@@ -206,7 +210,7 @@ public class Viaje {
                 precio += actividad.getPrecio();
 
                 //Print de todas las actividades en la misma linea, el primero es distinto porque empieza sin ;
-                for(int j = 1; j < numActividades; j++){
+                for (int j = 1; j < numActividades; j++) {
                     actividad = getActividadfromMatrix(dia, j);
                     itinerario.printf("; %s %s (dur %s, %s)", Utilidades.minutosAHora(getIniciofromMatrix(dia, j)), actividad.getNombre(), Utilidades.formatearDuracion(actividad.getDuracionMinutos()),
                         Utilidades.formatearPrecio(actividad.getPrecio()));
