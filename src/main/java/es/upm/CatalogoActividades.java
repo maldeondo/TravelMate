@@ -3,18 +3,44 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * CatalogoActividades es una clase con la funcion de almcenar las actividades
+ * asignadas a un mismo dia, la clase cuenta con una serie de metodos con la
+ * funcionalidad de agregar, eliminar, buscar, cargar y guardar actividades.
+ *
+ * @Mario Aldeondo
+ * @Robert Voong
+ * @version 1.0
+ */
 public class CatalogoActividades {
     private int maxActividades; //should be final, but won't compile
     private int actActividades = 0;
     private static final String SEPARATOR = "\n-----\n";
 
-    // array aproach, the data structure is not specified by doc
+    /**
+     * Array de actividades que se usa  como contenedor de actividades del catalogo
+     */
     private Actividad[] arrayActividades;
 
+    /**
+     * Constante con el valor de una operacion exitosa
+     */
     public static final int EXITO = 0;
+    /**
+     * Constante con el valor de una operacion fallida por una actividad vacia
+     */
     public static final int ERROR_ACTIVIDAD_NULL = 1;
+    /**
+     * Constante con el valor de una operacion fallida porque hay demasiadas actividades
+     */
     public static final int ERROR_DEMASIADOS = 2;
 
+    /**
+     * Constructor de la clase CatalogoActividades para que se inicialice siempre
+     * con un numero maximo de actividades
+     *
+     * @param maxActividades Numero maximo de actividades en un catalogo
+     */
     public CatalogoActividades(int maxActividades) {
         if (maxActividades > 0) {
             this.maxActividades = maxActividades;
@@ -24,10 +50,21 @@ public class CatalogoActividades {
         
     }
 
+    /**
+     * Metodo que devuelve un boolean que depende de si el numero de actividades
+     * ha llegado al numero maximo de actividades
+     *
+     * @return True si no caben mas actividades
+     */
     public boolean actividadesCompletas() {
         return actActividades == maxActividades;
     }
 
+    /**
+     * Metodo que devuelve el numero de actividades en el catalogo
+     *
+     * @return Numero de actividades en el catalogo
+     */
     public int getNumActividades() {
         return actActividades;
     }
@@ -37,8 +74,22 @@ public class CatalogoActividades {
     }
 
 
+    /**
+     * Metodo que devuelve un boolean que depende de si un objeto de la
+     * clase Actividad esta vacio o no
+     *
+     * @param act Objeto de la clase actividad
+     * @return True si la actividad esta vacia
+     */
     private static boolean nullEntry(Actividad act) { return (act == null); }
 
+    /**
+     * Metodo usado para agregar una actividad al catalogo que devuelve un codigo de error
+     * en base al exito o tipo de error producido al intentar añadir la actividad
+     *
+     * @param actividad Objeto de la clase actividad que se añade al catalogo
+     * @return El codigo de error correspondiente a el resultado de la operacion
+     */
     public int agregarActividad(Actividad actividad) {
         int exitcode;
 
@@ -54,6 +105,13 @@ public class CatalogoActividades {
         return exitcode;
     }
 
+    /**
+     * Metodo usado para eliminar una actividad que devuelve un boolean en base
+     * al exito o no de la operacion.
+     *
+     * @param seleccionada Objeto de la clase actividad que se elimina
+     * @return True si se elimina la actividad
+     */
     public boolean eliminarActividad(Actividad seleccionada) {
         int target_index = -1;
         boolean target_found = false;
@@ -80,6 +138,15 @@ public class CatalogoActividades {
         return target_found; 
     }
 
+    /**
+     * Metodo para insertar una actividad en una posicion concreta del
+     * catalogo que devuelve un codigo que depende del exito o tipo de error
+     * al intentar insertar la actividad.
+     *
+     * @param actividad Objeto de la clase actividad que se quiere insertar
+     * @param index Posicion en la que se quiere insertar
+     * @return Codigo de error de la operacion
+     */
     public int insertarActividad(Actividad actividad, int index) {
         int exitcode;
 
@@ -99,6 +166,13 @@ public class CatalogoActividades {
         return exitcode;
     }
 
+    /**
+     * Metodo usado para buscar actividades por nombre que devuelve un objeto de la clase actividad
+     * si coincide con el nombre proporcionado como parametro.
+     *
+     * @param texto Nombre de la actividad que se quiere buscar
+     * @return La actividad buscada si se encuentra
+     */
     public Actividad[] buscarActividadPorNombre(String texto) {
 
         // create the void array before so to check if texto is a null pointer
@@ -137,6 +211,13 @@ public class CatalogoActividades {
         return target_array;
     }
 
+    /**
+     * Metodo usado para guardar una actividad en un archivo con el formato ofrecido por el metodo toRawString
+     * de la clase actividad para un futura lectura correcta.
+     *
+     * @param nombreArchivo Nombre del archivo donde se guardara la actividad
+     * @throws IOException Lanza los errores de entrada y salida que son trarados en InterfazUsuario
+     */
     public void guardarActividades(String nombreArchivo) throws IOException {
         PrintWriter actividad = new PrintWriter(nombreArchivo);
 
@@ -147,6 +228,15 @@ public class CatalogoActividades {
         actividad.close();
     }
 
+    /**
+     * Metodo usado para leer informacion de una actividad dentro del archivo seleccionado
+     * y crear una nueva actividad con esos datos.
+     *
+     * @param nombreArchivo Nombre del archivo que se quiere leer
+     * @param maxRecursos Maximo de recursos que se quieren leer de la archivo
+     * @param maxComentarios Maximo de comentarios que se quieren leer de el archivo
+     * @throws IOException Lanza el error de salida o entrada que se trata en InterfazUsuario
+     */
     public void cargarActividades(String nombreArchivo, int maxRecursos, int maxComentarios) throws IOException {
         String file = Files.readString(Path.of(nombreArchivo));
         BufferedReader block;
