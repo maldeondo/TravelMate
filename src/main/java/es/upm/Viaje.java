@@ -1,5 +1,6 @@
 package es.upm;
 import java.io.*;
+import java.lang.NumberFormatException;
 
 public class Viaje {
 
@@ -31,7 +32,10 @@ public class Viaje {
             }
 
             this.numDias = numDias;
-        } else System.out.println("Estos valores no tienen sentido");
+        } else {
+            System.out.println("Estos valores no tienen sentido");
+            throw new NumberFormatException("hola"); 
+        }
     }
 
     public int getNumDias() { return numDias; }

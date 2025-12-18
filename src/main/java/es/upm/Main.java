@@ -2,6 +2,9 @@ package es.upm;
 
 public class Main {
     public static void main(String[] args) {
+        Viaje viaje;
+        CatalogoActividades catalogo;
+
         int maxRecursosPorActividad;
         int maxComentariosPorActividad;
         int maxActividadesEnCatalogo;
@@ -15,7 +18,8 @@ public class Main {
             numDiasViaje = Integer.parseInt(args[3]);
             maxActividadesPorDia = Integer.parseInt(args[4]);
 
-            builder(numDiasViaje, maxActividadesPorDia);
+            // FIXME MANAGE ALL EXCEPTIONS IN A NESTED TRY-CATCH BLOCK
+            viaje = builder_Viaje(numDiasViaje, maxActividadesPorDia);
 
         } catch (NumberFormatException ex) {
             System.out.println("Argumentos inválidos.");
@@ -25,9 +29,8 @@ public class Main {
         }
     }
 
-    private static void builder() {
-        Viaje viaje = new Viaje(0, 0)
-        
+    private static Viaje builder_Viaje(int numDias, int maxActividades) {
+        return new Viaje(numDias, maxActividades);
     }
 
     private static void launcher() {
