@@ -15,7 +15,7 @@ public class Main {
             numDiasViaje = Integer.parseInt(args[3]);
             maxActividadesPorDia = Integer.parseInt(args[4]);
 
-
+            builder(numDiasViaje, maxActividadesPorDia);
 
         } catch (NumberFormatException ex) {
             System.out.println("Argumentos inválidos.");
@@ -25,7 +25,12 @@ public class Main {
         }
     }
 
-    private static void launch() {
+    private static void builder() {
+        Viaje viaje = new Viaje(0, 0)
         
+    }
+
+    private static void launcher() {
+
     }
 }
