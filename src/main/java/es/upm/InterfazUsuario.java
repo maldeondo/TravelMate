@@ -74,7 +74,7 @@ public class InterfazUsuario {
     private void mostrarMenu() {
         StringBuilder menu = new StringBuilder();
 
-        menu.append("--- Menú Principal ___\n");
+        menu.append("\n--- Menú Principal ___\n");
         menu.append("1. Agregar Actividad\n");
         menu.append("2. Consultar/Editar Actividad\n");
         menu.append("3. Guardar Actividades\n");
@@ -100,7 +100,7 @@ public class InterfazUsuario {
         String input;
         boolean full = false;
 
-        System.out.println(PEDIR_REC);
+        System.out.print(PEDIR_REC);
         while (!((input = Utilidades.leerCadena(scanner, "")).equals("fin")) && !full) {
             switch (actividad.agregarRecurso(input)) {
                 case Actividad.ERROR_VALOR_INVALIDO:
@@ -117,7 +117,7 @@ public class InterfazUsuario {
 
         full = false;
 
-        System.out.println(PEDIR_COM);
+        System.out.print(PEDIR_COM);
         while (!((input = Utilidades.leerCadena(scanner, "")).equals("fin")) && !full) {
             switch (actividad.agregarComentario(input)) {
                 case Actividad.ERROR_VALOR_INVALIDO:
