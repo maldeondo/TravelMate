@@ -31,6 +31,11 @@ public class Main {
                 launcher(interfaz, sc);
 
             } catch (Error ex) { throw new NumberFormatException(); }
+
+            // TODO MANAGE SIXTH ARGUMENT
+            if (args.length == 5) {
+
+            }
             
 
         } catch (NumberFormatException ex) {
