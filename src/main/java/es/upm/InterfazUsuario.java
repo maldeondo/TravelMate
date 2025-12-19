@@ -21,7 +21,7 @@ public class InterfazUsuario {
         this.catalogo = catalogo;
         this.viaje = viaje;
 
-        if (maxRecursos > 0 && maxComentarios > 0) {
+        if (maxRecursos >= 0 && maxComentarios >= 0) {
             this.maxRecursos = maxRecursos;
             this.maxComentarios = maxComentarios;
         } else throw new Error();
