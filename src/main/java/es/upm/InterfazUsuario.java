@@ -147,8 +147,8 @@ public class InterfazUsuario {
     private void consultarActividad(Scanner scanner) {
         Actividad seleccionada = buscarActividadPorNombre(scanner);
 
-        // BUG Wrong exception if entrada array is void
-        editarActividad(scanner, seleccionada);
+        if (seleccionada != null) editarActividad(scanner, seleccionada);
+        else System.out.println("Búsqueda sin resultados.");
         
     }
 
@@ -156,19 +156,21 @@ public class InterfazUsuario {
     private Actividad buscarActividadPorNombre(Scanner scanner) {
         Actividad[] entrada = catalogo.buscarActividadPorNombre(Utilidades.leerCadena(scanner, PEDIR_TXT));
 
-        return seleccionarActividad(scanner, entrada);
+        return entrada.length != 0 ? seleccionarActividad(scanner, entrada) : null;
     }
 
     private Actividad seleccionarActividad(Scanner scanner, Actividad[] actividades) {
+        int respuesta;
+        
         System.out.println("Actividades encontradas:");
 
         for (int i = 0; i < actividades.length; i++) {
             System.out.printf("%d. %s\n", i + 1, actividades[i].getNombre());
         }
 
-        int repuesta = Utilidades.leerNumero(scanner, "Elige una actividad: ", 1, actividades.length + 1);
+        respuesta = Utilidades.leerNumero(scanner, "Elige una actividad: ", 1, actividades.length + 1);
 
-        return actividades[repuesta - 1];
+        return actividades[respuesta - 1];
     }
 
     private void editarActividad(Scanner scanner, Actividad seleccionada) {
