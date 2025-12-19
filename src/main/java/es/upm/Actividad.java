@@ -187,7 +187,7 @@ public class Actividad {
         Actividad result = new Actividad(reader.readLine(), maxRecursos, maxComentarios);
     
             result.setDescripcion(reader.readLine());
-            result.setPrecio(Double.parseDouble(reader.readLine()));
+            result.setPrecio(Double.parseDouble(reader.readLine().replace(',', '.')));
             result.setDuracionMinutos(Integer.parseInt(reader.readLine()));
 
             while (!((linea = reader.readLine()).equals(FIRST_SEPARATOR))) {
