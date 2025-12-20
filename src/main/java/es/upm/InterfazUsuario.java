@@ -106,12 +106,18 @@ public class InterfazUsuario {
                 case Actividad.ERROR_VALOR_INVALIDO:
                     System.out.println("Valor inválido.");
                     break;
+
                 case Actividad.ERROR_RECURSOS_COMPLETOS:
                     System.out.println("Recursos completos.");
                     full = true;
                     break;
-                default: // Actividad.EXITO
+
+                case Actividad.EXITO:
                     System.out.println("Éxito.");
+                    break;
+
+                default:
+                    break;
             }
         }
 
@@ -123,12 +129,18 @@ public class InterfazUsuario {
                 case Actividad.ERROR_VALOR_INVALIDO:
                     System.out.println("Valor inválido.");
                     break;
+
                 case Actividad.ERROR_COMENTARIOS_COMPLETOS:
                     System.out.println("Comentarios completos.");
                     full = true;
                     break;
-                default: // Actividad.EXITO
+
+                case Actividad.EXITO:
                     System.out.println("Éxito.");
+                    break;
+
+                default:
+                    break;
             }
         }
 
@@ -136,9 +148,11 @@ public class InterfazUsuario {
             case CatalogoActividades.ERROR_DEMASIADOS:
                 System.out.println("No se pueden añadir más actividades.");
                 break;
+
             case CatalogoActividades.ERROR_ACTIVIDAD_NULL:
                 System.out.println("Actividad nula.");
                 break;
+
             default: // CatalogoActividades.EXITO
                 System.out.println("¡Actividad agregada exitosamente!");
         }
@@ -268,7 +282,7 @@ public class InterfazUsuario {
             case Viaje.ERROR_SOLAPAMIENTO:
                 System.out.println("La actividad se solapa con otra actividad ya planificada.");
                 break;
-                
+
             case Viaje.EXITO:
                 System.out.printf("Actividad planificada para el día %d a las %s\n", dia, hora);
                 break;
