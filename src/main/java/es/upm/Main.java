@@ -1,5 +1,6 @@
 package es.upm;
 
+import java.io.IOException;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
@@ -13,6 +14,7 @@ public class Main {
         int maxActividadesEnCatalogo;
         int numDiasViaje;
         int maxActividadesPorDia;
+        String nombreArchivoActividades;
 
         try {
             maxRecursosPorActividad = Integer.parseInt(args[0]);
@@ -25,6 +27,13 @@ public class Main {
             
             try {
                 catalogo = builder_Catalogo(maxActividadesEnCatalogo);
+
+                if (args.length == 6) {
+                    nombreArchivoActividades = args[5];
+                    catalogo.cargarActividades(nombreArchivoActividades, maxRecursosPorActividad, maxComentariosPorActividad);
+  
+                }
+
                 viaje = builder_Viaje(numDiasViaje, maxActividadesPorDia);
                 interfaz = builder_Interfaz(catalogo, viaje, maxRecursosPorActividad, maxComentariosPorActividad);
 
@@ -33,16 +42,13 @@ public class Main {
             } catch (Error ex) { throw new NumberFormatException(); }
 
             // TODO MANAGE SIXTH ARGUMENT
-            if (args.length == 5) {
-
-            }
-            
 
         } catch (NumberFormatException ex) {
             System.out.println("Argumentos inválidos.");
-
         } catch (IndexOutOfBoundsException ex) {
             System.out.println("Faltan argumentos.");
+        } catch (IOException ex) {
+            System.out.println("Error de carga de archivo.");
         }
     }
 
