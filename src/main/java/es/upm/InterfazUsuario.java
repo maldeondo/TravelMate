@@ -175,7 +175,7 @@ public class InterfazUsuario {
 
     private void editarActividad(Scanner scanner, Actividad seleccionada) {
         int exitcode;
-        int errorcode = Actividad.EXITO;
+        int errorcode = -1;
         System.out.println(seleccionada);
 
         System.out.println("1. Añadir recurso\n2. Añadir comentario\n3. Eliminar actividad\n4. Volver");
@@ -212,10 +212,13 @@ public class InterfazUsuario {
                 System.out.println("Valor inválido.");
                 break;
 
-            default: // Actividad.EXITO
+            case Actividad.EXITO:
                 if (exitcode == 1) System.out.println("Recurso añadido exitosamente.");
                 else System.out.println("Comentario añadido correctamente.");
 
+                break;
+
+            default:
                 break;
         }
     }
@@ -257,14 +260,20 @@ public class InterfazUsuario {
             case Viaje.ERROR_DIA_INVALIDO:
                 System.out.println("Día inválido");
                 break;
+
             case Viaje.ERROR_DIA_COMPLETO:
                 System.out.println("No se pueden agregar más actividades a este día.");
                 break;
+
             case Viaje.ERROR_SOLAPAMIENTO:
                 System.out.println("La actividad se solapa con otra actividad ya planificada.");
                 break;
-            default: // Viaje.EXITO
+                
+            case Viaje.EXITO:
                 System.out.printf("Actividad planificada para el día %d a las %s\n", dia, hora);
+                break;
+
+            default:
                 break;
         }
 
