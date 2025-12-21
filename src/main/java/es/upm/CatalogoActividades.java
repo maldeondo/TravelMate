@@ -16,11 +16,11 @@ public class CatalogoActividades {
     public static final int ERROR_DEMASIADOS = 2;
 
     public CatalogoActividades(int maxActividades) {
-        if (maxActividades > 0) {
+        if (maxActividades >= 0) {
             this.maxActividades = maxActividades;
 
             arrayActividades = new Actividad[maxActividades];
-        }
+        } else throw new NumberFormatException();
         
     }
 

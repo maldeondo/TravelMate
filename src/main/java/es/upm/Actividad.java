@@ -32,7 +32,7 @@ public class Actividad {
     public static final int ERROR_COMENTARIOS_COMPLETOS = 3;
 
     public Actividad(String nombre,int maxRecursos, int maxComentarios) {
-        if (maxRecursos > 0 && maxComentarios > 0) {
+        if (maxRecursos >= 0 && maxComentarios >= 0) {
             this.nombre = nombre; 
             this.maxRecursos = maxRecursos; 
             this.maxComentarios = maxComentarios;
@@ -189,7 +189,7 @@ public class Actividad {
         Actividad result = new Actividad(reader.readLine(), maxRecursos, maxComentarios);
     
             result.setDescripcion(reader.readLine());
-            result.setPrecio(Double.parseDouble(reader.readLine()));
+            result.setPrecio(Double.parseDouble(reader.readLine().replace(',', '.')));
             result.setDuracionMinutos(Integer.parseInt(reader.readLine()));
 
             while (!((linea = reader.readLine()).equals(FIRST_SEPARATOR))) {
