@@ -35,11 +35,24 @@ public class Viaje {
 
 
     // Constantes para la comprobación de solapamiento
+    /**
+     * Constante con el valor en minutos de la hora de inicio de una actividad, se inicializa
+     * en 0 porque una actividad como minimo empieza al comienzo del dia
+     */
     private static final int MINUTOS_MINIMO = 0;
+    /**
+     * Constante con el valor en minutos de la hora final de una actividad, se inicializa al
+     * final del dia porque es lo maximo hasta lo que se puede extender una actividad
+     */
     private static final int MINUTOS_MAXIMO = Utilidades.horaAMinutos("23:59");
 
-    //Atributos
-    private int numDias; // Numero de dias que dura el viaje
+    /**
+     * Numero de dias que dura el viaje
+     */
+    private int numDias;
+    /**
+     *
+     */
     private MatrizViaje[] matriz;
 
     public Viaje(int numDias, int maxActividades) {
@@ -164,6 +177,13 @@ public class Viaje {
         return matriz[dia].getCatalogo().getArray();
     }
 
+    /**
+     * Metodo usado para mostrar el itinerario del viaje con el formato pedido, cada dia
+     * con sus respectivas actividades indicando su hora de inicio y un resumen al final,
+     * si no hay actividades se mostrara: (No hay actividades)
+     *
+     * @return Bloque de texto con el itinerario
+     */
     @Override
     public String toString() {
         StringBuilder itinerario = new StringBuilder();
@@ -210,6 +230,14 @@ public class Viaje {
         return itinerario.toString();
     }
 
+    /**
+     * Metodo que recibe como parametro un nombre de archivo donde se guardara el itinerario de un viaje,
+     * el metodo guarda las actividades por dia con sus horas de inicio en un formato especifico para
+     * que su posterior lectura sea mas manejable, tambien guarda el resumen del viaje.
+     *
+     * @param nombreArchivo Nombre del archivo donde se guardara
+     * @throws IOException Excepcion de entrada y salida que se trata en InterfazUsuario
+     */
     public void guardarItinerario(String nombreArchivo) throws IOException {
         PrintWriter itinerario = new PrintWriter(nombreArchivo);
         Actividad actividad;
