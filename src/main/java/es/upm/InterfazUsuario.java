@@ -64,10 +64,13 @@ public class InterfazUsuario {
      * @param maxComentarios Numero maxio de comentarios
      */
     public InterfazUsuario(CatalogoActividades catalogo, Viaje viaje, int maxRecursos, int maxComentarios) {
-       this.catalogo = catalogo;
-       this.viaje = viaje;
-       this.maxRecursos = maxRecursos;
-       this.maxComentarios = maxComentarios;
+        this.catalogo = catalogo;
+        this.viaje = viaje;
+
+        if (maxRecursos >= 0 && maxComentarios >= 0) {
+            this.maxRecursos = maxRecursos;
+            this.maxComentarios = maxComentarios;
+        } else throw new NumberFormatException();
     }
 
     /**
@@ -132,7 +135,7 @@ public class InterfazUsuario {
     private void mostrarMenu() {
         StringBuilder menu = new StringBuilder();
 
-        menu.append("--- Menú Principal ___\n");
+        menu.append("\n--- Menú Principal ___\n");
         menu.append("1. Agregar Actividad\n");
         menu.append("2. Consultar/Editar Actividad\n");
         menu.append("3. Guardar Actividades\n");
@@ -154,7 +157,7 @@ public class InterfazUsuario {
         String nombre = Utilidades.leerCadena(scanner,"Nombre de la actividad: ");
         String descripcion = Utilidades.leerCadena(scanner,"Descripción: ");
         double precio = Utilidades.leerDouble(scanner, "Precio (€): ", 0, 1000);
-        int duracion = Utilidades.leerNumero(scanner,"Duración (minutos): ", 0, 1440);
+        int duracion = Utilidades.leerNumero(scanner,"Duración (minutos): ", 1, Viaje.MINUTOS_MAXIMO);
 
         Actividad actividad = new Actividad(nombre, maxRecursos, maxComentarios);
         actividad.setDescripcion(descripcion);
@@ -164,35 +167,47 @@ public class InterfazUsuario {
         String input;
         boolean full = false;
 
-        System.out.println(PEDIR_REC);
+        System.out.print(PEDIR_REC);
         while (!((input = Utilidades.leerCadena(scanner, "")).equals("fin")) && !full) {
             switch (actividad.agregarRecurso(input)) {
                 case Actividad.ERROR_VALOR_INVALIDO:
                     System.out.println("Valor inválido.");
                     break;
+
                 case Actividad.ERROR_RECURSOS_COMPLETOS:
                     System.out.println("Recursos completos.");
                     full = true;
                     break;
-                default: // Actividad.EXITO
+
+                case Actividad.EXITO:
                     System.out.println("Éxito.");
+                    break;
+
+                default:
+                    break;
             }
         }
 
         full = false;
 
-        System.out.println(PEDIR_COM);
+        System.out.print(PEDIR_COM);
         while (!((input = Utilidades.leerCadena(scanner, "")).equals("fin")) && !full) {
             switch (actividad.agregarComentario(input)) {
                 case Actividad.ERROR_VALOR_INVALIDO:
                     System.out.println("Valor inválido.");
                     break;
+
                 case Actividad.ERROR_COMENTARIOS_COMPLETOS:
                     System.out.println("Comentarios completos.");
                     full = true;
                     break;
-                default: // Actividad.EXITO
+
+                case Actividad.EXITO:
                     System.out.println("Éxito.");
+                    break;
+
+                default:
+                    break;
             }
         }
 
@@ -200,9 +215,11 @@ public class InterfazUsuario {
             case CatalogoActividades.ERROR_DEMASIADOS:
                 System.out.println("No se pueden añadir más actividades.");
                 break;
+
             case CatalogoActividades.ERROR_ACTIVIDAD_NULL:
                 System.out.println("Actividad nula.");
                 break;
+
             default: // CatalogoActividades.EXITO
                 System.out.println("¡Actividad agregada exitosamente!");
         }
@@ -222,8 +239,7 @@ public class InterfazUsuario {
     private void consultarActividad(Scanner scanner) {
         Actividad seleccionada = buscarActividadPorNombre(scanner);
 
-        editarActividad(scanner, seleccionada);
-        
+        if (seleccionada != null) editarActividad(scanner, seleccionada);
     }
 
 
@@ -237,9 +253,19 @@ public class InterfazUsuario {
      * @return
      */
     private Actividad buscarActividadPorNombre(Scanner scanner) {
-        Actividad[] entrada = catalogo.buscarActividadPorNombre(Utilidades.leerCadena(scanner, PEDIR_TXT));
+        String busqueda = Utilidades.leerCadena(scanner, PEDIR_TXT);
+        Actividad[] entrada = {};
+        Actividad resultado = null;
 
-        return seleccionarActividad(scanner, entrada);
+        if (!(busqueda).equals("-FIN-")) {
+            entrada = catalogo.buscarActividadPorNombre(busqueda);
+
+            if (entrada.length != 0) resultado = seleccionarActividad(scanner, entrada);
+            else System.out.println("Búsqueda sin resultados.");
+
+        } else System.out.println("Búsqueda cancelada.");
+        
+        return resultado;
     }
 
     /**
@@ -252,15 +278,17 @@ public class InterfazUsuario {
      * @return Actividad seleccionada
      */
     private Actividad seleccionarActividad(Scanner scanner, Actividad[] actividades) {
+        int respuesta;
+        
         System.out.println("Actividades encontradas:");
 
         for (int i = 0; i < actividades.length; i++) {
             System.out.printf("%d. %s\n", i + 1, actividades[i].getNombre());
         }
 
-        int repuesta = Utilidades.leerNumero(scanner, "Elige una actividad: ", 1, actividades.length + 1);
+        respuesta = Utilidades.leerNumero(scanner, "Elige una actividad: ", 1, actividades.length + 1);
 
-        return actividades[repuesta - 1];
+        return actividades[respuesta - 1];
     }
 
     /**
@@ -273,7 +301,7 @@ public class InterfazUsuario {
      */
     private void editarActividad(Scanner scanner, Actividad seleccionada) {
         int exitcode;
-        int errorcode = Actividad.EXITO;
+        int errorcode = -1;
         System.out.println(seleccionada);
 
         System.out.println("1. Añadir recurso\n2. Añadir comentario\n3. Eliminar actividad\n4. Volver");
@@ -310,10 +338,13 @@ public class InterfazUsuario {
                 System.out.println("Valor inválido.");
                 break;
 
-            default: // Actividad.EXITO
+            case Actividad.EXITO:
                 if (exitcode == 1) System.out.println("Recurso añadido exitosamente.");
                 else System.out.println("Comentario añadido correctamente.");
 
+                break;
+
+            default:
                 break;
         }
     }
@@ -331,7 +362,7 @@ public class InterfazUsuario {
         try {
             catalogo.guardarActividades(archivo);
             System.out.printf("Actividades guardadas en %s",archivo);
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Error al guardar el archivo.");
         }
     }
@@ -363,6 +394,7 @@ public class InterfazUsuario {
      * @param scanner Objeto de la clase Scanner
      */
     private void planificarViaje(Scanner scanner) {
+        Actividad actividad;
         String hora;
         int dia;
 
@@ -370,26 +402,38 @@ public class InterfazUsuario {
         
         //En el ejemplo el formato que pone es sin el resumen de toString() pero entonces
         //hay que hacer un copia y pega de la mitad del codigo de toString()
-        System.out.println(viaje.toString());
-        dia = Utilidades.leerNumero(scanner, "Introduce el día del viaje (1-"+viaje.getNumDias()+"): ", 1, viaje.getNumDias());
+        System.out.println(viaje);
+
+        dia = Utilidades.leerNumero(scanner, "Introduce el día del viaje (1-" + viaje.getNumDias() + "): ", 1, viaje.getNumDias());
+
         hora = Utilidades.leerHora(scanner, "Introduce la hora de inicio (HH:MM): ");
         
         //Mensaje final que depende de si la actividad se ha agregado o no
-        switch(viaje.agregarActividad(dia, buscarActividadPorNombre(scanner), hora)){
-            case Viaje.ERROR_DIA_INVALIDO:
-                System.out.println("Día inválido");
-                break;
-            case Viaje.ERROR_DIA_COMPLETO:
-                System.out.println("No se pueden agregar más actividades a este día.");
-                break;
-            case Viaje.ERROR_SOLAPAMIENTO:
-                System.out.println("La actividad se solapa con otra actividad ya planificada.");
-                break;
-            default: // Viaje.EXITO
-                System.out.printf("Actividad planificada para el día %d a las %s\n", dia, hora);
-                break;
-        }
 
+        actividad = buscarActividadPorNombre(scanner);
+
+        if (actividad != null) {
+            switch (viaje.agregarActividad(dia + 1, actividad, hora)) {
+                case Viaje.ERROR_DIA_INVALIDO:
+                    System.out.println("Día inválido");
+                    break;
+
+                case Viaje.ERROR_DIA_COMPLETO:
+                    System.out.println("No se pueden agregar más actividades a este día.");
+                    break;
+
+                case Viaje.ERROR_SOLAPAMIENTO:
+                    System.out.println("La actividad se solapa con otra actividad ya planificada.");
+                    break;
+
+                case Viaje.EXITO:
+                    System.out.printf("Actividad planificada para el día %d a las %s\n", dia, hora);
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
 
     /**
@@ -404,7 +448,7 @@ public class InterfazUsuario {
         try{
             viaje.guardarItinerario(archivo);
             System.out.printf("Itinerario guardado en %s\n", archivo);
-        } catch(IOException e) {
+        } catch (IOException e) {
             System.out.println("Error al guardar el archivo.");
         }
     }

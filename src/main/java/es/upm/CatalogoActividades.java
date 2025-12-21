@@ -42,11 +42,11 @@ public class CatalogoActividades {
      * @param maxActividades Numero maximo de actividades en un catalogo
      */
     public CatalogoActividades(int maxActividades) {
-        if (maxActividades > 0) {
+        if (maxActividades >= 0) {
             this.maxActividades = maxActividades;
 
             arrayActividades = new Actividad[maxActividades];
-        }
+        } else throw new NumberFormatException();
         
     }
 

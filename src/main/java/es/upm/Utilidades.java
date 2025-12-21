@@ -131,7 +131,6 @@ public class Utilidades {
     public static String leerHora(Scanner teclado, String mensaje) {
         String output; boolean correct = false;
         int h = 0, m = 0;
-        System.out.println(mensaje);
 
         do {
             System.out.print(mensaje);

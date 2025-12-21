@@ -1,5 +1,6 @@
 package es.upm;
 import java.io.*;
+import java.lang.NumberFormatException;
 
 /**
  *Viaje es una clase con la funcion de manejar las actividades que constituyen todo el viaje,
@@ -39,12 +40,12 @@ public class Viaje {
      * Constante con el valor en minutos de la hora de inicio de una actividad, se inicializa
      * en 0 porque una actividad como minimo empieza al comienzo del dia
      */
-    private static final int MINUTOS_MINIMO = 0;
+    public static final int MINUTOS_MINIMO = 0;
     /**
      * Constante con el valor en minutos de la hora final de una actividad, se inicializa al
      * final del dia porque es lo maximo hasta lo que se puede extender una actividad
      */
-    private static final int MINUTOS_MAXIMO = Utilidades.horaAMinutos("23:59");
+    public static final int MINUTOS_MAXIMO = Utilidades.horaAMinutos("23:59");
 
     /**
      * Numero de dias que dura el viaje
@@ -67,7 +68,10 @@ public class Viaje {
             }
 
             this.numDias = numDias;
-        } else System.out.println("Estos valores no tienen sentido");
+        } else {
+            System.out.println("Estos valores no tienen sentido");
+            throw new NumberFormatException();
+        }
     }
 
     public int getNumDias() { return numDias; }
@@ -127,24 +131,24 @@ public class Viaje {
     }
 
     private boolean actividadesSolapan(int dia, int posicion, int inicio, int fin) {
-            int horaInicialPosterior = MINUTOS_MAXIMO, horaFinalAnterior = MINUTOS_MINIMO;
+            int horaFinalAnterior = MINUTOS_MINIMO, horaInicialPosterior = MINUTOS_MAXIMO;
             int numActividades = getNumActividadesDia(dia);
 
-            if (numActividades > 0) {
-                if (posicion == 0) {
-                    horaInicialPosterior = getIniciofromMatrix(dia, posicion);
-                }
-                else if (posicion == numActividades) {
-                    horaFinalAnterior = getIniciofromMatrix(dia, posicion - 1);
-                    horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
-                } else {
-                    horaInicialPosterior = getIniciofromMatrix(dia, posicion);
-
-                    horaFinalAnterior = getIniciofromMatrix(dia, posicion - 1);
-                    horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
-                    
-                }
+        if (numActividades > 0) {
+            if (posicion == 0) {
+                horaInicialPosterior = getIniciofromMatrix(dia, posicion);
             }
+            else if (posicion == numActividades) {
+                horaFinalAnterior = getIniciofromMatrix(dia, posicion - 1);
+                horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
+            } else {
+                horaInicialPosterior = getIniciofromMatrix(dia, posicion);
+
+                horaFinalAnterior = getIniciofromMatrix(dia, posicion - 1);
+                horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
+                
+            }
+        }
 
         return (inicio < horaFinalAnterior || fin > horaInicialPosterior);
     }

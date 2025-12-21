@@ -102,7 +102,7 @@ public class Actividad {
      * @param maxComentarios Numero maximo de comentarios
      */
     public Actividad(String nombre,int maxRecursos, int maxComentarios) {
-        if (maxRecursos > 0 && maxComentarios > 0) {
+        if (maxRecursos >= 0 && maxComentarios >= 0) {
             this.nombre = nombre; 
             this.maxRecursos = maxRecursos; 
             this.maxComentarios = maxComentarios;
@@ -167,7 +167,9 @@ public class Actividad {
      *
      * @param duracionMinutos Duracion de la actividad en minutos
      */
-    public void setDuracionMinutos(int duracionMinutos) { this.duracionMinutos = duracionMinutos; }
+    public void setDuracionMinutos(int duracionMinutos) { 
+        if (duracionMinutos >= 0) this.duracionMinutos = duracionMinutos;
+    }
 
     /**
      * Metodo para obtener el numero máximo de recursos de una actividad
@@ -383,7 +385,7 @@ public class Actividad {
         Actividad result = new Actividad(reader.readLine(), maxRecursos, maxComentarios);
     
             result.setDescripcion(reader.readLine());
-            result.setPrecio(Double.parseDouble(reader.readLine()));
+            result.setPrecio(Double.parseDouble(reader.readLine().replace(',', '.')));
             result.setDuracionMinutos(Integer.parseInt(reader.readLine()));
 
             while (!((linea = reader.readLine()).equals(FIRST_SEPARATOR))) {
