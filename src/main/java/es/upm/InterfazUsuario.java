@@ -166,10 +166,9 @@ public class InterfazUsuario {
         
     }
 
-    
     private Actividad buscarActividadPorNombre(Scanner scanner) {
         Actividad[] entrada = catalogo.buscarActividadPorNombre(Utilidades.leerCadena(scanner, PEDIR_TXT));
-
+        //FIXME ADD -FIN- EXIT CODE
         return entrada.length != 0 ? seleccionarActividad(scanner, entrada) : null;
     }
 
@@ -258,6 +257,7 @@ public class InterfazUsuario {
     }
 
     private void planificarViaje(Scanner scanner) {
+        Actividad actividad;
         String hora;
         int dia;
 
@@ -266,30 +266,38 @@ public class InterfazUsuario {
         //En el ejemplo el formato que pone es sin el resumen de toString() pero entonces
         //hay que hacer un copia y pega de la mitad del codigo de toString()
         System.out.println(viaje);
+
         dia = Utilidades.leerNumero(scanner, "Introduce el día del viaje (1-"+viaje.getNumDias()+"): ", 1, viaje.getNumDias());
         hora = Utilidades.leerHora(scanner, "Introduce la hora de inicio (HH:MM): ");
         
         //Mensaje final que depende de si la actividad se ha agregado o no
-        switch(viaje.agregarActividad(dia, buscarActividadPorNombre(scanner), hora)){
-            case Viaje.ERROR_DIA_INVALIDO:
-                System.out.println("Día inválido");
-                break;
 
-            case Viaje.ERROR_DIA_COMPLETO:
-                System.out.println("No se pueden agregar más actividades a este día.");
-                break;
+        actividad = buscarActividadPorNombre(scanner);
 
-            case Viaje.ERROR_SOLAPAMIENTO:
-                System.out.println("La actividad se solapa con otra actividad ya planificada.");
-                break;
+        if (actividad != null) {
+            switch(viaje.agregarActividad(dia, actividad, hora)){
+                case Viaje.ERROR_DIA_INVALIDO:
+                    System.out.println("Día inválido");
+                    break;
 
-            case Viaje.EXITO:
-                System.out.printf("Actividad planificada para el día %d a las %s\n", dia, hora);
-                break;
+                case Viaje.ERROR_DIA_COMPLETO:
+                    System.out.println("No se pueden agregar más actividades a este día.");
+                    break;
 
-            default:
-                break;
-        }
+                case Viaje.ERROR_SOLAPAMIENTO:
+                    System.out.println("La actividad se solapa con otra actividad ya planificada.");
+                    break;
+
+                case Viaje.EXITO:
+                    System.out.printf("Actividad planificada para el día %d a las %s\n", dia, hora);
+                    break;
+
+                default:
+                    break;
+            }
+        } else System.out.println("Actividad no encontrada.");
+
+
 
     }
 
@@ -298,7 +306,7 @@ public class InterfazUsuario {
         try{
             viaje.guardarItinerario(archivo);
             System.out.printf("Itinerario guardado en %s\n", archivo);
-        } catch(IOException e) {
+        } catch (IOException e) {
             System.out.println("Error al guardar el archivo.");
         }
     }
