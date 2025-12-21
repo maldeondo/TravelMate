@@ -3,20 +3,66 @@ package es.upm;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * InterfazUsuario es una clase que encapsula toda la interaccion con el usuario, muestra un menu
+ * para elegir entre las diferentes opciones que ofrece el programa. La clase se apoya en todas las demas
+ * clases para ejecutar la accion pedida por el usuario. En esta clase son tratadas todas las excepciones
+ * lanzadas por metodos en otras clases.
+ *
+ * @author Mario Aldeondo
+ * @author Robert Voong
+ * @version 1.0
+ */
 public class InterfazUsuario {
 
+    /**
+     * Constante que contiene un string con el mensaje para pedirle los recursos al usuario
+     */
     private static final String PEDIR_REC = "Introduce los recursos (una línea por recurso, escribe 'fin' para terminar): ";
+    /**
+     * Constante que contiene un string con el mensaje para pedirle los comentarios al usuario
+     */
     private static final String PEDIR_COM = "Introduce los comentarios (una línea por comentario, escribe 'fin' para terminar):";
+    /**
+     * Constante que contiene un string con el mensaje para pedir el nombre de una actividad
+     */
     private static final String PEDIR_TXT = "Introduce el texto de la actividad a buscar (-FIN- para volver): ";
 
+    /**
+     * Constante que contiene un string con el mensaje para indicar que se añadan recursos a la actividad
+     */
     private static final String PEDIR_MOD_REC = "Introduce el recurso a añadir: ";
+    /**
+     * Constante que contiene un string con el mensaje para indicar que se añadan comentarios a la actividad
+     */
     private static final String PEDIR_MOD_COM = "Introduce el comentario a añadir: ";
 
+    /**
+     * Objeto de la clase CatalogoActividades
+     */
     private CatalogoActividades catalogo;
+    /**
+     * Objeto de la clase Viaje
+     */
     private Viaje viaje;
+    /**
+     * Numero maximo de recursos de una actividad
+     */
     private int maxRecursos = 0;
+    /**
+     * Numero maximo de comentarios de una actividad
+     */
     private int maxComentarios = 0;
 
+    /**
+     * Constructor de la clase InterfazUsuario para que siempre se inicialice con un objeto de la clase
+     * CatalogoActividades y un objeto de la clase Viaje asi como un numero maximo de recursos y comentarios
+     *
+     * @param catalogo Objeto de la clase CatalogoActividades
+     * @param viaje Objeto de la clase Viaje
+     * @param maxRecursos Numero maximo de recursos
+     * @param maxComentarios Numero maxio de comentarios
+     */
     public InterfazUsuario(CatalogoActividades catalogo, Viaje viaje, int maxRecursos, int maxComentarios) {
         this.catalogo = catalogo;
         this.viaje = viaje;
@@ -27,10 +73,22 @@ public class InterfazUsuario {
         } else throw new NumberFormatException();
     }
 
+    /**
+     * Metodo que es llamado desde el main para iniciar el menu principal,
+     * contiene un objeto de la clase Scanner para leer la opcion del usuario
+     *
+     * @param scanner Objeto de la clase Scanner
+     */
     public void iniciar(Scanner scanner) {
         menuPrincipal(scanner);
     }
 
+    /**
+     * Metodo que muestra el menu y en base a la opcion leida de teclado
+     * efectua la accion correspondiente
+     *
+     * @param scanner Objeto de la clase Scanner
+     */
     private void menuPrincipal(Scanner scanner) {
         int respuesta;
         
@@ -71,6 +129,9 @@ public class InterfazUsuario {
         } while (respuesta != 7);
     }
 
+    /**
+     * Metodo usado para mostrar el menu de opciones en el formato especificado
+     */
     private void mostrarMenu() {
         StringBuilder menu = new StringBuilder();
 
@@ -86,6 +147,12 @@ public class InterfazUsuario {
         System.out.print(menu.toString());
     }
 
+    /**
+     * Metodo usado para fijar las caracteristicas de una actividad y agregarla al itinerario
+     * de actividades, si la actividad se agrega al itinerario se manda un mensaje de exito
+     * y si no aparece un mensaje indicando el tipo de error producido
+     * @param scanner Objeto de la clase Scanner
+     */
     private void agregarActividad(Scanner scanner) {
         String nombre = Utilidades.leerCadena(scanner,"Nombre de la actividad: ");
         String descripcion = Utilidades.leerCadena(scanner,"Descripción: ");
@@ -158,12 +225,33 @@ public class InterfazUsuario {
         }
     }
 
+    /**
+     * Lee la entrada del usuario con un objeto de la clase Scanner y busca actividades con el
+     * mismo nombre que el proporcionado, a continuacion se muestra una lista con las actividades
+     * que coinciden con el nombre de busqueda y se le pide al usuario que eliga una de ellas.
+     * Una vez seleccionada la actividad a editar se podra añadir un recurso o comentario
+     * o incluso borrar la actividad. Tras realizar la accion un mensaje que depende del exito
+     * o fracaso de la operacion nos indica el resultado de la operacion, los funcionalidades de
+     * buscar la actividad y editarla estan encapsuladas en otros metodos
+     *
+     * @param scanner Objeto de la clase Scanner
+     */
     private void consultarActividad(Scanner scanner) {
         Actividad seleccionada = buscarActividadPorNombre(scanner);
 
         if (seleccionada != null) editarActividad(scanner, seleccionada);
     }
 
+
+    /**
+     * Metodo que encapsula la funcionalidad de buscar una actividad por nombre, se utiliza el metodo
+     * buscarActividadPorNombre de la clase catalogo para encontrar las actividades que coinciden en nombre con
+     * el proporcionado y luego se le pasa el array de actividades al metodo seleccionarActividad para que el
+     * usuario escoja una de las coincidencias,la actividad seleccionada es lo que devuelve el metodo.
+     *
+     * @param scanner Objeto de la clase Scanner
+     * @return
+     */
     private Actividad buscarActividadPorNombre(Scanner scanner) {
         String busqueda = Utilidades.leerCadena(scanner, PEDIR_TXT);
         Actividad[] entrada = {};
@@ -180,6 +268,15 @@ public class InterfazUsuario {
         return resultado;
     }
 
+    /**
+     * Metodo que se usa para seleccionar una actividad de entre una lista de actividades, para esto el metodo
+     * recibe un array de actividades y se le pide al usuario que escoga una indicando el indice de la que desee
+     * el metodo retorna la actividad seleccionada.
+     *
+     * @param scanner Objeto de la clase Scanner
+     * @param actividades Array de actividades
+     * @return Actividad seleccionada
+     */
     private Actividad seleccionarActividad(Scanner scanner, Actividad[] actividades) {
         int respuesta;
         
@@ -194,6 +291,14 @@ public class InterfazUsuario {
         return actividades[respuesta - 1];
     }
 
+    /**
+     * Metodo usado para editar ciertos elementos de una actividad como los recursos,, comentarios o
+     * eliminar la actividad al completo, para esto el metodo recibe como parametro un objeto de la clase
+     * Actividad y en funcion de el exito o fracaso de la operacion se imprimen por pantalla distintos mensajes.
+     *
+     * @param scanner Objeto de la clase Scanner
+     * @param seleccionada Objeto de la clase Actividad
+     */
     private void editarActividad(Scanner scanner, Actividad seleccionada) {
         int exitcode;
         int errorcode = -1;
@@ -244,6 +349,14 @@ public class InterfazUsuario {
         }
     }
 
+    /**
+     * Metodo usado para guardar las actividades, se le pide al usuario que proporcione el nombre
+     * del archivo donde desea guardar las actividades y el metodo usa funciones de la clase
+     * CatalogoActividades para guardar las actividades. En este metodo se tratan las excepciones
+     * lanzadas desde CatalogoActividades.
+     *
+     * @param scanner Objeto de la clase Scanner
+     */
     private void guardarActividades(Scanner scanner) {
         String archivo = Utilidades.leerCadena(scanner,"Archivo donde guardar las actividades: ");
         try {
@@ -254,6 +367,14 @@ public class InterfazUsuario {
         }
     }
 
+    /**
+     * Metodo que pide al usuario el archivo del cual se quieren cargar las actividades y se apoya
+     * en  el metodo de la clase CatalogoActividades para cargar la actividad seleccionada con el maximo numero
+     * de recursos y comentarios establecidos en la clase InterfazUsuario, se trata en este metodo la excepcion lanzada
+     * en la clase CatalogoActividades.
+     *
+     * @param scanner Objeto de la clase Scanner
+     */
     private void cargarActividades(Scanner scanner) {
         String archivo = Utilidades.leerCadena(scanner, "Archivo de donde cargar las actividades: ");
         try {
@@ -264,6 +385,14 @@ public class InterfazUsuario {
         }
     }
 
+    /**
+     * Metodo que muestra por pantalla el itinerario actual del viaje y permite al usuario
+     * planificar una fecha y dia para una actividad ya existente, despues de escoger fecha y hora
+     * se elige la actividad con el metodo buscarActividadPorNombre y en base al exito o fracaso se
+     * muestra un mensaje con el resultado de la operacion.
+     *
+     * @param scanner Objeto de la clase Scanner
+     */
     private void planificarViaje(Scanner scanner) {
         Actividad actividad;
         String hora;
@@ -307,6 +436,13 @@ public class InterfazUsuario {
         }
     }
 
+    /**
+     * Metodo que se usa para guardar el itinerario del viaje, se pedira por pantalla el nombre
+     * del archivo en el que se guardar el itinerario, la accion de guardar esta encapsulada dentro del
+     * metodo guardarItinerario de la clase Viaje. En este metodo se trata la excepcion lanzada en la clase Viaje
+     *
+     * @param scanner Objeto de la clase Scanner
+     */
     private void guardarItinerario(Scanner scanner) {
         String archivo = Utilidades.leerCadena(scanner, "Archivo donde guardar el itinerario: ");
         try{

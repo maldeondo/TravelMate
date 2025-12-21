@@ -2,22 +2,58 @@ package es.upm;
 import java.io.*;
 import java.lang.NumberFormatException;
 
+/**
+ *Viaje es una clase con la funcion de manejar las actividades que constituyen todo el viaje,
+ * contiene metodos para agregar, buscar y eliminar actividades del viaje asi como metodos
+ * para mostrar el itinerario del viaje al completo y guardarlo en el archivo que se desee.
+ * Esta clase se apoya en Actividad y CatalogoActividades para la manipulacion de las actividades.
+ *
+ * @author Mario Aldeondo
+ * @auhtor Robert Voong
+ * @version 1.0
+ */
 public class Viaje {
 
-    // ---------------------------
-    // Constantes de códigos de error
-    // ---------------------------
+    /**
+     * Constante que contiene el valor de que se devuelve tras una operacion exitosa
+     */
     public static final int EXITO = 0;
+    /**
+     * Constante que contiene el valor que se devuelve tras una operacion fallida
+     * por motivo de que el dia no es valido
+     */
     public static final int ERROR_DIA_INVALIDO = 1;
+    /**
+     * Constante que contiene el valor que se devuelve tras una operacion fallida
+     * por motivo de  que no se admiten mas dias
+     */
     public static final int ERROR_DIA_COMPLETO = 2;
+    /**
+     * Constante que contiene el valor que se devuelve tras una operacion fallida
+     * por motivo de solapamiento entre las horas de una actividad
+     */
     public static final int ERROR_SOLAPAMIENTO = 3;
 
+
     // Constantes para la comprobación de solapamiento
-    public static final int MINUTOS_MINIMO = 0; //FIXME REVERT CHANGES FROM -1 to 0
+    /**
+     * Constante con el valor en minutos de la hora de inicio de una actividad, se inicializa
+     * en 0 porque una actividad como minimo empieza al comienzo del dia
+     */
+    public static final int MINUTOS_MINIMO = 0;
+    /**
+     * Constante con el valor en minutos de la hora final de una actividad, se inicializa al
+     * final del dia porque es lo maximo hasta lo que se puede extender una actividad
+     */
     public static final int MINUTOS_MAXIMO = Utilidades.horaAMinutos("23:59");
 
-    //Atributos
-    private int numDias; // Numero de dias que dura el viaje
+    /**
+     * Numero de dias que dura el viaje
+     */
+    private int numDias;
+    /**
+     *
+     */
     private MatrizViaje[] matriz;
 
     public Viaje(int numDias, int maxActividades) {
@@ -145,6 +181,13 @@ public class Viaje {
         return matriz[dia].getCatalogo().getArray();
     }
 
+    /**
+     * Metodo usado para mostrar el itinerario del viaje con el formato pedido, cada dia
+     * con sus respectivas actividades indicando su hora de inicio y un resumen al final,
+     * si no hay actividades se mostrara: (No hay actividades)
+     *
+     * @return Bloque de texto con el itinerario
+     */
     @Override
     public String toString() {
         StringBuilder itinerario = new StringBuilder();
@@ -191,6 +234,14 @@ public class Viaje {
         return itinerario.toString();
     }
 
+    /**
+     * Metodo que recibe como parametro un nombre de archivo donde se guardara el itinerario de un viaje,
+     * el metodo guarda las actividades por dia con sus horas de inicio en un formato especifico para
+     * que su posterior lectura sea mas manejable, tambien guarda el resumen del viaje.
+     *
+     * @param nombreArchivo Nombre del archivo donde se guardara
+     * @throws IOException Excepcion de entrada y salida que se trata en InterfazUsuario
+     */
     public void guardarItinerario(String nombreArchivo) throws IOException {
         PrintWriter itinerario = new PrintWriter(nombreArchivo);
         Actividad actividad;
