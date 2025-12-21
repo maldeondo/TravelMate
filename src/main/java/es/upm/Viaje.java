@@ -13,7 +13,7 @@ public class Viaje {
     public static final int ERROR_SOLAPAMIENTO = 3;
 
     // Constantes para la comprobación de solapamiento
-    private static final int MINUTOS_MINIMO = 0;
+    private static final int MINUTOS_MINIMO = 0; //FIXME REVERT CHANGES FROM -1 to 0
     private static final int MINUTOS_MAXIMO = Utilidades.horaAMinutos("23:59");
 
     //Atributos
