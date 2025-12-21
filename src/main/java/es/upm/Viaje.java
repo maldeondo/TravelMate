@@ -95,8 +95,8 @@ public class Viaje {
     }
 
     private boolean actividadesSolapan(int dia, int posicion, int inicio, int fin) {
-        int horaInicialPosterior = MINUTOS_MAXIMO, horaFinalAnterior = MINUTOS_MINIMO;
-        int numActividades = getNumActividadesDia(dia);
+            int horaFinalAnterior = MINUTOS_MINIMO, horaInicialPosterior = MINUTOS_MAXIMO;
+            int numActividades = getNumActividadesDia(dia);
 
         if (numActividades > 0) {
             if (posicion == 0) {

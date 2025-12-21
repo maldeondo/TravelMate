@@ -61,7 +61,9 @@ public class Actividad {
 
     public int getDuracionMinutos() { return duracionMinutos; }
 
-    public void setDuracionMinutos(int duracionMinutos) { this.duracionMinutos = duracionMinutos; }
+    public void setDuracionMinutos(int duracionMinutos) { 
+        if (duracionMinutos >= 0) this.duracionMinutos = duracionMinutos;
+    }
 
     public int getMaxRecursos() { return maxRecursos; }
 
