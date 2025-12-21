@@ -34,7 +34,7 @@ public class Viaje {
             this.numDias = numDias;
         } else {
             System.out.println("Estos valores no tienen sentido");
-            throw new Error();
+            throw new NumberFormatException();
         }
     }
 

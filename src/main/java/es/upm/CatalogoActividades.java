@@ -20,7 +20,7 @@ public class CatalogoActividades {
             this.maxActividades = maxActividades;
 
             arrayActividades = new Actividad[maxActividades];
-        } else throw new Error();
+        } else throw new NumberFormatException();
         
     }
 

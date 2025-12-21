@@ -25,23 +25,18 @@ public class Main {
 
             // FIXME MANAGE ALL EXCEPTIONS IN A NESTED TRY-CATCH BLOCK
             
-            try {
-                catalogo = builder_Catalogo(maxActividadesEnCatalogo);
+            
+            catalogo = builder_Catalogo(maxActividadesEnCatalogo);
 
-                if (args.length == 6) {
-                    nombreArchivoActividades = args[5];
-                    catalogo.cargarActividades(nombreArchivoActividades, maxRecursosPorActividad, maxComentariosPorActividad);
-  
-                }
+            if (args.length == 6) {
+                nombreArchivoActividades = args[5];
+                catalogo.cargarActividades(nombreArchivoActividades, maxRecursosPorActividad, maxComentariosPorActividad);
+            }
 
-                viaje = builder_Viaje(numDiasViaje, maxActividadesPorDia);
-                interfaz = builder_Interfaz(catalogo, viaje, maxRecursosPorActividad, maxComentariosPorActividad);
+            viaje = builder_Viaje(numDiasViaje, maxActividadesPorDia);
+            interfaz = builder_Interfaz(catalogo, viaje, maxRecursosPorActividad, maxComentariosPorActividad);
 
-                launcher(interfaz, sc);
-
-            } catch (Error ex) { throw new NumberFormatException(); }
-
-            // TODO MANAGE SIXTH ARGUMENT
+            launcher(interfaz, sc);
 
         } catch (NumberFormatException ex) {
             System.out.println("Argumentos inválidos.");

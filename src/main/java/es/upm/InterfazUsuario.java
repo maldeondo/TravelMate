@@ -24,7 +24,7 @@ public class InterfazUsuario {
         if (maxRecursos >= 0 && maxComentarios >= 0) {
             this.maxRecursos = maxRecursos;
             this.maxComentarios = maxComentarios;
-        } else throw new Error();
+        } else throw new NumberFormatException();
     }
 
     public void iniciar(Scanner scanner) {
@@ -242,7 +242,7 @@ public class InterfazUsuario {
         try {
             catalogo.guardarActividades(archivo);
             System.out.printf("Actividades guardadas en %s",archivo);
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Error al guardar el archivo.");
         }
     }
