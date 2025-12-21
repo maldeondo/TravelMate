@@ -276,6 +276,8 @@ public class InterfazUsuario {
         System.out.println(viaje);
 
         dia = Utilidades.leerNumero(scanner, "Introduce el día del viaje (1-"+viaje.getNumDias()+"): ", 1, viaje.getNumDias());
+        dia--;
+
         hora = Utilidades.leerHora(scanner, "Introduce la hora de inicio (HH:MM): ");
         
         //Mensaje final que depende de si la actividad se ha agregado o no
@@ -303,10 +305,7 @@ public class InterfazUsuario {
                 default:
                     break;
             }
-        } else System.out.println("Actividad no encontrada.");
-
-
-
+        }
     }
 
     private void guardarItinerario(Scanner scanner) {
