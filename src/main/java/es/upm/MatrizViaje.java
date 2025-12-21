@@ -12,9 +12,6 @@ public class MatrizViaje {
 
     public CatalogoActividades getCatalogo() { return catalogo; }
 
-    public void setInicio(int indiceActividad, int minutos) { this.minutosInicio[indiceActividad] = minutos; }
-
-    
     public void insertarActividadMatrix(Actividad actividad, int indiceActividad, int inicio) {
         catalogo.insertarActividad(actividad, indiceActividad);
 
