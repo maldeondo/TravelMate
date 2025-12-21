@@ -275,8 +275,7 @@ public class InterfazUsuario {
         //hay que hacer un copia y pega de la mitad del codigo de toString()
         System.out.println(viaje);
 
-        dia = Utilidades.leerNumero(scanner, "Introduce el día del viaje (1-"+viaje.getNumDias()+"): ", 1, viaje.getNumDias());
-        dia--;
+        dia = Utilidades.leerNumero(scanner, "Introduce el día del viaje (1-" + viaje.getNumDias() + "): ", 1, viaje.getNumDias());
 
         hora = Utilidades.leerHora(scanner, "Introduce la hora de inicio (HH:MM): ");
         
@@ -285,7 +284,7 @@ public class InterfazUsuario {
         actividad = buscarActividadPorNombre(scanner);
 
         if (actividad != null) {
-            switch(viaje.agregarActividad(dia, actividad, hora)){
+            switch (viaje.agregarActividad(dia + 1, actividad, hora)) {
                 case Viaje.ERROR_DIA_INVALIDO:
                     System.out.println("Día inválido");
                     break;
