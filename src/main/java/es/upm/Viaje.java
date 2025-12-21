@@ -95,24 +95,24 @@ public class Viaje {
     }
 
     private boolean actividadesSolapan(int dia, int posicion, int inicio, int fin) {
-            int horaInicialPosterior = MINUTOS_MAXIMO, horaFinalAnterior = MINUTOS_MINIMO;
-            int numActividades = getNumActividadesDia(dia);
+        int horaInicialPosterior = MINUTOS_MAXIMO, horaFinalAnterior = MINUTOS_MINIMO;
+        int numActividades = getNumActividadesDia(dia);
 
-            if (numActividades > 0) {
-                if (posicion == 0) {
-                    horaInicialPosterior = getIniciofromMatrix(dia, posicion);
-                }
-                else if (posicion == numActividades) {
-                    horaFinalAnterior = getIniciofromMatrix(dia, posicion - 1);
-                    horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
-                } else {
-                    horaInicialPosterior = getIniciofromMatrix(dia, posicion);
-
-                    horaFinalAnterior = getIniciofromMatrix(dia, posicion - 1);
-                    horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
-                    
-                }
+        if (numActividades > 0) {
+            if (posicion == 0) {
+                horaInicialPosterior = getIniciofromMatrix(dia, posicion);
             }
+            else if (posicion == numActividades) {
+                horaFinalAnterior = getIniciofromMatrix(dia, posicion - 1);
+                horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
+            } else {
+                horaInicialPosterior = getIniciofromMatrix(dia, posicion);
+
+                horaFinalAnterior = getIniciofromMatrix(dia, posicion - 1);
+                horaFinalAnterior += getActividadfromMatrix(dia, posicion - 1).getDuracionMinutos();
+                
+            }
+        }
 
         return (inicio < horaFinalAnterior || fin > horaInicialPosterior);
     }

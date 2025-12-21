@@ -162,14 +162,22 @@ public class InterfazUsuario {
         Actividad seleccionada = buscarActividadPorNombre(scanner);
 
         if (seleccionada != null) editarActividad(scanner, seleccionada);
-        else System.out.println("Búsqueda sin resultados.");
-        
     }
 
     private Actividad buscarActividadPorNombre(Scanner scanner) {
-        Actividad[] entrada = catalogo.buscarActividadPorNombre(Utilidades.leerCadena(scanner, PEDIR_TXT));
-        //FIXME ADD -FIN- EXIT CODE
-        return entrada.length != 0 ? seleccionarActividad(scanner, entrada) : null;
+        String busqueda = Utilidades.leerCadena(scanner, PEDIR_TXT);
+        Actividad[] entrada = {};
+        Actividad resultado = null;
+
+        if (!(busqueda).equals("-FIN-")) {
+            entrada = catalogo.buscarActividadPorNombre(busqueda);
+
+            if (entrada.length != 0) resultado = seleccionarActividad(scanner, entrada);
+            else System.out.println("Búsqueda sin resultados.");
+
+        } else System.out.println("Búsqueda cancelada.");
+        
+        return resultado;
     }
 
     private Actividad seleccionarActividad(Scanner scanner, Actividad[] actividades) {
