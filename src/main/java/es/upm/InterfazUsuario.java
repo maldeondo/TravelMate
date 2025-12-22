@@ -151,6 +151,7 @@ public class InterfazUsuario {
      * Metodo usado para fijar las caracteristicas de una actividad y agregarla al itinerario
      * de actividades, si la actividad se agrega al itinerario se manda un mensaje de exito
      * y si no aparece un mensaje indicando el tipo de error producido
+     *
      * @param scanner Objeto de la clase Scanner
      */
     private void agregarActividad(Scanner scanner) {
