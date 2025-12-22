@@ -101,7 +101,7 @@ public class Actividad {
      * @param maxRecursos Numero maximo de recursos
      * @param maxComentarios Numero maximo de comentarios
      */
-    public Actividad(String nombre,int maxRecursos, int maxComentarios) {
+    public Actividad(String nombre, int maxRecursos, int maxComentarios) {
         if (maxRecursos >= 0 && maxComentarios >= 0) {
             this.nombre = nombre; 
             this.maxRecursos = maxRecursos; 
@@ -111,10 +111,6 @@ public class Actividad {
             comentarios = new String[maxComentarios];
         } else System.out.println("Valores negativos.");
     }
-
-    // These methods could fail handling wrong values, 
-    // a try catch block should be implemented (probably in other class)
-
 
     /**
      * Metodo que devuelve el nombre de la actividad
