@@ -257,7 +257,7 @@ public class Actividad {
     }
 
     /**
-     * Metodo usado en los anteriormente para agregar recursos y comentarios, su
+     * Metodo usado  anteriormente para agregar recursos y comentarios, su
      * funcionalidad es la de agregar un elemento al array que se indica
      *
      * @param array Array al que se le añade el elemento

@@ -4,7 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- * CatalogoActividades es una clase con la funcion de almcenar las actividades
+ * CatalogoActividades es una clase con la funcion de almacenar las actividades
  * asignadas a un mismo dia, la clase cuenta con una serie de metodos con la
  * funcionalidad de agregar, eliminar, buscar, cargar y guardar actividades.
  *
