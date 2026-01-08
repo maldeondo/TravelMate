@@ -13,8 +13,17 @@ import java.nio.file.Path;
  * @version 1.0
  */
 public class CatalogoActividades {
-    private int maxActividades; //should be final, but won't compile
+    /**
+     * Número máximo de actividades del catálogo
+     */
+    private int maxActividades;
+    /**
+     * Número actual de actividades presentes en el catálogo
+     */
     private int actActividades = 0;
+    /**
+     * Constante usada como separador entre actividades al cargar desde archivo
+     */
     private static final String SEPARATOR = "\n-----\n";
 
     /**

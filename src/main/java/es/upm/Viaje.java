@@ -6,14 +6,11 @@ import java.lang.NumberFormatException;
  * Viaje es una clase con la funcion de manejar las actividades que constituyen todo el viaje,
  * contiene metodos para agregar, buscar y eliminar actividades del viaje asi como metodos
  * para mostrar el itinerario del viaje al completo y guardarlo en el archivo que se desee.
- *
  * Esta clase se apoya en MatrizViaje para la manipulacion de las actividades, mediante un array de
  * objetos de la clase de tamaño días de duración. De esta forma, cada día tiene un objeto MatrizViaje
  * asociado, que a su vez contiene un catálogo (array de actividades) y un array de horas de inicio.
- *
  * Esto crea una nueva capa de abstracción, pues cada día tiene sus actividades y horas de inicio enlazadas
  * con una posición ordenada en función de la hora de inicio.
- *
  * Revisar la clase MatrizViaje es recomendable para entender el funcionamiento de esta clase.
  *
  * @author Mario Aldeondo
@@ -66,7 +63,6 @@ public class Viaje {
      * Constructor que recibe los parámetros de la clase Main y crea un array de MatrizViaje
      * de tamaño días que dura el viaje, creando un objeto MatrizViaje de tamaño maxActividades
      * por cada día que dura el viaje.
-     *
      * El constructor lanza una excepción NumberFormatException si los argumentos introducidos
      * son valores absurdos, que es manejada por el Main.
      *
@@ -95,8 +91,8 @@ public class Viaje {
 
     /**
      * Método que comprueba si el valor entero está en el
-     * intervalo 0 <-> (numDias - 1), que para el
-     * usuario es 1 <-> numDias.
+     * intervalo 0 -> (numDias - 1), que para el
+     * usuario es 1 -> numDias.
      *
      * @param dia Número de día a analizar
      * @return True si la comprobación es exitosa
@@ -141,7 +137,6 @@ public class Viaje {
      * Método principal que, junto con buscarIndex y actividadesSolapan, se encargan de añadir una actividad
      * al día en cuestión, garantizando que se hace respetando el orden de horas del día, y que no
      * se produce ningún solapamiento con actividades que previamente se encuentran agregadas.
-     *
      * En todo este proceso se usan los métodos de abstracción getActividadfromMatrix y getIniciofromMatrix,
      * que permiten acceder a los datos de forma intuitiva.
      *
@@ -176,17 +171,14 @@ public class Viaje {
     /**
      * Método que itera sobre los datos de la matriz para encontrar el índice en el que se
      * deberá insertar la actividad nueva en caso de que no haya solapamientos.
-     *
      * Como este método se usa siempre para añadir actividades a la "matriz" de datos, se
      * garantiza que el orden siempre es correcto antes de empezar a agregar una nueva
      * actividad, por lo que se puede asumir sin problema que el array está ordenado antes
      * de analizar dónde se debe insertar la nueva actividad.
-     *
      * El problema de usar un algoritmo de ordenación total como Bubble Sort es que añade una
      * enorme cantidad de operaciones iteradas para un problema que no las requiere. Pues este caso
      * no es un problema de ordenación (array totalmente desordenado -> ordenar desde 0), sino un
      * problema de inserción/búsqueda (array previamente ordenado -> buscar posición adecuada.).
-     *
      * Como detalle, se podría hacer búsqueda binaria, pero dado el tamaño esperado de los
      * catálogos, no parece merecer la pena.
      *
@@ -208,20 +200,16 @@ public class Viaje {
     /**
      * El tercero de los métodos principales, considera los puntos de inicio y fin de la actividad
      * entrante y los compara con los datos existentes en la matriz para verificar que no existe ningún solapamiento.
-     *
      * Está pensado para tener todos los casos en cuenta, tanto que sea la primera actividad en ser añadida (no se
      * hace ninguna comprobación), como solo tener en cuenta las posiciones de array respectivas en caso de estar en
      * el borde (índice 0 o índice numActividades ya existentes).
-     *
      * Se usan las constantes MINUTOS_MINIMO y MINUTOS_MAXIMO para simplificar la estructura condicional, quedando
      * primeramente las variables horaFinalAnterior y horaInicialPosterior definidas por dichas constantes por
      * defecto. Estas variables se cambian en función de la posición objetivo de la actividad, por último, se
      * comparan con los valores de la actividad entrante según las instrucciones dadas:
-     *
      * Existente -> A
      * Entrante -> B
-     *
-     * True si inicioB < finA o si finB > inicioA
+     * True si inicioB menor que finA o si finB mayor que inicioA
      *
      * @param dia Número de día que se va a analizar
      * @param posicion Posición que buscarIndex ha decidido como potencialmente correcta
@@ -292,6 +280,12 @@ public class Viaje {
         return matriz[dia].getCatalogo().getNumActividades();
     }
 
+    /**
+     * Método que devuelve un array Actividades[] que contiene todas las actividades de un día dado.
+     *
+     * @param dia Número de día a analizar
+     * @return Array de actividades del día
+     */
     public Actividad[] obtenerActividadesDia(int dia) {
         return matriz[dia].getCatalogo().getArray();
     }

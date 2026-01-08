@@ -251,7 +251,7 @@ public class InterfazUsuario {
      * usuario escoja una de las coincidencias,la actividad seleccionada es lo que devuelve el metodo.
      *
      * @param scanner Objeto de la clase Scanner
-     * @return
+     * @return Actividad resultante de la búsqueda
      */
     private Actividad buscarActividadPorNombre(Scanner scanner) {
         String busqueda = Utilidades.leerCadena(scanner, PEDIR_TXT);

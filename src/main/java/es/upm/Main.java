@@ -8,15 +8,13 @@ import java.util.Scanner;
  * crear los objetos necesarios de cada clase para el correcto funcionamiento. También maneja las excepciones tanto
  * relacionadas con los argumentos entrantes como las que se puedan producir internamente, escribiendo los
  * mensajes correspondientes.
- *
  * Los argumentos se esperan en el orden siguiente:
- *
- * int maxRecursosPorActividad <- args[0]
- * int maxComentariosPorActividad <- args[1]
- * int maxActividadesEnCatalogo <- args[2]
- * int numDiasViaje <- args[3]
- * int maxActividadesPorDia <- args[4]
- * String nombreArchivoActividades <- args[5] (opcional)
+ * int maxRecursosPorActividad -> args[0]
+ * int maxComentariosPorActividad -> args[1]
+ * int maxActividadesEnCatalogo -> args[2]
+ * int numDiasViaje -> args[3]
+ * int maxActividadesPorDia -> args[4]
+ * String nombreArchivoActividades -> args[5] (opcional)
  *
  * @author Mario Aldeondo
  * @author Robert Voong
@@ -24,20 +22,26 @@ import java.util.Scanner;
  */
 public class Main {
     /**
-     * Función main que sirve como punto de entrada del programa, dados los argumentos.
-     *
-     * Declara e instancia los objetos de cada clase teniendo en cuenta las excepciones posibles, lanzando mensajes:
-     *
-     * Argumentos incorrectos o absurdos (NumberFormatException) -> "Argumentos inválidos."
-     * Argumentos faltantes (IndexOutOfBoundsException) -> "Argumentos faltantes."
-     * Error de entrada/salida a archivos (IOException) -> "Error de carga de archivo."
-     * Excepciones no esperadas (Exception) -> "Error desconocido."
-     *
-     * En el proceso llama al resto de funciones para crear los objetos con los argumentos necesarios.
+     * Función de entrada que empieza el proceso
      *
      * @param args Array de Strings con los argumentos introducidos
      */
     public static void main(String[] args) {
+        process(args);
+    }
+
+    /**
+     * Función process que sirve como punto de entrada del programa, dados los argumentos.
+     * Declara e instancia los objetos de cada clase teniendo en cuenta las excepciones posibles, lanzando mensajes:
+     * Argumentos incorrectos o absurdos (NumberFormatException) - "Argumentos inválidos."
+     * Argumentos faltantes (IndexOutOfBoundsException) - "Argumentos faltantes."
+     * Error de entrada/salida a archivos (IOException) - "Error de carga de archivo."
+     * Excepciones no esperadas (Exception) - "Error desconocido."
+     * En el proceso llama al resto de funciones para crear los objetos con los argumentos necesarios.
+     *
+     * @param args Array de Strings con los argumentos introducidos
+     */
+    private static void process(String[] args) {
         Viaje viaje = null;
         CatalogoActividades catalogo = null;
         InterfazUsuario interfaz = null;
@@ -54,7 +58,7 @@ public class Main {
             try {
                 launcher(interfaz, sc);
             } catch (NumberFormatException ex) { throw new Exception(); }
-            
+
 
         } catch (NumberFormatException ex) {
             System.out.println("Argumentos inválidos.");
@@ -68,11 +72,11 @@ public class Main {
         } catch (Exception ex) {
             System.out.println("Error desconocido.");
         }
+
     }
 
     /**
      * Método que construye el catálogo usando args[2].
-     *
      * Si se introduce un valor que sí es numérico, pero es absurdo (ej: -1), lanza una excepción
      * NumberFormatException que capta la función main.
      *
@@ -87,7 +91,6 @@ public class Main {
 
     /**
      * Método que construye el catálogo usando args[3] y args[4].
-     *
      * Si se introduce un valor que sí es numérico, pero es absurdo (ej: -1), lanza una excepción
      * NumberFormatException que capta la función main.
      *
@@ -104,7 +107,6 @@ public class Main {
 
     /**
      * Método que construye el catálogo usando args[0] y args[1].
-     *
      * Si se introduce un valor que sí es numérico, pero es absurdo (ej: -1), lanza una excepción
      * NumberFormatException que capta la función main.
      *
@@ -123,10 +125,8 @@ public class Main {
 
     /**
      * Método que construye el catálogo usando args[0], args[1] y args[5].
-     *
      * Si se introduce un valor que sí es numérico, pero es absurdo (ej: -1), lanza una excepción
      * NumberFormatException que capta la función main. Si no se puede leer, ocurre lo mismo con una IOException.
-     *
      * Este paso es opcional, solo ocurre si se introducen exactamente 6 argumentos en el lanzamiento del programa.
      *
      * @param args Array de Strings con los argumentos introducidos
