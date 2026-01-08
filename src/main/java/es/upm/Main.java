@@ -63,6 +63,7 @@ public class Main {
         } catch (NumberFormatException ex) {
             System.out.println("Argumentos inválidos.");
 
+        //FIXME ADD THIS EXCEPTION TO PREVIOUS CATCH IN ORDER TO SHOW "Error desconocido"
         } catch (IndexOutOfBoundsException ex) {
             System.out.println("Faltan argumentos.");
 
