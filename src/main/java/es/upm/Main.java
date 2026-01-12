@@ -60,6 +60,7 @@ public class Main {
             } catch (NumberFormatException ex) { throw new Exception(); }
 
 
+        //TODO PRINT SOME EXPLANATION WHEN ARGUMENTS ARE NOT RIGHT, INSTEAD OF JUST SAYING IT
         } catch (NumberFormatException ex) {
             System.out.println("Argumentos inválidos.");
 
