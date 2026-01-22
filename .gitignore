@@ -1,6 +1,7 @@
 ### MARIO ->
 src/custom/
 *.txt
+*.jar
 
 ### ROBERT ->
 .idea/
