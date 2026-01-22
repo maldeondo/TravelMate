@@ -111,7 +111,11 @@ main
 
 ## 🧾 License
 
-->WRITE
+Our work is published under a MIT license (found in `LICENSES/MIT`)
+
+Attribution:
+
+This project is based on a model licensed by Jorge Dueñas Lerín and Jordi Burget Castell, whose license can be found in A
 
 ---
 
