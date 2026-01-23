@@ -2,6 +2,8 @@
 src/custom/
 *.txt
 *.jar
+!LICENSE*.txt
+!LICENSE
 
 ### ROBERT ->
 .idea/
