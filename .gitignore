@@ -7,10 +7,7 @@
 src/custom/
 *.txt
 *.jar
-!LICENSE*.txt
-!LICENSE
-
-
+!LICENSE*
 
 ### ROBERT ->
 .idea/
