@@ -111,11 +111,18 @@ main
 
 ## 🧾 License
 
-Our work is published under a MIT license (found in `LICENSES/MIT`)
+This repository contains material under two different licenses.
+
+### MIT License
+All the source code developed by [@maldeondo](https://github.com/maldeondo) and [@mantaimpermeable](https://github.com/mantaimpermeable), located under:
+
+- `src/main/`
+
+is licensed under the MIT License (see the `LICENSE` file for details).
 
 Attribution:
 
-This project is based on a model licensed by Jorge Dueñas Lerín and Jordi Burget Castell, whose license can be found in A
+This project is based on a model licensed by Jorge Dueñas Lerín and Jordi Burget Castell, licensed under `LICENSE-CC-BY-NC-SA.txt`.
 
 ---
 

@@ -1,7 +1,9 @@
-The following license applies to:
-
+The following license ONLY applies to:
 - The PDF files found under docs/.
 - The test source code and files found under src/test/.
+
+Therefore, it doesn't apply to:
+- The source code under src/main/.
 
 Este material se distribuye bajo una licencia CC BY-NC-SA 4.0
 Atribución/Reconocimiento-NoComercial-CompartirIgual 4.0 Internacional de Creative Commons.
