@@ -26,8 +26,8 @@ recibe por el uso que hace.
 
 NoComercial — Usted no puede utilizar el material con fines comerciales.
 
-CompartirIgual — Si remezcla, transforma o crea a partir del material, debe distri-
-buir su contribución bajo la misma licencia que el original.
+CompartirIgual — Si remezcla, transforma o crea a partir del material, debe distribuir
+su contribución bajo la misma licencia que el original.
 
 No hay restricciones adicionales — No puede aplicar términos legales ni medidas
 tecnológicas que restrinjan legalmente a otras a hacer cualquier uso permitido por la

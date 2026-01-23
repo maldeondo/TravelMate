@@ -20,11 +20,11 @@ This project's development is finished, it is now capable of working how it was 
 
 ## 💬 Notes
 
-This repository is **public** and maintained solely for academic and collaborative purposes.  
+This repository is **public** but not maintained at all.
 
 This repository was made **public** after all development was done, therefore has been published solely to be part of our GitHub profiles.
 
-External contributions are not expected. While anyone is able to use the code according to its licensing, no support will be provided.
+External contributions are not expected. Whilst anyone is able to use the code according to its licensing, no support will be provided.
 
 ---
 
@@ -69,8 +69,8 @@ No installation or public distribution is planned nor will be. However, a `JAR` 
 
 ## 🧠 Authors
 
-- [**@maldeondo**](https://github.com/maldeondo) (Mario)
-- [**@mantaimpermeable**](https://github.com/mantaimpermeable) (Robert)
+- [**@maldeondo**](https://github.com/maldeondo) (Mario Aldeondo)
+- [**@mantaimpermeable**](https://github.com/mantaimpermeable) (Robert Voong)
 
 ---
 
@@ -120,7 +120,22 @@ All the source code developed by [@maldeondo](https://github.com/maldeondo) and 
 
 is licensed under the MIT License (see the `LICENSE` file for details).
 
-Attribution:
+### Creative Commons BY-NC-SA
+Material provided by the University is licensed under the Atribution-NonCommercial-ShareAlike CC license.
+
+This material include:
+
+- The assignment statement under `docs/`
+- The JUnit test code and resources under `src/test/`
+
+These materials are included solely for academic and reference purposes,
+and therefore have no development by this repository's authors.
+
+See the `LICENSE-CC-BY-NC-SA.txt` to see the license and copyright notice.
+
+---
+
+## Attribution:
 
 This project is based on a model licensed by Jorge Dueñas Lerín and Jordi Burget Castell, licensed under `LICENSE-CC-BY-NC-SA.txt`.
 
