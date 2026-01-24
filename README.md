@@ -59,14 +59,6 @@ No installation or public distribution is planned nor will be. However, a `JAR` 
 
 ---
 
-## 🚀 (Not) Getting Started
-
-This repository is intended for internal use and academic purposes.
- 
-No installation or public distribution is planned nor will be. However, a `JAR` file is published with every release.
-
----
-
 ## 🧠 Authors
 
 - [**@maldeondo**](https://github.com/maldeondo) (Mario Aldeondo)
@@ -133,9 +125,7 @@ and therefore have no development by this repository's authors.
 
 See the `LICENSE-CC-BY-NC-SA.txt` to see the license and copyright notice.
 
----
-
-## Attribution:
+### Attribution
 
 This project is based on a model licensed by Jorge Dueñas Lerín and Jordi Burget Castell, licensed under `LICENSE-CC-BY-NC-SA.txt`.
 
