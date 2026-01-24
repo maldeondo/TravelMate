@@ -123,7 +123,7 @@ This material include:
 These materials are included solely for academic and reference purposes,
 and therefore have no development by this repository's authors.
 
-See the `LICENSE-CC-BY-NC-SA.txt` to see the license and copyright notice.
+See the `LICENSE-CC-BY-NC-SA.txt` file for a copy of the license and the copyright notice.
 
 ### Attribution
 

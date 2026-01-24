@@ -44,7 +44,7 @@ bajo una licencia CC-BY-NC-SA Atribución/Reconocimiento-NoComercial-CompartirIg
 Internacional de Creative Commons.
 
 Para ver una copia de esta licencia, visite:
-https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es.
+https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es
 
 For an english version of this license, visit:
-https://creativecommons.org/licenses/by-nc-sa/4.0/deed.
+https://creativecommons.org/licenses/by-nc-sa/4.0/deed
