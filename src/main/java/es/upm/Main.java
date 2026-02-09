@@ -59,12 +59,9 @@ public class Main {
                 launcher(interfaz, sc);
             } catch (NumberFormatException ex) { throw new Exception(); }
 
-
-        //TODO PRINT SOME EXPLANATION WHEN ARGUMENTS ARE NOT RIGHT, INSTEAD OF JUST SAYING IT
         } catch (NumberFormatException ex) {
             System.out.println("Argumentos inválidos.");
 
-        //FIXME ADD THIS EXCEPTION TO PREVIOUS CATCH IN ORDER TO SHOW "Error desconocido"
         } catch (IndexOutOfBoundsException ex) {
             System.out.println("Faltan argumentos.");
 
