@@ -1,0 +1,50 @@
+The following license ONLY applies to:
+- The PDF files found under docs/.
+- The test source code and files found under src/test/.
+
+Therefore, it doesn't apply to:
+- The source code under src/main/.
+
+Este material se distribuye bajo una licencia CC BY-NC-SA 4.0
+Atribución/Reconocimiento-NoComercial-CompartirIgual 4.0 Internacional de Creative Commons.
+
+License: 
+
+© [2025] [Jorge Dueñas Lerín] [Jordi Burguet Castell]
+
+Usted es libre de:
+
+- Compartir — copiar y redistribuir el material en cualquier medio o formato
+- Adaptar — remezclar, transformar y construir a partir del material
+
+Bajo los siguientes términos:
+
+Atribución — Usted debe dar crédito de manera adecuada, brindar un enlace a la
+licencia e indicar si se han realizado cambios. Puede hacerlo de cualquier manera
+razonable, pero no de una manera que sugiera que tiene el apoyo del licenciante o lo
+recibe por el uso que hace.
+
+NoComercial — Usted no puede utilizar el material con fines comerciales.
+
+CompartirIgual — Si remezcla, transforma o crea a partir del material, debe distribuir
+su contribución bajo la misma licencia que el original.
+
+No hay restricciones adicionales — No puede aplicar términos legales ni medidas
+tecnológicas que restrinjan legalmente a otras a hacer cualquier uso permitido por la
+licencia.
+
+Atribución
+
+Este trabajo se basa en una versión anterior elaborada por Raúl Lara Cabrera (2024), tam-
+bién distribuida bajo la misma licencia Creative Commons.
+
+El enunciado de esta práctica se ha elaborado con LATEX, basándose en la plantilla “Sullivan
+Business Report” de Vel, publicada en https://www.LaTeXTemplates.com, que se distribuye
+bajo una licencia CC-BY-NC-SA Atribución/Reconocimiento-NoComercial-CompartirIgual 4.0
+Internacional de Creative Commons.
+
+Para ver una copia de esta licencia, visite:
+https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es
+
+For an english version of this license, visit:
+https://creativecommons.org/licenses/by-nc-sa/4.0/deed
