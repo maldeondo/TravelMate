@@ -1,6 +1,13 @@
 ### MARIO ->
+
+# AVOID FILES WITHOUT EXTENSION
+*
+!*.*
+
 src/custom/
 *.txt
+*.jar
+!LICENSE*
 
 ### ROBERT ->
 .idea/
