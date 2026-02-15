@@ -34,7 +34,10 @@ public class Main {
     "  4 -> Número de días del viaje\n" +
     "  5 -> Máximo de actividades por día\n" +
     "  6 -> (Opcional) Nombre del archivo de actividades\n" +
-    "\nReporte de fallos en https://github.com/maldeondo/TravelMate\n";
+    "Opciones:\n" +
+    "  -h o --help -> Muestra esta información\n" +
+    "  -v o --version -> Muestra la versión de TravelMate\n" +
+    "Reporte de fallos en https://github.com/maldeondo/TravelMate\n";
 
     public static final String VERSION_B = 
         "TravelMate v0.9.1 (pre-release)\n" +
