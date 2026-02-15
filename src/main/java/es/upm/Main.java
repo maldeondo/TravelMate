@@ -2,6 +2,7 @@ package es.upm;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.Arrays;
 
 /**
  * Clase simple que usa los argumentos recibidos de la ejecución por terminal (o perfil de lanzamiento del IDE) para
@@ -54,6 +55,7 @@ public class Main {
      * @param args Array de Strings con los argumentos introducidos
      */
     public static void main(String[] args) {
+        args = Arrays.copyOf(args, 6);
         process(args);
     }
 
@@ -73,8 +75,10 @@ public class Main {
 
             if (args[0].equals(HELP_L) || args[0].equals(HELP_S)) {
                 System.out.print(HELP_B);
+
             } else if (args[0].equals(VERSION_L) || args[0].equals(VERSION_S)) {
                 System.out.print(VERSION_B);
+
             } else initialize(args);
 
         } catch (NumberFormatException ex) {
@@ -83,15 +87,18 @@ public class Main {
         } catch (IndexOutOfBoundsException ex) {
             System.out.printf(ERR_B, "Argumentos inválidos.");
 
+        } catch (NullPointerException ex) {
+            System.out.printf(ERR_B, "Argumentos inválidos.");
+
         } catch (IOException ex) {
             System.out.printf(ERR_B, "Error de carga de archivo.");
 
         } catch (Exception ex) {
             System.out.printf(ERR_B, "Error desconocido.");
         }
-
     }
-    private static void initialize(String[] args) throws Exception {
+
+    private static void initialize(String[] args) throws NumberFormatException, IndexOutOfBoundsException, IOException, Exception {
         Viaje viaje = null;
         CatalogoActividades catalogo = null;
         InterfazUsuario interfaz = null;
@@ -99,7 +106,7 @@ public class Main {
 
         catalogo = builder_Catalogo(args);
 
-            if (args.length == 6) read_from_file(args, catalogo);
+            if (args[5] != null) read_from_file(args, catalogo);
 
             viaje = builder_Viaje(args);
             interfaz = builder_Interfaz(args, catalogo, viaje);
