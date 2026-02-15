@@ -21,13 +21,30 @@ import java.util.Scanner;
  * @version 1.0
  */
 public class Main {
+    public static final String HELP_L = "--help";
+    public static final String HELP_S = "-h";
+    public static final String VERSION_L = "--version";
+    public static final String VERSION_S = "-v";
+
+    public static final String HELP_B = "HERE";
+    public static final String VERSION_B = 
+        "TravelMate v0.9.1 (pre-release)\n" +
+        "Copyright (c) 2026 [Mario Aldeondo @maldeondo] and [Robert Voong @mantaimpermeable]\n" +
+        "https://github.com/maldeondo/TravelMate\n";
+
     /**
      * Función de entrada que empieza el proceso
      *
      * @param args Array de Strings con los argumentos introducidos
      */
     public static void main(String[] args) {
-        process(args);
+        String check = args[0];
+
+        if (check.equals(HELP_L) || check.equals(HELP_S)) {
+            System.out.print(HELP_B);
+        } else if (check.equals(VERSION_L) || check.equals(VERSION_S)) {
+            System.out.print(VERSION_B);
+        } else process(args);
     }
 
     /**
