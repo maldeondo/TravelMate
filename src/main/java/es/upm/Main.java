@@ -47,19 +47,14 @@ public class Main {
     public static final String ERR_B = 
         "TravelMate: %s\n" +
         "Escribe -h o --help para más información.\n";
+
     /**
      * Función de entrada que empieza el proceso
      *
      * @param args Array de Strings con los argumentos introducidos
      */
     public static void main(String[] args) {
-        String check = args[0];
-
-        if (check.equals(HELP_L) || check.equals(HELP_S)) {
-            System.out.print(HELP_B);
-        } else if (check.equals(VERSION_L) || check.equals(VERSION_S)) {
-            System.out.print(VERSION_B);
-        } else process(args);
+        process(args);
     }
 
     /**
@@ -74,23 +69,13 @@ public class Main {
      * @param args Array de Strings con los argumentos introducidos
      */
     private static void process(String[] args) {
-        Viaje viaje = null;
-        CatalogoActividades catalogo = null;
-        InterfazUsuario interfaz = null;
-        Scanner sc = null;
-
         try {
-            catalogo = builder_Catalogo(args);
 
-            if (args.length == 6) read_from_file(args, catalogo);
-
-            viaje = builder_Viaje(args);
-            interfaz = builder_Interfaz(args, catalogo, viaje);
-
-            try {
+            if (args[0].equals(HELP_L) || args[0].equals(HELP_S)) {
+                System.out.print(HELP_B);
+            } else if (args[0].equals(VERSION_L) || args[0].equals(VERSION_S)) {
                 System.out.print(VERSION_B);
-                launcher(interfaz, sc);
-            } catch (Exception ex) { throw new Exception(); }
+            } else initialize(args);
 
         } catch (NumberFormatException ex) {
             System.out.printf(ERR_B, "Argumentos inválidos.");
@@ -105,6 +90,24 @@ public class Main {
             System.out.printf(ERR_B, "Error desconocido.");
         }
 
+    }
+    private static void initialize(String[] args) throws Exception {
+        Viaje viaje = null;
+        CatalogoActividades catalogo = null;
+        InterfazUsuario interfaz = null;
+        Scanner sc = null;
+
+        catalogo = builder_Catalogo(args);
+
+            if (args.length == 6) read_from_file(args, catalogo);
+
+            viaje = builder_Viaje(args);
+            interfaz = builder_Interfaz(args, catalogo, viaje);
+
+            try {
+                System.out.print(VERSION_B);
+                launcher(interfaz, sc);
+            } catch (Exception ex) { throw new Exception(); }
     }
 
     /**
