@@ -26,12 +26,24 @@ public class Main {
     public static final String VERSION_L = "--version";
     public static final String VERSION_S = "-v";
 
-    public static final String HELP_B = "HERE";
+    public static final String HELP_B = 
+    "Uso: java -jar TravelMate.jar 1 2 3 4 5 6\n" +
+    "  1 -> Máximo de recursos por actividad\n" +
+    "  2 -> Máximo de comentarios por actividad\n" +
+    "  3 -> Máximo de actividades en catálogo\n" +
+    "  4 -> Número de días del viaje\n" +
+    "  5 -> Máximo de actividades por día\n" +
+    "  6 -> (Opcional) Nombre del archivo de actividades\n" +
+    "\nReporte de fallos en https://github.com/maldeondo/TravelMate\n";
+
     public static final String VERSION_B = 
         "TravelMate v0.9.1 (pre-release)\n" +
         "Copyright (c) 2026 [Mario Aldeondo @maldeondo] and [Robert Voong @mantaimpermeable]\n" +
         "https://github.com/maldeondo/TravelMate\n";
 
+    public static final String ERR_B = 
+        "TravelMate: %s\n" +
+        "Escribe -h o --help para más información.\n";
     /**
      * Función de entrada que empieza el proceso
      *
@@ -73,20 +85,21 @@ public class Main {
             interfaz = builder_Interfaz(args, catalogo, viaje);
 
             try {
+                System.out.print(VERSION_B);
                 launcher(interfaz, sc);
-            } catch (NumberFormatException ex) { throw new Exception(); }
+            } catch (Exception ex) { throw new Exception(); }
 
         } catch (NumberFormatException ex) {
-            System.out.println("Argumentos inválidos.");
+            System.out.printf(ERR_B, "Argumentos inválidos.");
 
         } catch (IndexOutOfBoundsException ex) {
-            System.out.println("Faltan argumentos.");
+            System.out.printf(ERR_B, "Argumentos inválidos.");
 
         } catch (IOException ex) {
-            System.out.println("Error de carga de archivo.");
+            System.out.printf(ERR_B, "Error de carga de archivo.");
 
         } catch (Exception ex) {
-            System.out.println("Error desconocido.");
+            System.out.printf(ERR_B, "Error desconocido.");
         }
 
     }
