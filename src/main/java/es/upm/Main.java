@@ -61,13 +61,9 @@ public class Main {
     }
 
     /**
-     * Función process que sirve como punto de entrada del programa, dados los argumentos.
-     * Declara e instancia los objetos de cada clase teniendo en cuenta las excepciones posibles, lanzando mensajes:
-     * Argumentos incorrectos o absurdos (NumberFormatException) - "Argumentos inválidos."
-     * Argumentos faltantes (IndexOutOfBoundsException) - "Argumentos faltantes."
-     * Error de entrada/salida a archivos (IOException) - "Error de carga de archivo."
-     * Excepciones no esperadas (Exception) - "Error desconocido."
-     * En el proceso llama al resto de funciones para crear los objetos con los argumentos necesarios.
+     * Función process que sirve como punto de entrada real del programa, dados los argumentos.
+     * Comprueba si se han pasado las flags -h o -v para lanzar los mensajes y llama a initialize 
+     * para comenzar la ejecución. También lanza los mensajes de error correspondientes mediante ERR_B.
      *
      * @param args Array de Strings con los argumentos introducidos
      */
