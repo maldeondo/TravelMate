@@ -50,7 +50,8 @@ public class Main {
         "Escribe -h o --help para más información.\n";
 
     /**
-     * Función de entrada que empieza el proceso
+     * Función de entrada que, antes de empezar el proceso, omite los elementos sobrantes de los argumentos
+     * en caso de que existan (a partir de 6).
      *
      * @param args Array de Strings con los argumentos introducidos
      */
@@ -98,7 +99,17 @@ public class Main {
         }
     }
 
-    private static void initialize(String[] args) throws NumberFormatException, IndexOutOfBoundsException, IOException, Exception {
+    /**
+     * Declara e instancia los objetos de cada clase teniendo en cuenta las excepciones posibles. 
+     * En el proceso llama al resto de funciones para crear los objetos con los argumentos necesarios,
+     * incluyendo comprobar si se quieren cargar actividades desde un archivo.
+     *
+     * @param args Array de Strings con los argumentos introducidos
+     * @throws NumberFormatException Excepción por valores absurdos al instanciar los objetos
+     * @throws IOException Excepción por errores de carga y lectura de archivo
+     * @throws Exception Excepción general que indica fallo interno del software (bug)
+     */
+    private static void initialize(String[] args) throws NumberFormatException, IOException, Exception {
         Viaje viaje = null;
         CatalogoActividades catalogo = null;
         InterfazUsuario interfaz = null;
