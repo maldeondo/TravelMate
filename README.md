@@ -127,7 +127,7 @@ See the `LICENSE-CC-BY-NC-SA.txt` file for a copy of the license and the copyrig
 
 ### Attribution
 
-This project is based on a model licensed by Jorge Dueñas Lerín and Jordi Burget Castell, licensed under `LICENSE-CC-BY-NC-SA.txt`.
+This project is based on a model by Jorge Dueñas Lerín and Jordi Burget Castell, licensed under `LICENSE-CC-BY-NC-SA.txt`.
 
 ---
 
