@@ -2,6 +2,7 @@ package es.upm;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.Arrays;
 
 /**
  * Clase simple que usa los argumentos recibidos de la ejecución por terminal (o perfil de lanzamiento del IDE) para
@@ -21,60 +22,106 @@ import java.util.Scanner;
  * @version 1.0
  */
 public class Main {
+    public static final String HELP_L = "--help";
+    public static final String HELP_S = "-h";
+    public static final String VERSION_L = "--version";
+    public static final String VERSION_S = "-v";
+
+    public static final String HELP_B = 
+    "Uso: java -jar TravelMate.jar 1 2 3 4 5 6\n" +
+    "  1 -> Máximo de recursos por actividad\n" +
+    "  2 -> Máximo de comentarios por actividad\n" +
+    "  3 -> Máximo de actividades en catálogo\n" +
+    "  4 -> Número de días del viaje\n" +
+    "  5 -> Máximo de actividades por día\n" +
+    "  6 -> (Opcional) Nombre del archivo de actividades\n" +
+    "Opciones:\n" +
+    "  -h o --help -> Muestra esta información\n" +
+    "  -v o --version -> Muestra la versión de TravelMate\n" +
+    "Reporte de fallos en https://github.com/maldeondo/TravelMate\n";
+
+    public static final String VERSION_B = 
+        "TravelMate v0.9.1 (pre-release)\n" +
+        "Copyright (c) 2026 [Mario Aldeondo @maldeondo] and [Robert Voong @mantaimpermeable]\n" +
+        "https://github.com/maldeondo/TravelMate\n";
+
+    public static final String ERR_B = 
+        "TravelMate: %s\n" +
+        "Escribe -h o --help para más información.\n";
+
     /**
-     * Función de entrada que empieza el proceso
+     * Función de entrada que, antes de empezar el proceso, omite los elementos sobrantes de los argumentos
+     * en caso de que existan (a partir de 6).
      *
      * @param args Array de Strings con los argumentos introducidos
      */
     public static void main(String[] args) {
+        args = Arrays.copyOf(args, 6);
         process(args);
     }
 
     /**
-     * Función process que sirve como punto de entrada del programa, dados los argumentos.
-     * Declara e instancia los objetos de cada clase teniendo en cuenta las excepciones posibles, lanzando mensajes:
-     * Argumentos incorrectos o absurdos (NumberFormatException) - "Argumentos inválidos."
-     * Argumentos faltantes (IndexOutOfBoundsException) - "Argumentos faltantes."
-     * Error de entrada/salida a archivos (IOException) - "Error de carga de archivo."
-     * Excepciones no esperadas (Exception) - "Error desconocido."
-     * En el proceso llama al resto de funciones para crear los objetos con los argumentos necesarios.
+     * Función process que sirve como punto de entrada real del programa, dados los argumentos.
+     * Comprueba si se han pasado las flags -h o -v para lanzar los mensajes y llama a initialize 
+     * para comenzar la ejecución. También lanza los mensajes de error correspondientes mediante ERR_B.
      *
      * @param args Array de Strings con los argumentos introducidos
      */
     private static void process(String[] args) {
+        try {
+
+            if (args[0].equals(HELP_L) || args[0].equals(HELP_S)) {
+                System.out.print(HELP_B);
+
+            } else if (args[0].equals(VERSION_L) || args[0].equals(VERSION_S)) {
+                System.out.print(VERSION_B);
+
+            } else initialize(args);
+
+        } catch (NumberFormatException ex) {
+            System.out.printf(ERR_B, "Argumentos inválidos.");
+
+        } catch (IndexOutOfBoundsException ex) {
+            System.out.printf(ERR_B, "Argumentos inválidos.");
+
+        } catch (NullPointerException ex) {
+            System.out.printf(ERR_B, "Argumentos inválidos.");
+
+        } catch (IOException ex) {
+            System.out.printf(ERR_B, "Error de carga de archivo.");
+
+        } catch (Exception ex) {
+            System.out.printf(ERR_B, "Error desconocido.");
+        }
+    }
+
+    /**
+     * Declara e instancia los objetos de cada clase teniendo en cuenta las excepciones posibles. 
+     * En el proceso llama al resto de funciones para crear los objetos con los argumentos necesarios,
+     * incluyendo comprobar si se quieren cargar actividades desde un archivo.
+     *
+     * @param args Array de Strings con los argumentos introducidos
+     * @throws NumberFormatException Excepción por valores absurdos al instanciar los objetos
+     * @throws IOException Excepción por errores de carga y lectura de archivo
+     * @throws Exception Excepción general que indica fallo interno del software (bug)
+     */
+    private static void initialize(String[] args) throws NumberFormatException, IOException, Exception {
         Viaje viaje = null;
         CatalogoActividades catalogo = null;
         InterfazUsuario interfaz = null;
         Scanner sc = null;
 
-        try {
-            catalogo = builder_Catalogo(args);
+        catalogo = builder_Catalogo(args);
 
-            if (args.length == 6) read_from_file(args, catalogo);
+            if (args[5] != null) read_from_file(args, catalogo);
 
             viaje = builder_Viaje(args);
             interfaz = builder_Interfaz(args, catalogo, viaje);
 
             try {
+                System.out.print(VERSION_B);
                 launcher(interfaz, sc);
-            } catch (NumberFormatException ex) { throw new Exception(); }
-
-
-        //TODO PRINT SOME EXPLANATION WHEN ARGUMENTS ARE NOT RIGHT, INSTEAD OF JUST SAYING IT
-        } catch (NumberFormatException ex) {
-            System.out.println("Argumentos inválidos.");
-
-        //FIXME ADD THIS EXCEPTION TO PREVIOUS CATCH IN ORDER TO SHOW "Error desconocido"
-        } catch (IndexOutOfBoundsException ex) {
-            System.out.println("Faltan argumentos.");
-
-        } catch (IOException ex) {
-            System.out.println("Error de carga de archivo.");
-
-        } catch (Exception ex) {
-            System.out.println("Error desconocido.");
-        }
-
+            } catch (Exception ex) { throw new Exception(); }
     }
 
     /**

@@ -86,7 +86,6 @@ public class MatrizViaje {
      * @param minutos Valor de la hora de inicio en minutos
      */
     private void insertarInicio(int indiceActividad, int minutos) {
-        //BUG +2 OFFSET IN MENU'S OPTION 5 (PLANIFICAR VIAJE)
         for (int i = catalogo.getNumActividades() - 2; i >= indiceActividad; i--) {
             minutosInicio[i + 1] = minutosInicio[i];
         }
