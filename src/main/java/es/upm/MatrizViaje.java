@@ -108,9 +108,16 @@ public class MatrizViaje {
      * @param indiceActividad Posición del array a eliminar
      */
     private void eliminarInicio(int indiceActividad) {
-        for (int i = indiceActividad; i < catalogo.getNumActividades() - 2; i++) {
+        /*
+        Aqui tambien quitamos un -2 porque lo que hacia era duplicar el penultimo valor
+        con el -1 duplicamos el ultimo valor y fuera del for lo igualamos a 0, no hace falta
+        manejar el indice porque eso ya se hace en los metodos de CatalogoActividades por eso
+        podemos dejar este valor a 0
+         */
+        for (int i = indiceActividad; i <= catalogo.getNumActividades() - 1; i++) {
             minutosInicio[i] = minutosInicio[i + 1];
         }
+        minutosInicio[catalogo.getNumActividades()] = 0;
     }
 
     /**
