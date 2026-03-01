@@ -86,11 +86,19 @@ public class MatrizViaje {
      * @param minutos Valor de la hora de inicio en minutos
      */
     private void insertarInicio(int indiceActividad, int minutos) {
-        for (int i = catalogo.getNumActividades() - 2; i >= indiceActividad; i--) {
-            minutosInicio[i + 1] = minutosInicio[i];
-        }
+        /*
+        Condicional para comprobar que todavia queda espacio en el array, el problema anterior era que
+        se necesitaba el -2 para no salirse del array en caso de que este estuviera lleno, haciendo esto siempre se
+        eliminaba la penultima hora pero haciendo la comprobacion antes del bucle podemos insertar la hora sin eliminar
+        niguna hora.
+         */
+        if (!catalogo.actividadesCompletas()) {
+            for (int i = catalogo.getNumActividades() - 1; i >= indiceActividad; i--) {
+                minutosInicio[i + 1] = minutosInicio[i];
+            }
 
-        minutosInicio[indiceActividad] = minutos;
+            minutosInicio[indiceActividad] = minutos;
+        }
     }
 
     /**
