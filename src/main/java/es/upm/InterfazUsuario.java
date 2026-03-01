@@ -414,7 +414,12 @@ public class InterfazUsuario {
         actividad = buscarActividadPorNombre(scanner);
 
         if (actividad != null) {
-            switch (viaje.agregarActividad(dia + 1, actividad, hora)) {
+            /*
+            Hay que restarle 1 al dia porque en el toString de viaje estamos trabajando por ej con el dia 0 pero
+            se imprime dia 1 por el dia+1, y aqui le pedimos al usuario que nos diga el dia por lo que nos dice el
+            1 que es en realidad el 0 por eso la resta
+             */
+            switch (viaje.agregarActividad(dia-1, actividad, hora)) {
                 case Viaje.ERROR_DIA_INVALIDO:
                     System.out.println("Día inválido");
                     break;
