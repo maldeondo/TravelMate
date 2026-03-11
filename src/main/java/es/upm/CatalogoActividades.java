@@ -167,7 +167,7 @@ public class CatalogoActividades {
         if (nullEntry(actividad)) exitcode = ERROR_ACTIVIDAD_NULL;
         else if (actividadesCompletas()) exitcode = ERROR_DEMASIADOS;
         else {
-            for (int i = actActividades - 1; i > index; i--) {
+            for (int i = Math.min(actActividades, maxActividades - 1); i > index; i--) {
                 arrayActividades[i] = arrayActividades[i - 1];
             }
 

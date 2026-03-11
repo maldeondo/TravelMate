@@ -85,10 +85,9 @@ public class MatrizViaje {
      * @param minutos Valor de la hora de inicio en minutos
      */
     private void insertarInicio(int indiceActividad, int minutos) {
-        for (int i = catalogo.getNumActividades() - 1; i > indiceActividad; i--) {
+        for (int i = Math.min(catalogo.getNumActividades(), minutosInicio.length - 1); i > indiceActividad; i--) {
             minutosInicio[i] = minutosInicio[i - 1];
-        }
-
+        };
         minutosInicio[indiceActividad] = minutos;
     }
 
