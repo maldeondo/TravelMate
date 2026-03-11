@@ -92,13 +92,11 @@ public class MatrizViaje {
         eliminaba la penultima hora pero haciendo la comprobacion antes del bucle podemos insertar la hora sin eliminar
         niguna hora.
          */
-        if (!catalogo.actividadesCompletas()) {
-            for (int i = catalogo.getNumActividades() - 1; i >= indiceActividad; i--) {
-                minutosInicio[i + 1] = minutosInicio[i];
-            }
-
-            minutosInicio[indiceActividad] = minutos;
+        for (int i = catalogo.getNumActividades() - 1; i > indiceActividad; i--) {
+            minutosInicio[i] = minutosInicio[i - 1];
         }
+
+        minutosInicio[indiceActividad] = minutos;
     }
 
     /**
@@ -114,10 +112,9 @@ public class MatrizViaje {
         manejar el indice porque eso ya se hace en los metodos de CatalogoActividades por eso
         podemos dejar este valor a 0
          */
-        for (int i = indiceActividad; i <= catalogo.getNumActividades() - 1; i++) {
+        for (int i = indiceActividad; i < catalogo.getNumActividades(); i++) {
             minutosInicio[i] = minutosInicio[i + 1];
         }
-        minutosInicio[catalogo.getNumActividades()] = 0;
     }
 
     /**
