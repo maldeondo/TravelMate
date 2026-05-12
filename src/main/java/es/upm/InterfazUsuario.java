@@ -414,7 +414,7 @@ public class InterfazUsuario {
         actividad = buscarActividadPorNombre(scanner);
 
         if (actividad != null) {
-            switch (viaje.agregarActividad(dia + 1, actividad, hora)) {
+            switch (viaje.agregarActividad(dia - 1, actividad, hora)) {
                 case Viaje.ERROR_DIA_INVALIDO:
                     System.out.println("Día inválido");
                     break;
