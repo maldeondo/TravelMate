@@ -41,7 +41,7 @@ public class Main {
     "Reporte de fallos en https://github.com/maldeondo/TravelMate\n";
 
     public static final String VERSION_B = 
-        "TravelMate v0.9.1 (pre-release)\n" +
+        "TravelMate v1.0\n" +
         "Copyright (c) 2026 [Mario Aldeondo @maldeondo] and [Robert Voong @mantaimpermeable]\n" +
         "https://github.com/maldeondo/TravelMate\n";
 
