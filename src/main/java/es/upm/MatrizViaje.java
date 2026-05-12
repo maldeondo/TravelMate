@@ -77,7 +77,6 @@ public class MatrizViaje {
         eliminarInicio(indiceActividad);
     }
 
-
     /**
      * Método que usa la clase para insertar una nueva hora de inicio dentro del array, desplazando el resto
      * de los datos previamente existentes una posición a la derecha.
@@ -86,10 +85,9 @@ public class MatrizViaje {
      * @param minutos Valor de la hora de inicio en minutos
      */
     private void insertarInicio(int indiceActividad, int minutos) {
-        for (int i = catalogo.getNumActividades() - 2; i >= indiceActividad; i--) {
-            minutosInicio[i + 1] = minutosInicio[i];
-        }
-
+        for (int i = Math.min(catalogo.getNumActividades(), minutosInicio.length - 1); i > indiceActividad; i--) {
+            minutosInicio[i] = minutosInicio[i - 1];
+        };
         minutosInicio[indiceActividad] = minutos;
     }
 
@@ -100,7 +98,7 @@ public class MatrizViaje {
      * @param indiceActividad Posición del array a eliminar
      */
     private void eliminarInicio(int indiceActividad) {
-        for (int i = indiceActividad; i < catalogo.getNumActividades() - 2; i++) {
+        for (int i = indiceActividad; i < catalogo.getNumActividades(); i++) {
             minutosInicio[i] = minutosInicio[i + 1];
         }
     }
